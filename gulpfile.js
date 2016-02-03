@@ -10,11 +10,11 @@ var gulp = require('gulp'),
 
 gulp.task('default', ['clean'], function () {
 
-  gulp.src('img/**/*')
+  gulp.src('src/img/**/*')
 		.pipe(imagemin())
 		.pipe(gulp.dest('dist/img'));
 
-  return gulp.src('*.html')
+  return gulp.src('src/*.html')
       .pipe(useref())
       .pipe(gulpif(['*.js', '!js/lib/**'], uglify()))
       .pipe(gulpif('*.css', autoprefixer({

@@ -87,6 +87,26 @@ var interpreter = {
   },
 
   copyto : function() {
+    if (interpreter.hand == null) {
+      alert("Main vide.");
+      return;
+    }
+    interpreter.i++;
+    var add = interpreter.codes[interpreter.i];
+    var reg = /^\[([0-9]+)\]$/;
+    var regCheck = reg.exec(add);
+    if(regCheck != null) {
+      add = Memory.get(regCheck[1]);
+    } else {
+      if(!(isInteger(add) && add >= 0)) {
+        alert("Addresse " + add + " non valide.");
+        return;
+      }
+    }
+    Memory.set(add, interpreter.hand);
+  },
+
+  copyfrom : function() {
     interpreter.i++;
     var add = interpreter.codes[interpreter.i];
     var reg = /^\[([0-9]+)\]$/;
@@ -95,13 +115,11 @@ var interpreter = {
       add = Memory.get(test[1]);
     } else {
       if(!(isInteger(add) && add >= 0)) {
-        Memory.set(add, interpreter.hand);
+        alert("Addresse " + add + " non valide.");
+        return;
       }
     }
-    alert("Addresse " + add + " non valide.")
-  },
-
-  copyfrom : function() {
+    interpreter.hand = Memory.get(add);
   },
 
 };

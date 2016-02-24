@@ -90,10 +90,15 @@ var interpreter = {
     interpreter.i++;
     var add = interpreter.codes[interpreter.i];
     var reg = /^\[([0-9]+)\]$/;
-    //var test = reg.exec(add);
-    alert(test[1]);
-
-    //Memory.set(add, interpreter.hand);
+    var regCheck = reg.exec(add);
+    if(regCheck != null) {
+      add = Memory.get(test[1]);
+    } else {
+      if(!(isInteger(add) && add >= 0)) {
+        Memory.set(add, interpreter.hand);
+      }
+    }
+    alert("Addresse " + add + " non valide.")
   },
 
   copyfrom : function() {

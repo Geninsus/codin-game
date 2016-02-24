@@ -1,6 +1,7 @@
 var Memory = {
-  init : function(size) {
-    Memory.memory = new Array(size);
+  init : function(values) {
+    Memory.memory = values;
+    Memory.display();
   },
 
   get : function(indice) {
@@ -9,6 +10,13 @@ var Memory = {
 
   set : function(indice, value) {
     Memory.memory[indice] = value;
+  },
+
+  display: function() {
+    document.querySelector('#memory').innerHTML = "";
+    for(var el of Memory.memory) {
+      document.querySelector('#memory').innerHTML += el + " ";
+    }
   }
 }
 
@@ -67,7 +75,6 @@ var interpreter = {
   },
 
   call : function(word) {
-    console.log("la " + word);
     switch (word) {
       case 'INBOX':
         interpreter.inbox();
@@ -88,14 +95,17 @@ var interpreter = {
 
   inbox : function() {
     interpreter.hand = Inputs.inputs.shift();
+    if(!interpreter.hand) {
+      alert("Inputs vide.");
+    }
   },
 
   outbox : function() {
-    if(interpreter.hand == null) {
+    if(!interpreter.hand) {
       alert("Outbox avec main vide.");
       return;
     }
-    console.log("Ici " + interpreter.hand);
+    console.log(interpreter.hand);
     Outputs.outputs.push(interpreter.hand);
     document.querySelector('#outputs').innerHTML += interpreter.hand;
     interpreter.hand = null;
@@ -104,19 +114,31 @@ var interpreter = {
   copyto : function() {
     interpreter.i++;
     var add = interpreter.codes[interpreter.i];
-    var reg = /^\[([0-9]+)\]$/;
-    var regCheck = reg.exec(add);
+    var regCheck = /^\[([0-9]+)\]$/.exec(add);
     if(regCheck != null) {
-      add = Memory.get(test[1]);
+      add = Memory.get(regCheck[1]);
     } else {
-      if(!(isInteger(add) && add >= 0)) {
-        Memory.set(add, interpreter.hand);
+      if(!(Number.isInteger(add) && add >= 0)) {
+        alert("Addresse " + add + " non valide.");
+        return;
       }
     }
-    alert("Addresse " + add + " non valide.")
+    Memory.set(add, interpreter.hand);
   },
 
   copyfrom : function() {
+    interpreter.i++;
+    var add = parseInt(interpreter.codes[interpreter.i]);
+    var regCheck = /^\[([0-9]+)\]$/.exec(add);
+    if(regCheck != null) {
+      add = Memory.get(regCheck[1]);
+    } else {
+      if(!(Number.isInteger(add) && add >= 0)) {
+        alert("Addresse " + add + " non valide.");
+        return;
+      }
+    }
+    interpreter.hand = Memory.get(add, interpreter.hand);
   },
 
   reset : function() {

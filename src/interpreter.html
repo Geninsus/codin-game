@@ -14,13 +14,11 @@
     <button onclick="interpreter.prev();" type="button" name="button">Prev</button>
     <button onclick="interpreter.run();" type="button" name="button">Run</button>
     <button onclick="interpreter.next();" type="button" name="button">Next</button>
-    <div id="outputs">
-
-    </div>
+    <div id="outputs"><p>outputs</p></div>
     <script src="js/interpreter.js" charset="utf-8"></script>
     <script type="text/javascript">
     function main() {
-      Memory.init(document.querySelector('#memory').value);
+      Memory.init(document.querySelector('#memory').value.split(/\s+/));
       Inputs.init(document.querySelector('#inputs').value.split(/\s+/));
       interpreter.codes = interpreter.parser(document.querySelector('#code').value);
       interpreter.i = 0;

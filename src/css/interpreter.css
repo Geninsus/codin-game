@@ -1,0 +1,11 @@
+.inNumbers {
+  display: inline-block;
+
+  border-style: solid;
+}
+
+.outNumbers {
+   display: inline-block;
+
+   border-style: solid;
+}

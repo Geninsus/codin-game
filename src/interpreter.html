@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form onsubmit="return main();" action="#" method="post">
+      <label for="code">Code</label><textarea name="code" rows="8" cols="40" id="code"></textarea>
+      <label for="inputs">Inputs</label><textarea name="code" rows="8" cols="40" id="inputs"></textarea>
+      <input type="submit" name="name" value="Envoyer">
+    </form>
+    <button onclick="interpreter.prev();" type="button" name="button">Prev</button>
+    <button onclick="interpreter.run();" type="button" name="button">Run</button>
+    <button onclick="interpreter.next();" type="button" name="button">Next</button>
+    <div id="outputs">
+
+    </div>
+    <script src="js/interpreter.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    function main() {
+     Inputs.init(document.querySelector('#inputs').value.split(/\s+/));
+     interpreter.codes = interpreter.parser(document.querySelector('#code').value);
+     interpreter.i = 0;
+     return false;
+   }
+    </script>
+  </body>
+</html>

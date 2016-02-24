@@ -1,18 +1,16 @@
-function Memory() {
-}
+var Memory = {
+  init : function(size) {
+    Memory.memory = new Array(size);
+  },
 
-Memory.prototype.get = function(indice) {
-  return this.memory[indice];
-}
+  get : function(indice) {
+    return Memory.memory[indice];
+  },
 
-Memory.prototype.set = function(indice, value) {
-  this.memory[indice] = value;
+  set : function(indice, value) {
+    Memory.memory[indice] = value;
+  }
 }
-
-Memory.prototype.reset = function() {
-  this.memory = [];
-}
-
 
 var Inputs = {
   inputs : [],
@@ -104,26 +102,6 @@ var interpreter = {
   },
 
   copyto : function() {
-    if (interpreter.hand == null) {
-      alert("Main vide.");
-      return;
-    }
-    interpreter.i++;
-    var add = interpreter.codes[interpreter.i];
-    var reg = /^\[([0-9]+)\]$/;
-    var regCheck = reg.exec(add);
-    if(regCheck != null) {
-      add = Memory.get(regCheck[1]);
-    } else {
-      if(!(isInteger(add) && add >= 0)) {
-        alert("Addresse " + add + " non valide.");
-        return;
-      }
-    }
-    Memory.set(add, interpreter.hand);
-  },
-
-  copyfrom : function() {
     interpreter.i++;
     var add = interpreter.codes[interpreter.i];
     var reg = /^\[([0-9]+)\]$/;
@@ -132,11 +110,13 @@ var interpreter = {
       add = Memory.get(test[1]);
     } else {
       if(!(isInteger(add) && add >= 0)) {
-        alert("Addresse " + add + " non valide.");
-        return;
+        Memory.set(add, interpreter.hand);
       }
     }
-    interpreter.hand = Memory.get(add);
+    alert("Addresse " + add + " non valide.")
+  },
+
+  copyfrom : function() {
   },
 
   reset : function() {

@@ -20,8 +20,7 @@
     <script src="js/interpreter.js" charset="utf-8"></script>
     <script type="text/javascript">
     function main() {
-      var memory = Object.create(Memory);
-      memory.ini(document.querySelector('#memory').value);
+      Memory.init(document.querySelector('#memory').value);
       Inputs.init(document.querySelector('#inputs').value.split(/\s+/));
       interpreter.codes = interpreter.parser(document.querySelector('#code').value);
       interpreter.i = 0;

@@ -1,5 +1,4 @@
 function Memory() {
-  var memory = [];
 }
 
 Memory.prototype.get = function(indice) {
@@ -10,12 +9,32 @@ Memory.prototype.set = function(indice, value) {
   this.memory[indice] = value;
 }
 
+Memory.prototype.reset = function() {
+  this.memory = [];
+}
+
 
 var Inputs = {
   inputs : [],
 
   init : function(inputs) {
     Inputs.inputs = inputs;
+  },
+
+  reset : function() {
+    Inputs.inputs = []
+  }
+}
+
+var Outputs = {
+  outputs : [],
+
+  init : function(inputs) {
+    Outputs.outputs = outputs;
+  },
+
+  reset : function() {
+    Outputs.outputs = []
   }
 }
 
@@ -25,8 +44,6 @@ var interpreter = {
   codes : [],
 
   i : 0,
-
-  outputs : [],
 
   hand : null,
 
@@ -81,7 +98,7 @@ var interpreter = {
       return;
     }
     console.log("Ici " + interpreter.hand);
-    interpreter.outputs.push(interpreter.hand);
+    Outputs.outputs.push(interpreter.hand);
     document.querySelector('#outputs').innerHTML += interpreter.hand;
     interpreter.hand = null;
   },
@@ -103,5 +120,10 @@ var interpreter = {
 
   copyfrom : function() {
   },
+
+  reset : function() {
+    interpreter.hand = null;
+    interpreter.codes = [];
+  }
 
 };

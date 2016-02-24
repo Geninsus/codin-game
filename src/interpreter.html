@@ -6,8 +6,9 @@
   </head>
   <body>
     <form onsubmit="return main();" action="#" method="post">
-      <label for="code">Code</label><textarea name="code" rows="8" cols="40" id="code"></textarea>
-      <label for="inputs">Inputs</label><textarea name="code" rows="8" cols="40" id="inputs"></textarea>
+      <label for="code">Code</label><textarea name="code" rows="8" cols="40" id="code"></textarea><br>
+      <label for="inputs">Inputs</label><input type="text" name="code" id="inputs" /><br>
+      <label for="memory">Memory</label><input type="text" name="code" id="memory" /><br>
       <input type="submit" name="name" value="Envoyer">
     </form>
     <button onclick="interpreter.prev();" type="button" name="button">Prev</button>
@@ -19,10 +20,12 @@
     <script src="js/interpreter.js" charset="utf-8"></script>
     <script type="text/javascript">
     function main() {
-     Inputs.init(document.querySelector('#inputs').value.split(/\s+/));
-     interpreter.codes = interpreter.parser(document.querySelector('#code').value);
-     interpreter.i = 0;
-     return false;
+      var memory = Object.create(Memory);
+      memory.ini(document.querySelector('#memory').value);
+      Inputs.init(document.querySelector('#inputs').value.split(/\s+/));
+      interpreter.codes = interpreter.parser(document.querySelector('#code').value);
+      interpreter.i = 0;
+      return false;
    }
     </script>
   </body>

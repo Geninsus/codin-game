@@ -59,13 +59,16 @@ var interpreter = {
 
   hand : null,
 
-  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM'],
+  regexp : new  RegExp(/\D/),
 
-   parser : function(code) {
+  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'JUMP', 'JUMPN'],
+
+  parser : function(code) {
     return code.split(/\s+/);
   },
 
   run : function() {
+    if (interpreter.dictionary.indexOf("a:") != -1){alert("COOl");}
     while(interpreter.i < interpreter.codes.length) {
       interpreter.next();
     }
@@ -73,7 +76,7 @@ var interpreter = {
 
   next : function() {
     if(interpreter.i >= interpreter.codes.length) return;
-    if(interpreter.dictionary.indexOf(interpreter.codes[interpreter.i]) != -1) {
+    if(interpreter.dictionary.indexOf(interpreter.codes[interpreter.i]) != -1 || interpreter.regexp.test(interpreter.codes[interpreter.i]) == true) {
       interpreter.call(interpreter.codes[interpreter.i]);
     } else {
       error('Commande ' + interpreter.codes[interpreter.i] + ' inconnue.');
@@ -99,8 +102,11 @@ var interpreter = {
       case 'COPYFROM':
         interpreter.copyfrom();
         break;
+      case 'JUMP':
+        interpreter.jump();
+        break;
       default:
-        error('Fonction non implémenté.');
+        alert('Fonction "'+ word +'" non implémenté.');
     }
   },
 
@@ -155,7 +161,24 @@ var interpreter = {
   reset : function() {
     interpreter.hand = null;
     interpreter.codes = [];
+  },
+
+  jump : function() {
+    interpreter.i++;
+    var label = interpreter.codes[interpreter.i];
+    alert(label);
+    for (var i = 0 ; i < interpreter.codes.length ; i++) {
+      if (interpreter.codes[i] == label) {
+        interpreter.i = i;
+        break;
+      }
+    }
+
+    alert(interpreter.i);
+    alert("FIN");
   }
+
+
 
 };
 

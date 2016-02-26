@@ -5,15 +5,15 @@ var Memory = {
   },
 
   get : function(indice) {
-    if(Memory.memory[indice] == undefined) {
-      error("L'indice " + indice + " n'existe pas en mémoire.")
+    if(Memory.memory[indice] === undefined) {
+      error("L'indice " + indice + " n'existe pas en mémoire.");
     }
     return Memory.memory[indice];
   },
 
   set : function(indice, value) {
-    if(Memory.memory[indice] == undefined) {
-      error("L'indice " + indice + " n'existe pas en mémoire.")
+    if(Memory.memory[indice] === undefined) {
+      error("L'indice " + indice + " n'existe pas en mémoire.");
     }
     Memory.memory[indice] = value;
   },
@@ -59,7 +59,9 @@ var interpreter = {
 
   hand : null,
 
-  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM'],
+  labels : [],
+
+  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL'],
 
    parser : function(code) {
     return code.split(/\s+/);
@@ -104,6 +106,9 @@ var interpreter = {
     }
   },
 
+  /**
+   * INBOX
+   */
   inbox : function() {
     interpreter.hand = Inputs.inputs.shift();
     if(!interpreter.hand) {
@@ -111,6 +116,9 @@ var interpreter = {
     }
   },
 
+  /**
+   * OUTBOX
+   */
   outbox : function() {
     if(!interpreter.hand) {
       error("Outbox avec main vide.");
@@ -122,6 +130,9 @@ var interpreter = {
     interpreter.hand = null;
   },
 
+  /**
+   * COPYTO
+   */
   copyto : function() {
     interpreter.i++;
     var add = interpreter.codes[interpreter.i];
@@ -137,6 +148,9 @@ var interpreter = {
     Memory.set(add, interpreter.hand);
   },
 
+  /**
+   * COPYFROM
+   */
   copyfrom : function() {
     interpreter.i++;
     var add = parseInt(interpreter.codes[interpreter.i]);
@@ -150,6 +164,14 @@ var interpreter = {
       }
     }
     interpreter.hand = Memory.get(add, interpreter.hand);
+  },
+
+  /**
+   * LABEL
+   */
+  label : function() {
+    interpreter.i++;
+    interpreter.labels.push(interpreter.codes[interpreter.i]);
   },
 
   reset : function() {
@@ -167,4 +189,10 @@ function error(string) {
     commands[i].disabled = true;
   }
   interpreter.i = interpreter.codes.length;
+}
+
+function debug(string) {
+  if(DEBUG){
+    console.log(string);
+  }
 }

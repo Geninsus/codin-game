@@ -28,7 +28,11 @@
     </div>
     <script src="js/interpreter.js" charset="utf-8"></script>
     <script type="text/javascript">
+
+    var DEBUG = 1;
+
     function main() {
+
       Memory.init(document.querySelector('#memory').value.split(/\s+/));
       Inputs.init(document.querySelector('#inputs').value.split(/\s+/));
 

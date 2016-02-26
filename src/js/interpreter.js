@@ -61,13 +61,14 @@ var interpreter = {
 
   labels : [],
 
-  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL'],
+  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'JUMP', 'JUMPN'],
 
-   parser : function(code) {
+  parser : function(code) {
     return code.split(/\s+/);
   },
 
   run : function() {
+    if (interpreter.dictionary.indexOf("a:") != -1){alert("COOl");}
     while(interpreter.i < interpreter.codes.length) {
       interpreter.next();
     }
@@ -101,8 +102,11 @@ var interpreter = {
       case 'COPYFROM':
         interpreter.copyfrom();
         break;
+      case 'JUMP':
+        interpreter.jump();
+        break;
       default:
-        error('Fonction non implémenté.');
+        alert('Fonction "'+ word +'" non implémenté.');
     }
   },
 
@@ -172,6 +176,20 @@ var interpreter = {
   label : function() {
     interpreter.i++;
     interpreter.labels.push(interpreter.codes[interpreter.i]);
+  },
+
+  /**
+   * JUMP
+   */
+  jump : function() {
+    interpreter.i++;
+    var label = interpreter.codes[interpreter.i];
+    for (var i = 0 ; i < interpreter.codes.length ; i++) {
+      if (interpreter.codes[i] == label) {
+        interpreter.i = i;
+        break;
+      }
+    }
   },
 
   reset : function() {

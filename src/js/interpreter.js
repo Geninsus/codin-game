@@ -68,7 +68,6 @@ var interpreter = {
   },
 
   run : function() {
-    if (interpreter.dictionary.indexOf("a:") != -1){alert("COOl");}
     while(interpreter.i < interpreter.codes.length) {
       interpreter.next();
     }
@@ -102,11 +101,14 @@ var interpreter = {
       case 'COPYFROM':
         interpreter.copyfrom();
         break;
+      case 'LABEL':
+        interpreter.label();
+        break;
       case 'JUMP':
         interpreter.jump();
         break;
       default:
-        alert('Fonction "'+ word +'" non implémenté.');
+        error('Erreur du code: Fonction ' + word + ' non implémenté.');
     }
   },
 
@@ -128,7 +130,6 @@ var interpreter = {
       error("Outbox avec main vide.");
       return;
     }
-    console.log(interpreter.hand);
     Outputs.outputs.push(interpreter.hand);
     document.querySelector('#outputs').innerHTML += interpreter.hand + '<br>';
     interpreter.hand = null;

@@ -5,20 +5,26 @@ var Memory = {
   },
 
   get : function(indice) {
+    if(Memory.memory[indice] == undefined) {
+      error("L'indice " + indice + " n'existe pas en mémoire.")
+    }
     return Memory.memory[indice];
   },
 
   set : function(indice, value) {
+    if(Memory.memory[indice] == undefined) {
+      error("L'indice " + indice + " n'existe pas en mémoire.")
+    }
     Memory.memory[indice] = value;
   },
 
   display: function() {
     document.querySelector('#memory').innerHTML = "";
-    for(var el of Memory.memory) {
+    for(var el in Memory.memory) {
       document.querySelector('#memory').innerHTML += el + " ";
     }
   }
-}
+};
 
 var Inputs = {
   inputs : [],
@@ -28,21 +34,21 @@ var Inputs = {
   },
 
   reset : function() {
-    Inputs.inputs = []
+    Inputs.inputs = [];
   }
-}
+};
 
 var Outputs = {
   outputs : [],
 
-  init : function(inputs) {
+  init : function(outputs) {
     Outputs.outputs = outputs;
   },
 
   reset : function() {
-    Outputs.outputs = []
+    Outputs.outputs = [];
   }
-}
+};
 
 
 var interpreter = {
@@ -60,12 +66,17 @@ var interpreter = {
   },
 
   run : function() {
-
+    while(interpreter.i < interpreter.codes.length) {
+      interpreter.next();
+    }
   },
 
   next : function() {
+    if(interpreter.i >= interpreter.codes.length) return;
     if(interpreter.dictionary.indexOf(interpreter.codes[interpreter.i]) != -1) {
       interpreter.call(interpreter.codes[interpreter.i]);
+    } else {
+      error('Commande ' + interpreter.codes[interpreter.i] + ' inconnue.');
     }
     interpreter.i++;
   },
@@ -89,25 +100,25 @@ var interpreter = {
         interpreter.copyfrom();
         break;
       default:
-        alert('Fonction non implémenté.')
+        error('Fonction non implémenté.');
     }
   },
 
   inbox : function() {
     interpreter.hand = Inputs.inputs.shift();
     if(!interpreter.hand) {
-      alert("Inputs vide.");
+      error("Inputs vide.");
     }
   },
 
   outbox : function() {
     if(!interpreter.hand) {
-      alert("Outbox avec main vide.");
+      error("Outbox avec main vide.");
       return;
     }
     console.log(interpreter.hand);
     Outputs.outputs.push(interpreter.hand);
-    document.querySelector('#outputs').innerHTML += interpreter.hand;
+    document.querySelector('#outputs').innerHTML += interpreter.hand + '<br>';
     interpreter.hand = null;
   },
 
@@ -115,11 +126,11 @@ var interpreter = {
     interpreter.i++;
     var add = interpreter.codes[interpreter.i];
     var regCheck = /^\[([0-9]+)\]$/.exec(add);
-    if(regCheck != null) {
+    if(regCheck !== null) {
       add = Memory.get(regCheck[1]);
     } else {
       if(!(Number.isInteger(add) && add >= 0)) {
-        alert("Addresse " + add + " non valide.");
+        error("Addresse " + add + " non valide.");
         return;
       }
     }
@@ -130,11 +141,11 @@ var interpreter = {
     interpreter.i++;
     var add = parseInt(interpreter.codes[interpreter.i]);
     var regCheck = /^\[([0-9]+)\]$/.exec(add);
-    if(regCheck != null) {
+    if(regCheck !== null) {
       add = Memory.get(regCheck[1]);
     } else {
       if(!(Number.isInteger(add) && add >= 0)) {
-        alert("Addresse " + add + " non valide.");
+        error("Addresse " + add + " non valide.");
         return;
       }
     }
@@ -147,3 +158,13 @@ var interpreter = {
   }
 
 };
+
+function error(string) {
+  document.querySelector('.errors').textContent = string;
+  var commands = document.querySelectorAll('.command--btn');
+  for (var i = 0; i < commands.length; i++) {
+    commands[i].className = "btn command--btn btn__disabled";
+    commands[i].disabled = true;
+  }
+  interpreter.i = interpreter.codes.length;
+}

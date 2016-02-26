@@ -3,25 +3,45 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="css/interpreter.css" media="screen">
   </head>
   <body>
-    <form onsubmit="return main();" action="#" method="post">
-      <label for="code">Code</label><textarea name="code" rows="8" cols="40" id="code"></textarea><br>
-      <label for="inputs">Inputs</label><input type="text" name="code" id="inputs" /><br>
-      <label for="memory">Memory</label><input type="text" name="code" id="memory" /><br>
-      <input type="submit" name="name" value="Envoyer">
-    </form>
-    <button onclick="interpreter.prev();" type="button" name="button">Prev</button>
-    <button onclick="interpreter.run();" type="button" name="button">Run</button>
-    <button onclick="interpreter.next();" type="button" name="button">Next</button>
-    <div id="outputs"><p>outputs</p></div>
+    <div class="leftContainer container">
+      <form onsubmit="return main();" action="#" method="post" class="dataForm">
+        <textarea name="code" id="code" class="dataForm--code"></textarea><br>
+        <input type="text" name="code" id="inputs" placeholder="Inputs:  1 6 42 8" class="dataForm--text dataForm--input"/><br>
+        <input type="text" name="code" id="memory" placeholder="Memory:  0 1 null null null 32 12" class="dataForm--text dataForm--memory"/><br>
+        <input type="submit" name="name" class="btn dataForm--submit" value="Envoyer">
+      </form>
+      <div class="command">
+        <button onclick="interpreter.prev();" type="button" name="button" class="btn command--btn btn__disabled" disabled>Prev</button>
+        <button onclick="interpreter.run();" type="button" name="button" class="btn command--btn btn__disabled" disabled>Run</button>
+        <button onclick="interpreter.next();" type="button" name="button" class="btn command--btn btn__disabled" disabled>Next</button>
+      </div>
+      <p id="errors" class="errors"></p>
+    </div>
+    <div class="rightContainer container">
+      <p class="rightContainer--title">
+        Outputs
+      </p>
+      <div id="outputs" class="outputs"><p></p></div>
+    </div>
     <script src="js/interpreter.js" charset="utf-8"></script>
     <script type="text/javascript">
     function main() {
       Memory.init(document.querySelector('#memory').value.split(/\s+/));
       Inputs.init(document.querySelector('#inputs').value.split(/\s+/));
+
+      document.querySelector('#errors').innerHTML = "";
+      document.querySelector('#outputs').innerHTML = "";
+
       interpreter.codes = interpreter.parser(document.querySelector('#code').value);
       interpreter.i = 0;
+      var commands = document.querySelectorAll('.command--btn');
+      for (var i = 0; i < commands.length; i++) {
+        commands[i].className = "btn command--btn";
+        commands[i].disabled = false;
+      }
       return false;
    }
     </script>

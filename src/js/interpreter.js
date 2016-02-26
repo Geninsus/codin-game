@@ -158,25 +158,22 @@ var interpreter = {
     interpreter.hand = Memory.get(add, interpreter.hand);
   },
 
-  reset : function() {
-    interpreter.hand = null;
-    interpreter.codes = [];
-  },
-
   jump : function() {
     interpreter.i++;
     var label = interpreter.codes[interpreter.i];
-    alert(label);
     for (var i = 0 ; i < interpreter.codes.length ; i++) {
       if (interpreter.codes[i] == label) {
         interpreter.i = i;
         break;
       }
     }
-
-    alert(interpreter.i);
-    alert("FIN");
   }
+  
+  reset : function() {
+    interpreter.hand = null;
+    interpreter.codes = [];
+  },
+
 
 
 

@@ -64,7 +64,7 @@ var Interpreter = {
   dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'JUMP', 'JUMPN'],
 
   parser : function(code) {
-    return code.split(/\s+/);
+    return code.trim().split(/\s+/);
   },
 
   run : function() {
@@ -145,6 +145,7 @@ var Interpreter = {
     if(regCheck !== null) {
       add = Memory.get(regCheck[1]);
     } else {
+      add = parseInt(add);
       if(!(Number.isInteger(add) && add >= 0)) {
         error("Addresse " + add + " non valide.");
         return;
@@ -192,7 +193,7 @@ var Interpreter = {
         if (Interpreter.codes[i] == 'LABEL') {
           i ++;
           Interpreter.labels[Interpreter.codes[i]] = i;
-          if(Interpreter.codes[i] = label) {
+          if(Interpreter.codes[i] == label) {
             Interpreter.i = i;
             break;
           }

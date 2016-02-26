@@ -14,9 +14,9 @@
         <input type="submit" name="name" class="btn dataForm--submit" value="Envoyer">
       </form>
       <div class="command">
-        <button onclick="interpreter.prev();" type="button" name="button" class="btn command--btn btn__disabled" disabled>Prev</button>
-        <button onclick="interpreter.run();" type="button" name="button" class="btn command--btn btn__disabled" disabled>Run</button>
-        <button onclick="interpreter.next();" type="button" name="button" class="btn command--btn btn__disabled" disabled>Next</button>
+        <button onclick="Interpreter.prev();" type="button" name="button" class="btn command--btn btn__disabled" disabled>Prev</button>
+        <button onclick="Interpreter.run();" type="button" name="button" class="btn command--btn btn__disabled" disabled>Run</button>
+        <button onclick="Interpreter.next();" type="button" name="button" class="btn command--btn btn__disabled" disabled>Next</button>
       </div>
       <p id="errors" class="errors"></p>
     </div>
@@ -39,8 +39,9 @@
       document.querySelector('#errors').innerHTML = "";
       document.querySelector('#outputs').innerHTML = "";
 
-      interpreter.codes = interpreter.parser(document.querySelector('#code').value);
-      interpreter.i = 0;
+      Interpreter.labels = {};
+      Interpreter.codes = Interpreter.parser(document.querySelector('#code').value);
+      Interpreter.i = 0;
       var commands = document.querySelectorAll('.command--btn');
       for (var i = 0; i < commands.length; i++) {
         commands[i].className = "btn command--btn";

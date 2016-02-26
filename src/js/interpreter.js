@@ -51,7 +51,7 @@ var Outputs = {
 };
 
 
-var interpreter = {
+var Interpreter = {
 
   codes : [],
 
@@ -59,7 +59,7 @@ var interpreter = {
 
   hand : null,
 
-  labels : [],
+  labels : {},
 
   dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'JUMP', 'JUMPN'],
 
@@ -68,19 +68,19 @@ var interpreter = {
   },
 
   run : function() {
-    while(interpreter.i < interpreter.codes.length) {
-      interpreter.next();
+    while(Interpreter.i < Interpreter.codes.length) {
+      Interpreter.next();
     }
   },
 
   next : function() {
-    if(interpreter.i >= interpreter.codes.length) return;
-    if(interpreter.dictionary.indexOf(interpreter.codes[interpreter.i]) != -1) {
-      interpreter.call(interpreter.codes[interpreter.i]);
+    if(Interpreter.i >= Interpreter.codes.length) return;
+    if(Interpreter.dictionary.indexOf(Interpreter.codes[Interpreter.i]) != -1) {
+      Interpreter.call(Interpreter.codes[Interpreter.i]);
     } else {
-      error('Commande ' + interpreter.codes[interpreter.i] + ' inconnue.');
+      error('Commande ' + Interpreter.codes[Interpreter.i] + ' inconnue.');
     }
-    interpreter.i++;
+    Interpreter.i++;
   },
 
   prev : function() {
@@ -90,22 +90,22 @@ var interpreter = {
   call : function(word) {
     switch (word) {
       case 'INBOX':
-        interpreter.inbox();
+        Interpreter.inbox();
         break;
       case 'OUTBOX':
-        interpreter.outbox();
+        Interpreter.outbox();
         break;
       case 'COPYTO':
-        interpreter.copyto();
+        Interpreter.copyto();
         break;
       case 'COPYFROM':
-        interpreter.copyfrom();
+        Interpreter.copyfrom();
         break;
       case 'LABEL':
-        interpreter.label();
+        Interpreter.label();
         break;
       case 'JUMP':
-        interpreter.jump();
+        Interpreter.jump();
         break;
       default:
         error('Erreur du code: Fonction ' + word + ' non implémenté.');
@@ -116,8 +116,8 @@ var interpreter = {
    * INBOX
    */
   inbox : function() {
-    interpreter.hand = Inputs.inputs.shift();
-    if(!interpreter.hand) {
+    Interpreter.hand = Inputs.inputs.shift();
+    if(!Interpreter.hand) {
       error("Inputs vide.");
     }
   },
@@ -126,21 +126,21 @@ var interpreter = {
    * OUTBOX
    */
   outbox : function() {
-    if(!interpreter.hand) {
+    if(!Interpreter.hand) {
       error("Outbox avec main vide.");
       return;
     }
-    Outputs.outputs.push(interpreter.hand);
-    document.querySelector('#outputs').innerHTML += interpreter.hand + '<br>';
-    interpreter.hand = null;
+    Outputs.outputs.push(Interpreter.hand);
+    document.querySelector('#outputs').innerHTML += Interpreter.hand + '<br>';
+    Interpreter.hand = null;
   },
 
   /**
    * COPYTO
    */
   copyto : function() {
-    interpreter.i++;
-    var add = interpreter.codes[interpreter.i];
+    Interpreter.i++;
+    var add = Interpreter.codes[Interpreter.i];
     var regCheck = /^\[([0-9]+)\]$/.exec(add);
     if(regCheck !== null) {
       add = Memory.get(regCheck[1]);
@@ -150,15 +150,15 @@ var interpreter = {
         return;
       }
     }
-    Memory.set(add, interpreter.hand);
+    Memory.set(add, Interpreter.hand);
   },
 
   /**
    * COPYFROM
    */
   copyfrom : function() {
-    interpreter.i++;
-    var add = parseInt(interpreter.codes[interpreter.i]);
+    Interpreter.i++;
+    var add = parseInt(Interpreter.codes[Interpreter.i]);
     var regCheck = /^\[([0-9]+)\]$/.exec(add);
     if(regCheck !== null) {
       add = Memory.get(regCheck[1]);
@@ -168,34 +168,42 @@ var interpreter = {
         return;
       }
     }
-    interpreter.hand = Memory.get(add, interpreter.hand);
+    Interpreter.hand = Memory.get(add, Interpreter.hand);
   },
 
   /**
    * LABEL
    */
   label : function() {
-    interpreter.i++;
-    interpreter.labels.push(interpreter.codes[interpreter.i]);
+    Interpreter.i++;
+    Interpreter.labels[Interpreter.codes[Interpreter.i]] = Interpreter.i;
   },
 
   /**
    * JUMP
    */
   jump : function() {
-    interpreter.i++;
-    var label = interpreter.codes[interpreter.i];
-    for (var i = 0 ; i < interpreter.codes.length ; i++) {
-      if (interpreter.codes[i] == label) {
-        interpreter.i = i;
-        break;
+    Interpreter.i++;
+    var label = Interpreter.codes[Interpreter.i];
+    if(Interpreter.labels.hasOwnProperty(label)) {
+      Interpreter.i = Interpreter.labels[label];
+    } else {
+      for (var i = Interpreter.i ; i < Interpreter.codes.length ; i++) {
+        if (Interpreter.codes[i] == 'LABEL') {
+          i ++;
+          Interpreter.labels[Interpreter.codes[i]] = i;
+          if(Interpreter.codes[i] = label) {
+            Interpreter.i = i;
+            break;
+          }
+        }
       }
     }
   },
 
   reset : function() {
-    interpreter.hand = null;
-    interpreter.codes = [];
+    Interpreter.hand = null;
+    Interpreter.codes = [];
   }
 
 };
@@ -207,7 +215,7 @@ function error(string) {
     commands[i].className = "btn command--btn btn__disabled";
     commands[i].disabled = true;
   }
-  interpreter.i = interpreter.codes.length;
+  Interpreter.i = Interpreter.codes.length;
 }
 
 function debug(string) {

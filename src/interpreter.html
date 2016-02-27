@@ -22,25 +22,40 @@
       <p id="errors" class="errors"></p>
     </div>
     <div class="rightContainer container">
-      <p class="rightContainer--title">
-        Outputs
-      </p>
+      <p class="rightContainer--title">OUTPUTS</p>
       <div id="outputs" class="rightContainer--outputs"><p></p></div>
-      <p class="rightContainer--title">
-        Memory
-      </p>
+      <p class="rightContainer--title">MEMORY</p>
       <div class="rightContainer--memory">
         <table class="rightContainer--memory--table">
           <tr id="rightContainer--memory--table--line" class="rightContainer--memory--table--line">
-
           </tr>
         </table>
       </div>
+      <p class="rightContainer--title">KEYWORDS</p>
+      <p class="rightContainer--keywordsHelper">
+        <ul>
+          <li class="rightContainer--elt">INBOX</li>
+          <li class="rightContainer--elt">OUTBOX</li>
+          <li class="rightContainer--elt">COPYTO x</li>
+          <li class="rightContainer--elt">COPYTO [x]</li>
+          <li class="rightContainer--elt">COPYFROM x</li>
+          <li class="rightContainer--elt">COPYFROM [x]</li>
+          <li class="rightContainer--elt">LABEL x</li>
+          <li class="rightContainer--elt">ADD x</li>
+          <li class="rightContainer--elt">SUB x</li>
+          <li class="rightContainer--elt">INC x</li>
+          <li class="rightContainer--elt">DEC x</li>
+          <li class="rightContainer--elt">JUMP x</li>
+          <li class="rightContainer--elt">JUMPZ x</li>
+          <li class="rightContainer--elt">JUMPN x</li>
+        </ul>
+      </p>
     </div>
     <script src="js/interpreter.js" charset="utf-8"></script>
     <script type="text/javascript">
 
     var DEBUG = 1;
+    var MAXITERATION = 100;
 
     function main() {
 
@@ -48,9 +63,7 @@
       Inputs.init(document.querySelector('#inputs').value.trim().split(/\s+/));
 
       var memoryLine = document.querySelector('#rightContainer--memory--table--line');
-
       memoryLine.innerHTML = '';
-
       Memory.memory.forEach(function(elt, index) {
         memoryLine.innerHTML += '<td id="memoryElt' + index +'" class="rightContainer--memory--table--line--element">' + elt + '</td>';
       });
@@ -58,9 +71,10 @@
       document.querySelector('#errors').innerHTML = "";
       document.querySelector('#outputs').innerHTML = "";
 
-      Interpreter.labels = {};
+      Interpreter.init();
+      Interpreter.maxIteration = 1000;
       Interpreter.codes = Interpreter.parser(document.querySelector('#code').value);
-      Interpreter.i = 0;
+
       var commands = document.querySelectorAll('.command--btn');
       for (var i = 0; i < commands.length; i++) {
         commands[i].className = "btn command--btn";

@@ -49,6 +49,8 @@
 
       var memoryLine = document.querySelector('#rightContainer--memory--table--line');
 
+      memoryLine.innerHTML = '';
+
       Memory.memory.forEach(function(elt, index) {
         memoryLine.innerHTML += '<td id="memoryElt' + index +'" class="rightContainer--memory--table--line--element">' + elt + '</td>';
       });

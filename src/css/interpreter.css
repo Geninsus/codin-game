@@ -117,9 +117,26 @@ body {
     color: rgb(100, 100, 100);
     margin: 10px;
   }
-  
-.outputs {
-}
+
+	.rightContainer--outputs {
+	}
+
+	.rightContainer--memory {
+
+	}
+
+		.rightContainer--memory--table {
+
+		}
+
+			.rightContainer--memory--table--line {
+			}
+
+				.rightContainer--memory--table--line--element {
+					border: 1px solid black;
+					padding: 5px;
+					font-weight: bold;
+				}
 
 .btn {
   color: white;

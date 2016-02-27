@@ -25,7 +25,17 @@
       <p class="rightContainer--title">
         Outputs
       </p>
-      <div id="outputs" class="outputs"><p></p></div>
+      <div id="outputs" class="rightContainer--outputs"><p></p></div>
+      <p class="rightContainer--title">
+        Memory
+      </p>
+      <div class="rightContainer--memory">
+        <table class="rightContainer--memory--table">
+          <tr id="rightContainer--memory--table--line" class="rightContainer--memory--table--line">
+
+          </tr>
+        </table>
+      </div>
     </div>
     <script src="js/interpreter.js" charset="utf-8"></script>
     <script type="text/javascript">
@@ -36,6 +46,12 @@
 
       Memory.init(document.querySelector('#memory').value.split(/\s+/));
       Inputs.init(document.querySelector('#inputs').value.split(/\s+/));
+
+      var memoryLine = document.querySelector('#rightContainer--memory--table--line');
+
+      Memory.memory.forEach(function(elt, index) {
+        memoryLine.innerHTML += '<td id="memoryElt' + index +'" class="rightContainer--memory--table--line--element">' + elt + '</td>';
+      });
 
       document.querySelector('#errors').innerHTML = "";
       document.querySelector('#outputs').innerHTML = "";

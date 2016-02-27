@@ -61,7 +61,7 @@ var Interpreter = {
 
   labels : {},
 
-  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'JUMP', 'JUMPN'],
+  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'JUMP', 'JUMPN'],
 
   parser : function(code) {
     return code.trim().split(/\s+/);
@@ -99,13 +99,16 @@ var Interpreter = {
         Interpreter.copyto();
         break;
       case 'COPYFROM':
-        Interpreter.copyfrom();
+        Interpreter.hand = Interpreter.copyfrom();
         break;
       case 'LABEL':
         Interpreter.label();
         break;
       case 'JUMP':
         Interpreter.jump();
+        break;
+      case 'ADD':
+        Interpreter.add();
         break;
       default:
         error('Erreur du code: Fonction ' + word + ' non implémenté.');
@@ -116,10 +119,11 @@ var Interpreter = {
    * INBOX
    */
   inbox : function() {
-    Interpreter.hand = Inputs.inputs.shift();
-    if(!Interpreter.hand) {
+    var input = Inputs.inputs.shift();
+    if(!input) {
       error("Inputs vide.");
     }
+    Interpreter.hand = parseInt(input) || input;
   },
 
   /**
@@ -152,6 +156,7 @@ var Interpreter = {
       }
     }
     Memory.set(add, Interpreter.hand);
+    document.querySelector('#memoryElt' + add).innerHTML = Interpreter.hand;
   },
 
   /**
@@ -164,12 +169,13 @@ var Interpreter = {
     if(regCheck !== null) {
       add = Memory.get(regCheck[1]);
     } else {
+      add = parseInt(add);
       if(!(Number.isInteger(add) && add >= 0)) {
         error("Addresse " + add + " non valide.");
         return;
       }
     }
-    Interpreter.hand = Memory.get(add, Interpreter.hand);
+    return parseInt(Memory.get(add)) || Memory.get(add);
   },
 
   /**
@@ -200,6 +206,21 @@ var Interpreter = {
         }
       }
     }
+  },
+
+  /**
+   * ADD
+   */
+  add : function() {
+    var addValue = parseInt(Interpreter.copyfrom());
+    if(!addValue) {
+      error('La valeur ' + addValue + ' ne peut pas être additionné avec la main');
+    }
+    var hand = parseInt(Interpreter.hand);
+    if(!hand) {
+      error('Impossible de faire une addition avec ' + hand);
+    }
+    Interpreter.hand +=  addValue;
   },
 
   reset : function() {

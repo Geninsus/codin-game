@@ -27,12 +27,12 @@ BasicGame.Preloader.prototype = {
 		//	Here we load the rest of the assets our game needs.
 		//	You can find all of these assets in the Phaser Examples repository
 
-	    this.load.image('tetris1', 'img/tetrisblock1.png');
-	    this.load.image('tetris2', 'img/tetrisblock2.png');
-	    this.load.image('tetris3', 'img/tetrisblock3.png');
-	    this.load.image('hotdog', 'img/hotdog.png');
-	    this.load.image('starfield', 'img/deep-space.jpg');
-	    this.load.image('startButton', 'img/start_button.png');
+	    this.load.image('tetris1', 'assets/sprites/tetrisblock1.png');
+	    this.load.image('tetris2', 'assets/sprites/tetrisblock2.png');
+	    this.load.image('tetris3', 'assets/sprites/tetrisblock3.png');
+	    this.load.image('hotdog', 'assets/sprites/hotdog.png');
+	    this.load.image('starfield', 'assets/sprites/deep-space.jpg');
+	    this.load.image('startButton', 'assets/buttons/start_button.png');
 
 	},
 

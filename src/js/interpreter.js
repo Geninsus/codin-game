@@ -1,6 +1,6 @@
 var Memory = {
   init : function(values) {
-    Memory.memory = values[0] != "" ? values : [];
+    Memory.memory = values[0] !== "" ? values : [];
     Memory.display();
   },
 
@@ -29,7 +29,7 @@ var Memory = {
 var Inputs = {
 
   init : function(inputs) {
-    Inputs.inputs = inputs[0] != "" ? inputs : [];
+    Inputs.inputs = inputs[0] !== "" ? inputs : [];
   },
 
   reset : function() {
@@ -56,6 +56,10 @@ var Interpreter = {
 
   i : 0,
 
+  maxIteration : 1000,
+
+  iteration : 0,
+
   hand : null,
 
   labels : {},
@@ -64,8 +68,14 @@ var Interpreter = {
 
   parser : function(code) {
     var codes = code.trim().split(/\s+/);
-    if(codes[0] == "") codes = [];
+    if(codes[0] === "") codes = [];
     return codes;
+  },
+
+  init : function() {
+    Interpreter.iteration = 0;
+    Interpreter.labels = {};
+    Interpreter.i = 0;
   },
 
   run : function() {
@@ -75,6 +85,11 @@ var Interpreter = {
   },
 
   next : function() {
+    Interpreter.iteration ++;
+    debug(Interpreter.iteration);
+    if(Interpreter.iteration > Interpreter.maxIteration) {
+      error('Le nombre maximal d\'itération (' + Interpreter.maxIteration + ') a été atteint');
+    }
     if(Interpreter.i >= Interpreter.codes.length) return;
     if(Interpreter.dictionary.indexOf(Interpreter.codes[Interpreter.i]) != -1) {
       Interpreter.call(Interpreter.codes[Interpreter.i]);

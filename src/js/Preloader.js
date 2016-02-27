@@ -31,7 +31,7 @@ BasicGame.Preloader.prototype = {
 	    this.load.image('tetris2', 'assets/sprites/tetrisblock2.png');
 	    this.load.image('tetris3', 'assets/sprites/tetrisblock3.png');
 	    this.load.image('hotdog', 'assets/sprites/hotdog.png');
-	    this.load.image('starfield', 'assets/sprites/deep-space.jpg');
+	    this.load.image('starfield', 'assets/fonts/deep-space.jpg');
 	    this.load.image('startButton', 'assets/buttons/start_button.png');
 
 	},

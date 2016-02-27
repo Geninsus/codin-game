@@ -61,7 +61,7 @@ var Interpreter = {
 
   labels : {},
 
-  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'SUB', 'INC', 'DEC', 'JUMP', 'JUMPN'],
+  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'SUB', 'INC', 'DEC', 'JUMP', 'JUMPZ'],
 
   parser : function(code) {
     return code.trim().split(/\s+/);
@@ -106,6 +106,9 @@ var Interpreter = {
         break;
       case 'JUMP':
         Interpreter.jump();
+        break;
+      case 'JUMPZ':
+        Interpreter.jumpz();
         break;
       case 'ADD':
         Interpreter.add();
@@ -214,6 +217,17 @@ var Interpreter = {
           }
         }
       }
+    }
+  },
+
+  /**
+   * JUMPZ
+   */
+  jumpz : function() {
+    if(Interpreter.hand === 0) {
+      Interpreter.jump();
+    } else {
+      Interpreter.i ++;
     }
   },
 

@@ -61,7 +61,7 @@ var Interpreter = {
 
   labels : {},
 
-  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'INC', 'DEC', 'JUMP', 'JUMPN'],
+  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'SUB', 'INC', 'DEC', 'JUMP', 'JUMPN'],
 
   parser : function(code) {
     return code.trim().split(/\s+/);
@@ -109,6 +109,9 @@ var Interpreter = {
         break;
       case 'ADD':
         Interpreter.add();
+        break;
+      case 'SUB':
+        Interpreter.sub();
         break;
       case 'INC':
         Interpreter.inc();
@@ -227,6 +230,21 @@ var Interpreter = {
       error('Impossible de faire une addition avec ' + hand);
     }
     Interpreter.hand +=  addValue;
+  },
+
+  /**
+   * SUB
+   */
+  sub : function() {
+    var subValue = parseInt(Interpreter.copyfrom());
+    if(isNaN(subValue)) {
+      error('La valeur ' + subValue + ' ne peut pas être soustraite avec la main');
+    }
+    var hand = parseInt(Interpreter.hand);
+    if(isNaN(hand)) {
+      error('Impossible de faire une addition avec ' + hand);
+    }
+    Interpreter.hand -=  subValue;
   },
 
   /**

@@ -1,6 +1,6 @@
 var Memory = {
   init : function(values) {
-    Memory.memory = values;
+    Memory.memory = values[0] != "" ? values : [];
     Memory.display();
   },
 
@@ -27,10 +27,9 @@ var Memory = {
 };
 
 var Inputs = {
-  inputs : [],
 
   init : function(inputs) {
-    Inputs.inputs = inputs;
+    Inputs.inputs = inputs[0] != "" ? inputs : [];
   },
 
   reset : function() {
@@ -64,7 +63,9 @@ var Interpreter = {
   dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'SUB', 'INC', 'DEC', 'JUMP', 'JUMPZ', 'JUMPN'],
 
   parser : function(code) {
-    return code.trim().split(/\s+/);
+    var codes = code.trim().split(/\s+/);
+    if(codes[0] == "") codes = [];
+    return codes;
   },
 
   run : function() {

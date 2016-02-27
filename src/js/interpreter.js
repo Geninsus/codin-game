@@ -61,7 +61,7 @@ var Interpreter = {
 
   labels : {},
 
-  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'JUMP', 'JUMPN'],
+  dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'INC', 'DEC', 'JUMP', 'JUMPN'],
 
   parser : function(code) {
     return code.trim().split(/\s+/);
@@ -110,6 +110,12 @@ var Interpreter = {
       case 'ADD':
         Interpreter.add();
         break;
+      case 'INC':
+        Interpreter.inc();
+        break;
+      case 'DEC':
+        Interpreter.dec();
+      break;
       default:
         error('Erreur du code: Fonction ' + word + ' non implémenté.');
     }
@@ -164,7 +170,7 @@ var Interpreter = {
    */
   copyfrom : function() {
     Interpreter.i++;
-    var add = parseInt(Interpreter.codes[Interpreter.i]);
+    var add = Interpreter.codes[Interpreter.i];
     var regCheck = /^\[([0-9]+)\]$/.exec(add);
     if(regCheck !== null) {
       add = Memory.get(regCheck[1]);
@@ -213,14 +219,42 @@ var Interpreter = {
    */
   add : function() {
     var addValue = parseInt(Interpreter.copyfrom());
-    if(!addValue) {
+    if(isNaN(addValue)) {
       error('La valeur ' + addValue + ' ne peut pas être additionné avec la main');
     }
     var hand = parseInt(Interpreter.hand);
-    if(!hand) {
+    if(isNaN(hand)) {
       error('Impossible de faire une addition avec ' + hand);
     }
     Interpreter.hand +=  addValue;
+  },
+
+  /**
+   * INC
+   */
+  inc : function() {
+    var value = parseInt(Interpreter.copyfrom());
+    if(isNaN(value)) {
+      error('La valeur ' + value + ' ne peut pas être incrémenté');
+    }
+    value++;
+    Interpreter.hand = value;
+    Interpreter.i --;
+    Interpreter.copyto(value);
+  },
+
+  /**
+   * DEC
+   */
+  dec : function() {
+    var value = parseInt(Interpreter.copyfrom());
+    if(isNaN(value)) {
+      error('La valeur ' + value + ' ne peut pas être décrémenté');
+    }
+    value--;
+    Interpreter.hand = value;
+    Interpreter.i --;
+    Interpreter.copyto(value);
   },
 
   reset : function() {

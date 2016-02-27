@@ -1,26 +1,35 @@
 
-g.MainMenu = function (game) {
+BasicGame.MainMenu = function (game) {
 
-	this.music = null;
-	this.playButton = null;
+	this.bg;
+	this.spriteTopLeft;
+	this.spriteTopRight;
+	this.spriteBottomLeft;
+	this.spriteBottomRight;
+	this.startButton;
 
 };
 
-g.MainMenu.prototype = {
+BasicGame.MainMenu.prototype = {
 
 	create: function () {
 
-		//	We've already preloaded our assets, so let's kick right into the Main Menu itself.
-		//	Here all we're doing is playing some music and adding a picture and button
-		//	Naturally I expect you to do something significantly better :)
+	    this.bg = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'starfield');
 
-		this.music = this.add.audio('titleMusic');
-		this.music.play();
+	    this.spriteTopLeft = this.add.sprite(0, 0, 'tetris3');
 
-		this.add.sprite(0, 0, 'titlepage');
+	    this.spriteTopRight = this.add.sprite(this.game.width, 0, 'tetris1');
+	    this.spriteTopRight.anchor.set(1, 0);
 
-		this.playButton = this.add.button(400, 600, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
+	    this.spriteBottomLeft = this.add.sprite(0, this.game.height, 'tetris2');
+	    this.spriteBottomLeft.anchor.set(0, 1);
 
+	    this.spriteBottomRight = this.add.sprite(this.game.width, this.game.height, 'tetris3');
+	    this.spriteBottomRight.anchor.set(1, 1);
+
+        this.spriteMiddle = this.add.sprite(0, 0, 'hotdog');
+
+        this.startButton = this.add.button(this.game.width/2-this.game.cache.getImage("startButton").width/2, this.game.height/2-this.game.cache.getImage("startButton").height/2, 'startButton', this.startGame);
 	},
 
 	update: function () {
@@ -29,14 +38,29 @@ g.MainMenu.prototype = {
 
 	},
 
-	startGame: function (pointer) {
+	resize: function (width, height) {
 
-		//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
-		this.music.stop();
+		//	If the game container is resized this function will be called automatically.
+		//	You can use it to align sprites that should be fixed in place and other responsive display things.
 
-		//	And start the actual game
-		this.state.start('Game');
+	    this.bg.width = width;
+	    this.bg.height = height;
 
-	}
+	    this.spriteMiddle.x = this.game.world.centerX;
+	    this.spriteMiddle.y = this.game.world.centerY;
+
+	    this.spriteTopRight.x = this.game.width;
+	    this.spriteBottomLeft.y = this.game.height;
+
+	    this.spriteBottomRight.x = this.game.width;
+	    this.spriteBottomRight.y = this.game.height;
+
+	},
+
+	startGame: function () {
+		this.game.state.start('Game');
+	},
+
+
 
 };

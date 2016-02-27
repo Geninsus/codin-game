@@ -1,9 +1,10 @@
-var g = {};
-g.Boot = function (game) {
+var BasicGame = {};
+
+BasicGame.Boot = function (game) {
 
 };
 
-g.Boot.prototype = {
+BasicGame.Boot.prototype = {
 
     init: function () {
 
@@ -13,28 +14,16 @@ g.Boot.prototype = {
         //  Phaser will automatically pause if the browser tab the game is in loses focus. You can disable that here:
         this.stage.disableVisibilityChange = true;
 
-        if (this.game.device.desktop)
-        {
-            //  If you have any desktop specific settings, they can go in here
-            this.scale.pageAlignHorizontally = true;
-        }
-        else
-        {
-            //  Same goes for mobile settings.
-            //  In this case we're saying "scale the game, no lower than 480x260 and no higher than 1024x768"
-            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-            this.scale.setMinMax(480, 260, 1024, 768);
-            this.scale.forceLandscape = true;
-            this.scale.pageAlignHorizontally = true;
-        }
+        //  This tells the game to resize the renderer to match the game dimensions (i.e. 100% browser width / height)
+        this.scale.scaleMode = Phaser.ScaleManager.RESIZE;
 
     },
 
     preload: function () {
 
         //  Here we load the assets required for our preloader (in this case a background and a loading bar)
-        this.load.image('preloaderBackground', 'img/phaser.png');
-        this.load.image('preloaderBar', 'img/preloadr_bar.png');
+        this.load.image('preloaderBackground', 'img/preloader_background.jpg');
+        this.load.image('preloaderBar', 'img/preloader_bar.png');
 
     },
 

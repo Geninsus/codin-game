@@ -34,6 +34,8 @@ BasicGame.Preloader.prototype = {
 	    this.load.image('starfield', 'assets/fonts/deep-space.jpg');
 	    this.load.image('startButton', 'assets/buttons/start_button.png');
 
+	    this.load.spritesheet('player', 'assets/sprites/playerSheet.png', 64, 64);
+
 	},
 
 	create: function () {

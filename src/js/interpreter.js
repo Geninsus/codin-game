@@ -155,6 +155,7 @@ var Interpreter = {
       error("Inputs vide.");
     }
     Interpreter.hand = parseInt(input) || input;
+    BasicGame.Game.player.moveTo(1,1);
   },
 
   /**

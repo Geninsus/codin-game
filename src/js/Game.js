@@ -29,11 +29,14 @@ var DEBUG = 0;
 
 BasicGame.Game.prototype = {
 	create: function () {
+		var style = { font: "30px Arial", fill: "#ffffff", align: "center" };
+		this.game.add.text(20, 20, "Inputs", style);
+		this.game.add.text(150, 20, "Hand", style);
+		this.game.add.text(this.game.width-200,20,"Outputs", style);
+		this.game.add.text(this.game.world.centerX, 20, "Memory", style);
 		Interpreter.init(this);
-		Inputs.init(this,"5 6 7 8");
-		Inputs.inputs = [5,6,7];
-		Outputs.init(this,"");
-		Outputs.outputs = [1,2];
+		Inputs.init(this,"5 6 7".split(/\s+/));
+		Outputs.init(this,[]);
 		Interpreter.codes = ["INBOX","OUTBOX","INBOX","OUTBOX","INBOX","OUTBOX"];
 		
 
@@ -41,7 +44,7 @@ BasicGame.Game.prototype = {
 		this.itemsOutput = [];
 		this.itemsHand = null;
 		this.itemsMemory = [];
-		this.add.button(20,20,'nextButton', Interpreter.next);
+		this.add.button(this.game.width-100,this.game.height-100,'nextButton', Interpreter.next);
 
 		for (var i = 0 ; i < Inputs.inputs.length ; i++) {
 			this.itemsInput.push(this.game.add.sprite(20, (i+1)*75, 'item'));

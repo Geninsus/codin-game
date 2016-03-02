@@ -30,6 +30,7 @@ var Memory = {
 
 var Inputs = {
 
+
   init : function(game,inputs) {
     Inputs.inputs = inputs[0] !== "" ? inputs : [];
     Inputs.game = game;
@@ -41,7 +42,10 @@ var Inputs = {
 
   removeItem : function() {
     this.game.itemsHand = this.game.itemsInput.shift();
-    this.game.add.tween(this.game.itemsHand).to( {x: '10' }, 100, Phaser.Easing.Linear.None, true);
+    this.game.add.tween(this.game.itemsHand).to( {x: '100' }, 100, Phaser.Easing.Linear.None, true);
+    for (var i = 0 ; i < this.game.itemsInput.length ; i++) {
+      this.game.add.tween(this.game.itemsInput[i]).to( {y:'-75'}, 100, Phaser.Easing.Linear.None, true);
+    }
   }
 
 };
@@ -59,8 +63,11 @@ var Outputs = {
   },
 
   addItem : function() {
+    for (var i = 0 ; i < this.game.itemsOutput.length ; i++) {
+      this.game.add.tween(this.game.itemsOutput[i]).to( {y:'+75'}, 100, Phaser.Easing.Linear.None, true);
+    }
     this.game.itemsOutput.push(this.game.itemsHand);
-    this.game.add.tween(this.game.itemsHand).to( {y:100, x: 500 }, 100, Phaser.Easing.Linear.None, true);
+    this.game.add.tween(this.game.itemsHand).to( {y: 150, x: this.game.world.width-200 }, 100, Phaser.Easing.Linear.None, true);
     this.game.itemsHand = null;
   }
 };

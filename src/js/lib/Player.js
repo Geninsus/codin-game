@@ -48,5 +48,5 @@ Player.prototype.update = function() {
 };
 
 Player.prototype.moveTo = function(xTarget,yTarget) {
-	this.game.add.tween(this).to({ x: xTarget, y: yTarget }, this.velocity, Phaser.Easing.Linear.None, true);
+	this.game.add.tween(this).to({ x: xTarget, y: yTarget }, this.velocity, Phaser.Easing.Sinusoidal.None, true);
 }

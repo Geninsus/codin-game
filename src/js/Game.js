@@ -31,10 +31,15 @@ BasicGame.Game.prototype = {
 	create: function () {
 
         this.player = new Player(this.game);
+        
 	},
 
 	update: function () {
 		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+
+		if (this.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+			this.player.moveTo(50,50);
+		}
 	},
 
 	quitGame: function (pointer) {

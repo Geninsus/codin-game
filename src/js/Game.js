@@ -26,12 +26,28 @@ BasicGame.Game = function (game) {
 };
 
 BasicGame.Game.prototype = {
-	create: function () {
 
+	init: function() {
+	},
+
+	toto: 5,
+
+	create: function () {
+		Interpreter.codes = ["INBOX"];
+		Inputs.inputs = [5,6,7,8];
+		
+
+		this.items = [];
+		this.add.button(20,20,'nextButton', this.next, this);
+
+		for (var i = 0 ; i < Inputs.inputs.length ; i++) {
+			this.items.push(this.game.add.sprite(20, (i+1)*75, 'item'));
+		}
 	},
 
 	update: function () {
 		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+		//this.items[0].anchor.x += 0.001;
 	},
 
 	quitGame: function (pointer) {
@@ -40,6 +56,10 @@ BasicGame.Game.prototype = {
 		//	Stop music, delete sprites, purge caches, free resources, all that good stuff.
 
 		//	Then let's go back to the main menu.
+	},
+
+	next: function() {
+		this.game.add.tween(this.items[0]).to( {x:500, y: 200 }, 2000, Phaser.Easing.Linear.Out, true);
 	}
 
 };

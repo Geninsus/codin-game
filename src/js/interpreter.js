@@ -85,6 +85,7 @@ var Interpreter = {
   },
 
   next : function() {
+    
     Interpreter.iteration ++;
     debug(Interpreter.iteration);
     if(Interpreter.iteration > Interpreter.maxIteration) {
@@ -155,7 +156,6 @@ var Interpreter = {
       error("Inputs vide.");
     }
     Interpreter.hand = parseInt(input) || input;
-    BasicGame.Game.player.moveTo(1,1);
   },
 
   /**

@@ -34,6 +34,7 @@ BasicGame.Preloader.prototype = {
 	    this.load.image('hotdog', 'assets/sprites/hotdog.png');
 	    this.load.image('starfield', 'assets/fonts/deep-space.jpg');
 	    this.load.image('startButton', 'assets/buttons/start_button.png');
+	    this.load.image('nextButton', 'assets/buttons/next_button.png');
 
 	    this.load.spritesheet('player', 'assets/sprites/playerSheet.png', 64, 64);
 

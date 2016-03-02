@@ -39,6 +39,12 @@ BasicGame.Game.prototype = {
 		Outputs.init(this,[]);
 		Interpreter.codes = ["INBOX","OUTBOX","INBOX","OUTBOX","INBOX","OUTBOX"];
 		
+		this.player = this.game.add.sprite(200, 200, 'player', 18);
+		this.player.animations.add('up',[0,1,2,3,4,5,6,7,8], 5, true);
+		this.player.animations.add('left',[9,10,11,12,13,14,15,16,17], 5, true);
+		this.player.animations.add('down',[18,19,20,21,22,23,24,25,26], 5, true);
+		this.player.animations.add('right',[27,28,29,30,31,32,33,34,35], 5, true);
+		this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
 		this.itemsInput = [];
 		this.itemsOutput = [];
@@ -48,6 +54,8 @@ BasicGame.Game.prototype = {
 
 		for (var i = 0 ; i < Inputs.inputs.length ; i++) {
 			this.itemsInput.push(this.game.add.sprite(20, (i+1)*75, 'item'));
+			text = this.game.add.text(0, 0, Inputs.inputs[i].toString(), style);
+			this.itemsInput[i].addChild(text);
 		}
 	},
 
@@ -62,6 +70,6 @@ BasicGame.Game.prototype = {
 		//	Stop music, delete sprites, purge caches, free resources, all that good stuff.
 
 		//	Then let's go back to the main menu.
-	},
+	}
 
 };

@@ -89,6 +89,16 @@ var Interpreter = {
 
   dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'SUB', 'INC', 'DEC', 'JUMP', 'JUMPZ', 'JUMPN'],
 
+  moveTo: function(x,y) {
+    var tween = this.game.add.tween(this.game.player).to( {x : x }, 1000, Phaser.Easing.Linear.None, true);
+    if (x > this.game.player) {
+      this.game.player.play('left');
+    }
+    else {
+      this.game.player.play('right');
+    }
+  },
+
   parser : function(code) {
     var codes = code.trim().split(/\s+/);
     if(codes[0] === "") codes = [];
@@ -109,6 +119,7 @@ var Interpreter = {
   },
 
   next : function() {
+    Interpreter.moveTo(500,500);
     Interpreter.iteration ++;
     debug(Interpreter.iteration);
     if(Interpreter.iteration > Interpreter.maxIteration) {

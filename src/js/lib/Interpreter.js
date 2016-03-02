@@ -1,7 +1,8 @@
 var Memory = {
-  init : function(values) {
+  init : function(game,values) {
     Memory.memory = values[0] !== "" ? values : [];
     Memory.display();
+    Memory.game=game;
   },
 
   get : function(indice) {
@@ -24,28 +25,43 @@ var Memory = {
       document.querySelector('#memory').innerHTML += el + " ";
     }
   }
+
 };
 
 var Inputs = {
 
-  init : function(inputs) {
+  init : function(game,inputs) {
     Inputs.inputs = inputs[0] !== "" ? inputs : [];
+    Inputs.game = game;
   },
 
   reset : function() {
     Inputs.inputs = [];
+  },
+
+  removeItem : function() {
+    this.game.itemsHand = this.game.itemsInput.shift();
+    this.game.add.tween(this.game.itemsHand).to( {x: '10' }, 100, Phaser.Easing.Linear.None, true);
   }
+
 };
 
 var Outputs = {
   outputs : [],
 
-  init : function(outputs) {
+  init : function(game,outputs) {
     Outputs.outputs = outputs;
+    Outputs.game = game;
   },
 
   reset : function() {
     Outputs.outputs = [];
+  },
+
+  addItem : function() {
+    this.game.itemsOutput.push(this.game.itemsHand);
+    this.game.add.tween(this.game.itemsHand).to( {y:100, x: 500 }, 100, Phaser.Easing.Linear.None, true);
+    this.game.itemsHand = null;
   }
 };
 
@@ -72,10 +88,11 @@ var Interpreter = {
     return codes;
   },
 
-  init : function() {
+  init : function(game) {
     Interpreter.iteration = 0;
     Interpreter.labels = {};
     Interpreter.i = 0;
+    Interpreter.game = game;
   },
 
   run : function() {
@@ -150,13 +167,12 @@ var Interpreter = {
    * INBOX
    */
   inbox : function() {
-    alert("dsf");
-    this.game.add.tween(this.items[0]).to( {x:500, y: 200 }, 2000, Phaser.Easing.Linear.Out, true);
     var input = Inputs.inputs.shift();
     if(!input) {
       error("Inputs vide.");
     }
     Interpreter.hand = parseInt(input) || input;
+    Inputs.removeItem();
   },
 
   /**
@@ -167,8 +183,8 @@ var Interpreter = {
       error("Outbox avec main vide.");
       return;
     }
+    Outputs.addItem();
     Outputs.outputs.push(Interpreter.hand);
-    document.querySelector('#outputs').innerHTML += Interpreter.hand + '<br>';
     Interpreter.hand = null;
   },
 

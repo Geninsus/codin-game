@@ -25,23 +25,26 @@ BasicGame.Game = function (game) {
 
 };
 
+var DEBUG = 0;
+
 BasicGame.Game.prototype = {
-
-	init: function() {
-	},
-
-	toto: 5,
-
 	create: function () {
-		Interpreter.codes = ["INBOX"];
-		Inputs.inputs = [5,6,7,8];
+		Interpreter.init(this);
+		Inputs.init(this,"5 6 7 8");
+		Inputs.inputs = [5,6,7];
+		Outputs.init(this,"");
+		Outputs.outputs = [1,2];
+		Interpreter.codes = ["INBOX","OUTBOX","INBOX","OUTBOX","INBOX","OUTBOX"];
 		
 
-		this.items = [];
-		this.add.button(20,20,'nextButton', this.next, this);
+		this.itemsInput = [];
+		this.itemsOutput = [];
+		this.itemsHand = null;
+		this.itemsMemory = [];
+		this.add.button(20,20,'nextButton', Interpreter.next);
 
 		for (var i = 0 ; i < Inputs.inputs.length ; i++) {
-			this.items.push(this.game.add.sprite(20, (i+1)*75, 'item'));
+			this.itemsInput.push(this.game.add.sprite(20, (i+1)*75, 'item'));
 		}
 	},
 
@@ -57,9 +60,5 @@ BasicGame.Game.prototype = {
 
 		//	Then let's go back to the main menu.
 	},
-
-	next: function() {
-		this.game.add.tween(this.items[0]).to( {x:500, y: 200 }, 2000, Phaser.Easing.Linear.Out, true);
-	}
 
 };

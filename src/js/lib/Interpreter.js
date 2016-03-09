@@ -1,7 +1,8 @@
 var Memory = {
-  init : function(values) {
+  init : function(game,values) {
     Memory.memory = values[0] !== "" ? values : [];
     Memory.display();
+    Memory.game=game;
   },
 
   get : function(indice) {
@@ -24,28 +25,50 @@ var Memory = {
       document.querySelector('#memory').innerHTML += el + " ";
     }
   }
+
 };
 
 var Inputs = {
 
-  init : function(inputs) {
+
+  init : function(game,inputs) {
     Inputs.inputs = inputs[0] !== "" ? inputs : [];
+    Inputs.game = game;
   },
 
   reset : function() {
     Inputs.inputs = [];
+  },
+
+  removeItem : function() {
+    this.game.itemsHand = this.game.itemsInput.shift();
+    this.game.add.tween(this.game.itemsHand).to( {x: '100' }, 100, Phaser.Easing.Linear.None, true);
+    for (var i = 0 ; i < this.game.itemsInput.length ; i++) {
+      this.game.add.tween(this.game.itemsInput[i]).to( {y:'-75'}, 100, Phaser.Easing.Linear.None, true);
+    }
   }
+
 };
 
 var Outputs = {
   outputs : [],
 
-  init : function(outputs) {
+  init : function(game,outputs) {
     Outputs.outputs = outputs;
+    Outputs.game = game;
   },
 
   reset : function() {
     Outputs.outputs = [];
+  },
+
+  addItem : function() {
+    for (var i = 0 ; i < this.game.itemsOutput.length ; i++) {
+      this.game.add.tween(this.game.itemsOutput[i]).to( {y:'+75'}, 100, Phaser.Easing.Linear.None, true);
+    }
+    this.game.itemsOutput.push(this.game.itemsHand);
+    this.game.add.tween(this.game.itemsHand).to( {y: 150, x: this.game.world.width-200 }, 100, Phaser.Easing.Linear.None, true);
+    this.game.itemsHand = null;
   }
 };
 
@@ -66,16 +89,27 @@ var Interpreter = {
 
   dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'SUB', 'INC', 'DEC', 'JUMP', 'JUMPZ', 'JUMPN'],
 
+  moveTo: function(x,y) {
+    var tween = this.game.add.tween(this.game.player).to( {x : x }, 1000, Phaser.Easing.Linear.None, true);
+    if (x > this.game.player) {
+      this.game.player.play('left');
+    }
+    else {
+      this.game.player.play('right');
+    }
+  },
+
   parser : function(code) {
     var codes = code.trim().split(/\s+/);
     if(codes[0] === "") codes = [];
     return codes;
   },
 
-  init : function() {
+  init : function(game) {
     Interpreter.iteration = 0;
     Interpreter.labels = {};
     Interpreter.i = 0;
+    Interpreter.game = game;
   },
 
   run : function() {
@@ -85,7 +119,9 @@ var Interpreter = {
   },
 
   next : function() {
+    Interpreter.moveTo(500,500);
     Interpreter.iteration ++;
+    debug(Interpreter.iteration);
     if(Interpreter.iteration > Interpreter.maxIteration) {
       error('Le nombre maximal d\'itération (' + Interpreter.maxIteration + ') a été atteint');
     }
@@ -149,13 +185,12 @@ var Interpreter = {
    * INBOX
    */
   inbox : function() {
-    alert("dsf");
-    this.game.add.tween(this.items[0]).to( {x:500, y: 200 }, 2000, Phaser.Easing.Linear.Out, true);
     var input = Inputs.inputs.shift();
     if(!input) {
       error("Inputs vide.");
     }
     Interpreter.hand = parseInt(input) || input;
+    Inputs.removeItem();
   },
 
   /**
@@ -166,8 +201,8 @@ var Interpreter = {
       error("Outbox avec main vide.");
       return;
     }
+    Outputs.addItem();
     Outputs.outputs.push(Interpreter.hand);
-    document.querySelector('#outputs').innerHTML += Interpreter.hand + '<br>';
     Interpreter.hand = null;
   },
 

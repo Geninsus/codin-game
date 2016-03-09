@@ -13,10 +13,6 @@ BasicGame.Boot.prototype = {
 
         //  Phaser will automatically pause if the browser tab the game is in loses focus. You can disable that here:
         this.stage.disableVisibilityChange = true;
-
-        //  This tells the game to resize the renderer to match the game dimensions (i.e. 100% browser width / height)
-        this.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-
     },
 
     preload: function () {

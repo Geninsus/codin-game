@@ -8,6 +8,7 @@
 	<script src="js/Boot.js"></script>
 	<script src="js/Preloader.js"></script>
 	<script src="js/MainMenu.js"></script>
+	<script src="js/LevelMenu.js"></script>
 	<script src="js/Game.js"></script>
 	<script src="js/interpreter.js"></script>
     <style>
@@ -31,6 +32,7 @@ window.onload = function() {
 	game.state.add('Boot', BasicGame.Boot);
 	game.state.add('Preloader', BasicGame.Preloader);
 	game.state.add('MainMenu', BasicGame.MainMenu);
+	game.state.add('LevelMenu', BasicGame.LevelMenu);
 	game.state.add('Game', BasicGame.Game);
 
 	//	Now start the Boot state.

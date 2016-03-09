@@ -1,12 +1,12 @@
 
 BasicGame.MainMenu = function (game) {
 
-	this.bg;
-	this.spriteTopLeft;
-	this.spriteTopRight;
-	this.spriteBottomLeft;
-	this.spriteBottomRight;
-	this.startButton;
+	//this.bg;
+	//this.spriteTopLeft;
+	//this.spriteTopRight;
+	//this.spriteBottomLeft;
+	//this.spriteBottomRight;
+	//this.startButton;
 
 };
 
@@ -29,7 +29,7 @@ BasicGame.MainMenu.prototype = {
 
         this.spriteMiddle = this.add.sprite(0, 0, 'hotdog');
 
-        this.startButton = this.add.button(this.game.width/2-this.game.cache.getImage("startButton").width/2, this.game.height/2-this.game.cache.getImage("startButton").height/2, 'startButton', this.startGame);
+        this.startButton = this.add.button(this.game.width/2-this.game.cache.getImage("startButton").width/2, this.game.height/2-this.game.cache.getImage("startButton").height/2, 'startButton', this.play);
 	},
 
 	update: function () {
@@ -57,8 +57,8 @@ BasicGame.MainMenu.prototype = {
 
 	},
 
-	startGame: function () {
-		this.game.state.start('Game');
+	play: function () {
+		this.game.state.start('LevelMenu');
 	},
 
 

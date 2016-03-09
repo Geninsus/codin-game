@@ -86,7 +86,6 @@ var Interpreter = {
 
   next : function() {
     Interpreter.iteration ++;
-    debug(Interpreter.iteration);
     if(Interpreter.iteration > Interpreter.maxIteration) {
       error('Le nombre maximal d\'itération (' + Interpreter.maxIteration + ') a été atteint');
     }

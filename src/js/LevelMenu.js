@@ -188,8 +188,10 @@ BasicGame.LevelMenu.prototype = {
 
 	onLevelSelected: function(levelnr) {
 		// pass levelnr variable to 'Game' state
-		//this.game.state.states.game._levelNumber = levelnr;
-
+		//
+		this.game.state.states._levelNumber = levelnr;
+		this.game.state.states['Game']._currentLevel = levelnr;
 		this.state.start('Game');
+
 	}
 };

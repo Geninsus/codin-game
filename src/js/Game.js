@@ -33,7 +33,8 @@ BasicGame.Game.prototype = {
 		Interpreter.init();
 		Interpreter.codes = ["INBOX","OUTBOX","INBOX","OUTBOX","INBOX","OUTBOX"];
 		Memory.init(this.game,[undefined,undefined,undefined]);
-		Inputs.init(this.game,[5,6,9,7]);
+		Inputs.init(this.game, data[this._currentLevel-1].inputsGenrator());
+		console.log(data[this._currentLevel-1])
 		Outputs.init(this.game,[undefined,undefined,undefined,undefined]);
 
 

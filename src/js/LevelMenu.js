@@ -6,6 +6,8 @@ var CANVAS_HEIGHT = 600;
 
 var PLAYER_DATA = null; // just declare as global variable for now
 
+var ICON_BY_LINE = 4;
+
 BasicGame.LevelMenu = function(game){
 	// define needed variables for mygame.LevelSelect
 	this.game = game;
@@ -57,9 +59,12 @@ BasicGame.LevelMenu.prototype = {
 
 	createLevelIcons: function() {
 		var levelnr = 0;
-
-		for (var y=0; y < 3; y++) {
-			for (var x=0; x < 4; x++) {
+		var inconNb = data.length;
+		var i = 0;
+		for (var y=0; y < Math.ceil(inconNb/ICON_BY_LINE) ; y++) {
+			for (var x=0; x < ICON_BY_LINE; x++) {
+				if(i>=inconNb) break;
+				i++;
 				// next level
 				levelnr = levelnr + 1;
 

@@ -28,9 +28,7 @@ BasicGame.Game = function (game) {
 var DEBUG = 0;
 
 BasicGame.Game.prototype = {
-
 	create: function () {
-		console.log(this._currentLevel)
 		// INITIALIZE INTERPRETER //
 		Interpreter.init();
 		Interpreter.codes = ["INBOX","OUTBOX","INBOX","OUTBOX","INBOX","OUTBOX"];

@@ -149,8 +149,8 @@ var Interpreter = {
    * INBOX
    */
   inbox : function() {
-    alert("dsf");
-    this.game.add.tween(this.items[0]).to( {x:500, y: 200 }, 2000, Phaser.Easing.Linear.Out, true);
+    //alert("dsf");
+    //this.game.add.tween(this.items[0]).to( {x:500, y: 200 }, 2000, Phaser.Easing.Linear.Out, true);
     var input = Inputs.inputs.shift();
     if(!input) {
       error("Inputs vide.");

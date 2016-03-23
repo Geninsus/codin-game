@@ -47,12 +47,12 @@ BasicGame.LevelMenu.prototype = {
 				PLAYER_DATA = JSON.parse(str);
 			} catch(e){
 				PLAYER_DATA = []; //error in the above string(in this case,yes)!
-			};
+			}
 			// error checking just to be sure, if localstorage contains something else then a JSON array (hackers?)
 			if (Object.prototype.toString.call( PLAYER_DATA ) !== '[object Array]' ) {
 				PLAYER_DATA = [];
-			};
-		};
+			}
+		}
 	},
 
 	createLevelIcons: function() {
@@ -70,8 +70,8 @@ BasicGame.LevelMenu.prototype = {
 						PLAYER_DATA[levelnr-1] = 0; // level 1 should never be locked
 					} else {
 						PLAYER_DATA[levelnr-1] = -1;
-					};
-				};
+					}
+				}
 
 				// player progress info for this level
 				var playdata = PLAYER_DATA[levelnr-1];
@@ -83,8 +83,8 @@ BasicGame.LevelMenu.prototype = {
 				// check if level is unlocked
 				if (playdata > -1) {
 					isLocked = false; // unlocked
-					if (playdata < 4) {stars = playdata;}; // 0..3 stars
-				};
+					if (playdata < 4) {stars = playdata;} // 0..3 stars
+				}
 
 				// calculate position on screen
 				var xpos = 160 + (x*128);
@@ -100,8 +100,8 @@ BasicGame.LevelMenu.prototype = {
 				// input handler
 				backicon.inputEnabled = true;
 				backicon.events.onInputDown.add(this.onSpriteDown, this);
-			};
-		};
+			}
+		}
 	},
 
 	// -------------------------------------
@@ -120,20 +120,20 @@ BasicGame.LevelMenu.prototype = {
 
 		// determine background frame
 		var frame = 0;
-		if (isLocked == false) {frame = 1};
+		if (isLocked === false) {frame = 1;}
 
 		// add background
 		var icon1 = this.game.add.sprite(0, 0, 'levelSelection', frame);
 		IconGroup.add(icon1);
 
 		// add stars, if needed
-		if (isLocked == false) {
+		if (isLocked === false) {
 			var txt = this.game.add.bitmapText(24, 16, 'font72', ''+levelnr, 48);
 			var icon2 = this.game.add.sprite(0, 0, 'levelSelection', (2+stars));
 
 			IconGroup.add(txt);
 			IconGroup.add(icon2);
-		};
+		}
 
 		return IconGroup;
 	},
@@ -165,9 +165,11 @@ BasicGame.LevelMenu.prototype = {
 				.start();
 
 			// it's a little tricky to pass selected levelnr to callback function, but this works:
-			//tween._lastChild.onComplete.add(function(){this.onLevelSelected(sprite.health);}, this);
-			this.onLevelSelected(1);
-		};
+			tween.onComplete.add(function(){this.onLevelSelected(sprite.health);}, this);
+			//this.onLevelSelected(1);
+
+
+		}
 	},
 
 	animateLevelIcons: function() {
@@ -181,13 +183,13 @@ BasicGame.LevelMenu.prototype = {
 
 			// tween animation
 			this.game.add.tween(IconGroup).to( {y: y-600}, 500, Phaser.Easing.Back.Out, true, (i*40));
-		};
+		}
 	},
 
 	onLevelSelected: function(levelnr) {
 		// pass levelnr variable to 'Game' state
-		this.game.state.states['game']._levelNumber = levelnr;
+		//this.game.state.states.game._levelNumber = levelnr;
 
-		this.state.start('game');
+		this.state.start('Game');
 	}
 };

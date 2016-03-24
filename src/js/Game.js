@@ -15,23 +15,29 @@ g.Game.prototype = {
 		this.audioButton.animations.add('true', [0], 10, true);
 		this.audioButton.animations.add('false', [1], 10, true);
 		this.audioButton.animations.play(this.audioStatus);
-		this.nextButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
-		this.previousButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
-		this.previousButton.frame = 1;
+		this.previousButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
+		this.nextButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
+		this.nextButton.frame = 1;
 		
 		this.player = this.add.sprite(this.ballStartPos.x, this.ballStartPos.y, 'player');
 
-		this.initLevels();
-		this.startLevel(1);
+		this.startLevel();
 	},
-
-	initLevels: function() {
-
-	},
-	startLevel: function(i) {
-		console.log(data);
-		console.log(this._currentLevel);
-		Inputs.init(data[this._currentLevel-1].inputsGenerator());
+	startLevel: function() {
+		//Inputs.init(data[this._currentLevel-1].inputsGenerator());
+		var style = { font: "20px Arial", fill: "#ff0044", align: "center",};
+		var inputs = [];
+		for (var i = 0 ; i < data[this._currentLevel-1].inputsGenerator().length ; i++) {
+			var item = this.add.sprite(10, g._HEIGHT - 42*(i+1) + 200, 'item');
+			this.add.tween(item).to( { y: '-200' }, 2000, Phaser.Easing.Linear.None, true);
+			item.addChild(this.add.text(15, 2, data[this._currentLevel-1].inputsGenerator()[i].toString(), style))
+			inputs.push(item);
+		}
+		Inputs.init(inputs);
+		Outputs.init([]);
+		Memory.init([]);
+		Interpreter.parser("LABEL 1 INBOX OUTBOX GOTO 1");
+		Interpreter.player = this.player;
 	},
 	managePause: function() {
 		this.game.paused = true;
@@ -46,7 +52,7 @@ g.Game.prototype = {
 
 	},
 	manageNext: function() {
-
+		Interpreter.next();
 	},
 	manageAudio: function() {
 		this.audioStatus =! this.audioStatus;
@@ -55,7 +61,5 @@ g.Game.prototype = {
 	update: function() {
 	},
 	render: function() {
-		// this.game.debug.body(this.ball);
-		// this.game.debug.body(this.hole);
 	}
 };

@@ -1,7 +1,7 @@
 var data = [
   {
     memory : [null, null, null, null],
-    inputsGenrator : function () {
+    inputsGenerator : function () {
       inputs = [1, 2, 3, 4, 5];
       this.outputs = inputs;
       return inputs;

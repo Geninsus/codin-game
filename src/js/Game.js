@@ -29,8 +29,6 @@ g.Game.prototype = {
 
 	},
 	startLevel: function(i) {
-		console.log(data);
-		console.log(this._currentLevel);
 		Inputs.init(data[this._currentLevel-1].inputsGenerator());
 	},
 	managePause: function() {

@@ -15,14 +15,22 @@ g.Game.prototype = {
 		this.audioButton.animations.add('true', [0], 10, true);
 		this.audioButton.animations.add('false', [1], 10, true);
 		this.audioButton.animations.play(this.audioStatus);
+<<<<<<< HEAD
 		this.previousButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
 		this.nextButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
 		this.nextButton.frame = 1;
 		
+=======
+		this.nextButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
+		this.previousButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
+		this.previousButton.frame = 1;
+
+>>>>>>> 6af410e103773845860a47bcb1faf221d1203dcc
 		this.player = this.add.sprite(this.ballStartPos.x, this.ballStartPos.y, 'player');
 
 		this.startLevel();
 	},
+<<<<<<< HEAD
 	startLevel: function() {
 		//Inputs.init(data[this._currentLevel-1].inputsGenerator());
 		var style = { font: "20px Arial", fill: "#ff0044", align: "center",};
@@ -38,6 +46,14 @@ g.Game.prototype = {
 		Memory.init([]);
 		Interpreter.parser("LABEL 1 INBOX OUTBOX GOTO 1");
 		Interpreter.player = this.player;
+=======
+
+	initLevels: function() {
+
+	},
+	startLevel: function(i) {
+		Inputs.init(data[this._currentLevel-1].inputsGenerator());
+>>>>>>> 6af410e103773845860a47bcb1faf221d1203dcc
 	},
 	managePause: function() {
 		this.game.paused = true;

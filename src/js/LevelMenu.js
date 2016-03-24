@@ -1,20 +1,14 @@
-// -------------------------------------
-// START THE GAME
-// -------------------------------------
-var CANVAS_WIDTH = 800;
-var CANVAS_HEIGHT = 600;
-
 var PLAYER_DATA = null; // just declare as global variable for now
 
 var ICON_BY_LINE = 4;
 
-BasicGame.LevelMenu = function(game){
+g.LevelMenu = function(game){
 	// define needed variables for mygame.LevelSelect
 	this.game = game;
 	this.holdicons = [];
 };
 
-BasicGame.LevelMenu.prototype = {
+g.LevelMenu.prototype = {
 
 	preload: function() {
 		this.initProgressData();
@@ -194,6 +188,8 @@ BasicGame.LevelMenu.prototype = {
 	onLevelSelected: function(levelnr) {
 		// pass levelnr variable to 'Game' state
 		//
+		console.log('ici');
+		console.log(this.game.state);
 		this.game.state.states._levelNumber = levelnr;
 		this.game.state.states['Game']._currentLevel = levelnr;
 		this.state.start('Game');

@@ -10,7 +10,7 @@ var data = [
 },
 {
   memory : [1, 0, null, null],
-  inputsGenrator : function () {
+  inputsGenerator : function () {
     inputs = ['a', 'b', 'c'];
     this.outputs = inputs;
     return inputs;

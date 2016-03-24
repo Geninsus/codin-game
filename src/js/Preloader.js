@@ -1,50 +1,36 @@
-
-BasicGame.Preloader = function (game) {
-
-	this.background = null;
-	this.preloadBar = null;
-
-	this.ready = false;
-
-};
-
-BasicGame.Preloader.prototype = {
-
-	preload: function () {
-
-		//	These are the assets we loaded in Boot.js
-		//	A nice sparkly background and a loading progress bar
-
-		this.background = this.add.sprite(0, 0, 'preloaderBackground');
-		this.preloadBar = this.add.sprite(300, 400, 'preloaderBar');
-
-		//	This sets the preloadBar sprite as a loader sprite.
-		//	What that does is automatically crop the sprite from 0 to full-width
-		//	as the files below are loaded in.
-
+g.Preloader = function(game) {};
+g.Preloader.prototype = {
+	preload: function() {
+		this.preloadBg = this.add.sprite((g._WIDTH-297)*0.5, (g._HEIGHT-145)*0.5, 'preloaderBg');
+		this.preloadBar = this.add.sprite((g._WIDTH-158)*0.5, (g._HEIGHT-50)*0.5, 'preloaderBar');
 		this.load.setPreloadSprite(this.preloadBar);
 
-		//	Here we load the rest of the assets our game needs.
-		//	You can find all of these assets in the Phaser Examples repository
+		this.load.image('starfield', 'assets/img/deep-space.jpg');
+		
+		this.load.image('ball', 'assets/img/ball.png');
+		this.load.image('item', 'assets/img/item.png');
+		this.load.image('hole', 'assets/img/hole.png');
+		this.load.image('element-w', 'assets/img/element-w.png');
+		this.load.image('element-h', 'assets/img/element-h.png');
+		this.load.image('panel', 'assets/img/panel.png');
+		this.load.image('panel-left', 'assets/img/panel-left.png');
+		this.load.image('title', 'assets/img/title.png');
+		this.load.image('button-pause', 'assets/img/button-pause.png');
+		this.load.image('screen-bg', 'assets/img/screen-bg.png');
+		this.load.image('screen-mainmenu', 'assets/img/screen-mainmenu.png');
+		this.load.image('screen-howtoplay', 'assets/img/screen-howtoplay.png');
+		this.load.image('border-horizontal', 'assets/img/border-horizontal.png');
+		this.load.image('border-vertical', 'assets/img/border-vertical.png');
 
-	    this.load.image('tetris1', 'assets/img/tetrisblock1.png');
-	    this.load.image('tetris2', 'assets/img/tetrisblock2.png');
-	    this.load.image('tetris3', 'assets/img/tetrisblock3.png');
-	    this.load.image('hotdog', 'assets/img/hotdog.png');
-	    this.load.image('starfield', 'assets/img/deep-space.jpg');
-	    this.load.image('startButton', 'assets/img/start_button.png');
+		this.load.spritesheet('button-audio', 'assets/img/button-audio.png', 35, 35);
+		this.load.spritesheet('button-navigation', 'assets/img/button-navigation.png', 35, 35);
+		this.load.spritesheet('button-start', 'assets/img/button-start.png', 146, 51);
+		this.load.spritesheet('player', 'assets/img/player.png', 32, 50);
 
-	    this.load.spritesheet('player', 'assets/img/playerSheet.png', 64, 64);
-
-			this.load.spritesheet('levelSelection', 'assets/img/levelSelection.png', 96, 96);
-			this.load.bitmapFont('font72', 'assets/font/font72.png', 'assets/font/font72.xml');
-
+		this.load.spritesheet('levelSelection', 'assets/img/levelSelection.png', 96, 96);
+		this.load.bitmapFont('font72', 'assets/font/font72.png', 'assets/font/font72.xml');
 	},
-
-	create: function () {
-
-		this.state.start('MainMenu');
-
+	create: function() {
+		this.game.state.start('MainMenu');
 	}
-
 };

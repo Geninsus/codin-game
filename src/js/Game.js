@@ -1,64 +1,61 @@
+g.Game = function(game) {};
+g.Game.prototype = {
+	create: function() {
+		this.add.sprite(0, 0, 'screen-bg');
+		this.add.sprite(g._WIDTH-160,0, 'panel-left');
 
-BasicGame.Game = function (game) {
+		this.ballStartPos = { x: g._WIDTH*0.5, y: g._HEIGHT*0.5 };
 
-	//	When a State is added to Phaser it automatically has the following properties set on it, even if they already exist:
-	/*
-    this.game;		    //	a reference to the currently running game
-    this.add;		    //	used to add sprites, text, groups, etc
-    this.camera;	    //	a reference to the game camera
-    this.cache;		    //	the game cache
-    this.input;		    //	the global input manager (you can access this.input.keyboard, this.input.mouse, as well from it)
-    this.load;		    //	for preloading assets
-    this.math;		    //	lots of useful common math operations
-    this.sound;		    //	the sound manager - add a sound, play one, set-up markers, etc
-    this.stage;		    //	the game stage
-    this.time;		    //	the clock
-    this.tweens;        //  the tween manager
-    this.state;	        //	the state manager
-    this.world;		    //	the game world
-    this.particles;	    //	the particle manager
-    this.physics;	    //	the physics manager
-    this.rnd;		    //	the repeatable random number generator
-    */
-    //	You can use any of these from any function within this State.
-    //	But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
+		this.pauseButton = this.add.button(g._WIDTH-8, 8, 'button-pause', this.managePause, this);
+		this.pauseButton.anchor.set(1,0);
+		this.pauseButton.input.useHandCursor = true;
+		this.audioButton = this.add.button(g._WIDTH-this.pauseButton.width-8*2, 8, 'button-audio', this.manageAudio, this);
+		this.audioButton.anchor.set(1,0);
+		this.audioButton.input.useHandCursor = true;
+		this.audioButton.animations.add('true', [0], 10, true);
+		this.audioButton.animations.add('false', [1], 10, true);
+		this.audioButton.animations.play(this.audioStatus);
+		this.nextButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
+		this.previousButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
+		this.previousButton.frame = 1;
+		
+		this.player = this.add.sprite(this.ballStartPos.x, this.ballStartPos.y, 'player');
 
-};
-
-var DEBUG = 0;
-
-BasicGame.Game.prototype = {
-	create: function () {
-		// INITIALIZE INTERPRETER //
-		Interpreter.init();
-		Interpreter.codes = ["INBOX","OUTBOX","INBOX","OUTBOX","INBOX","OUTBOX"];
-		Memory.init(this.game,[undefined,undefined,undefined]);
-		Inputs.init(this.game,[5,6,9,7]);
-		Outputs.init(this.game,[undefined,undefined,undefined,undefined]);
-
-
-		// INITIALIZE PLAYER //
-		this.player = this.game.add.sprite(0, 0, 'player', 18);
-		//this.player.scale.setTo((this.game.height/12)/this.player.width,(this.game.height/12)/this.player.width);
-		this.player.animations.add('up',[0,1,2,3,4,5,6,7,8], 5, true);
-		this.player.animations.add('left',[9,10,11,12,13,14,15,16,17], 5, true);
-		this.player.animations.add('down',[18,19,20,21,22,23,24,25,26], 5, true);
-		this.player.animations.add('right',[27,28,29,30,31,32,33,34,35], 5, true);
-
-
+		this.initLevels();
+		this.startLevel(1);
 	},
 
-	update: function () {
-		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+	initLevels: function() {
 
 	},
-
-	quitGame: function (pointer) {
-
-		//	Here you should destroy anything you no longer need.
-		//	Stop music, delete sprites, purge caches, free resources, all that good stuff.
-
-		//	Then let's go back to the main menu.
+	startLevel: function(i) {
+		console.log(data);
+		console.log(this._currentLevel);
+		Inputs.init(data[this._currentLevel-1].inputsGenerator());
 	},
+	managePause: function() {
+		this.game.paused = true;
+		var pausedText = this.add.text(g._WIDTH*0.5, 250, "Game paused,\ntap anywhere to continue.", this.fontMessage);
+		pausedText.anchor.set(0.5);
+		this.input.onDown.add(function(){
+			pausedText.destroy();
+			this.game.paused = false;
+		}, this);
+	},
+	managePrevious: function() {
 
+	},
+	manageNext: function() {
+
+	},
+	manageAudio: function() {
+		this.audioStatus =! this.audioStatus;
+		this.audioButton.animations.play(this.audioStatus);
+	},
+	update: function() {
+	},
+	render: function() {
+		// this.game.debug.body(this.ball);
+		// this.game.debug.body(this.hole);
+	}
 };

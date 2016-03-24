@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8" />
-	<title>Phaser Responsive Project Template</title>
+	<title>Coding Game</title>
 	<script src="js/lib/phaser.js"></script>
 	<script src="data/data.js"></script>
 	<script src="js/Boot.js"></script>
@@ -10,7 +10,7 @@
 	<script src="js/MainMenu.js"></script>
 	<script src="js/LevelMenu.js"></script>
 	<script src="js/Game.js"></script>
-	<script src="js/lib/Interpreter.js"></script>
+	<script src="js/interpreter.js"></script>
     <style>
         body {
             margin: 0;
@@ -23,20 +23,14 @@
 <script type="text/javascript">
 
 window.onload = function() {
-	//	100% of the browser window - see Boot.js for additional configuration
-	var game = new Phaser.Game( 800, 450, Phaser.CANVAS, '');
-
-	//	Add the States your game has.
-	//	You don't have to do this in the html, it could be done in your Boot state too, but for simplicity I'll keep it here.
-	game.state.add('Boot', BasicGame.Boot);
-	game.state.add('Preloader', BasicGame.Preloader);
-	game.state.add('MainMenu', BasicGame.MainMenu);
-	game.state.add('LevelMenu', BasicGame.LevelMenu);
-	game.state.add('Game', BasicGame.Game);
-
-	//	Now start the Boot state.
+	var game = new Phaser.Game(480, 320, Phaser.CANVAS, 'game');
+	game.state.add('Boot', g.Boot);
+	game.state.add('Preloader', g.Preloader);
+	game.state.add('MainMenu', g.MainMenu);
+	game.state.add('LevelMenu', g.LevelMenu);
+	game.state.add('Game', g.Game);
+	console.log(game.state);
 	game.state.start('Boot');
-
 };
 
 </script>

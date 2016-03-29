@@ -29,10 +29,10 @@ g.Game.prototype = {
 		Inputs.init(data[this._currentLevel-1].inputsGenerator());
 		var style = { font: "20px Arial", fill: "#ff0044", align: "center",};
 		var inputs = [];
-		for (var i = 0 ; i < data[this._currentLevel-1].inputsGenerator().length ; i++) {
+		for (var i = 0 ; i < data[this._currentLevel-1].inputs.length ; i++) {
 			var item = this.add.sprite(10, g._HEIGHT - 42*(i+1) + 200, 'item');
 			this.add.tween(item).to( { y: '-200' }, 2000, Phaser.Easing.Linear.None, true);
-			item.addChild(this.add.text(15, 2, data[this._currentLevel-1].inputsGenerator()[i].toString(), style))
+			item.addChild(this.add.text(15, 2, data[this._currentLevel-1].inputs[i].toString(), style))
 			inputs.push(item);
 		}
 		Inputs.init(inputs);

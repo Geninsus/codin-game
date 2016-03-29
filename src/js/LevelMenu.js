@@ -17,7 +17,7 @@ g.LevelMenu.prototype = {
 	create: function() {
     this.bg = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'starfield');
 
-		this.game.add.bitmapText(256, 24, 'font72', 'Choisissez un niveau!', 48);
+		this.game.add.bitmapText(100, 20, 'font72', 'Choisissez un niveau!', 30);
 
 		this.createLevelIcons();
 		this.animateLevelIcons();

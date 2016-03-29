@@ -21,7 +21,8 @@ g.Game.prototype = {
 		this.previousButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
 		this.previousButton.frame = 1;
 
-
+		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
+		this.currentCommand = this.add.text(40,25,"COMMANDS",style);
 
 		this.startLevel(this._currentLevel-1);
 	},
@@ -39,7 +40,7 @@ g.Game.prototype = {
 		}
 		Outputs.init([]);
 		Memory.init([0]);
-		Interpreter.parser("INBOX COPYTO 0 COPYFROM 0 ADD 0 SUB 0 INC 0 DEC 0 OUTBOX");
+		Interpreter.parser("LABEL A INBOX COPYTO 0 ADD 0 OUTBOX JUMP A");
 		Interpreter.player = this.player;
 	},
 	managePause: function() {

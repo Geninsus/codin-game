@@ -10,8 +10,8 @@ var Memory = {
     var tmpSprite = Memory.memory[indice].game.add.sprite(Memory.memory[indice].x, Memory.memory[indice].y, 'item');
     var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
     tmpSprite.addChild(tmpSprite.game.add.text(5, 5, Memory.memory[indice].children[0].text.toString(), style));
-    Memory.memory[indice].game.add.tween(tmpSprite).to( { x:52, y:278 }, 20, Phaser.Easing.Linear.None, true);
-    return Memory.memory[indice];
+    tmpSprite.game.add.tween(tmpSprite).to( { x:52, y:278 }, 20, Phaser.Easing.Linear.None, true);
+    return tmpSprite;
   },
 
   set : function(indice, value) {
@@ -212,7 +212,7 @@ var Interpreter = {
         return;
       }
     }
-    return parseInt(Memory.get(add)) || Memory.get(add);
+    return Memory.get(add);
   },
 
   /**
@@ -271,7 +271,9 @@ var Interpreter = {
    * ADD
    */
   add : function() {
-    var addValue = parseInt(Interpreter.copyfrom().children[0].text);
+    var value = Interpreter.copyfrom();
+    value.visible = false;
+    var addValue = parseInt(value.children[0].text);
     if(isNaN(addValue)) {
       error('La valeur ' + addValue + ' ne peut pas être additionné avec la main');
     }

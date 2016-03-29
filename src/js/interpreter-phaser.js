@@ -7,6 +7,10 @@ var Memory = {
     if(Memory.memory[indice] === undefined) {
       error("L'indice " + indice + " n'existe pas en mémoire.");
     }
+    var tmpSprite = Memory.memory[indice].game.add.sprite(Memory.memory[indice].x, Memory.memory[indice].y, 'item');
+    var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
+    tmpSprite.addChild(tmpSprite.game.add.text(5, 5, Memory.memory[indice].children[0].text.toString(), style));
+    Memory.memory[indice].game.add.tween(tmpSprite).to( { x:52, y:278 }, 20, Phaser.Easing.Linear.None, true);
     return Memory.memory[indice];
   },
 
@@ -14,7 +18,10 @@ var Memory = {
     if(Memory.memory[indice] === undefined) {
       error("L'indice " + indice + " n'existe pas en mémoire.");
     }
-    Memory.memory[indice] = value;
+    Memory.memory[indice] = value.game.add.sprite(value.x, value.y, 'item');
+    var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
+    Memory.memory[indice].addChild(Memory.memory[indice].game.add.text(5, 5, value.children[0].text.toString(), style))
+    Memory.memory[indice].game.add.tween(Memory.memory[indice]).to( { x:90+indice*42, y:194 }, 20, Phaser.Easing.Linear.None, true);
   },
 
   display: function() {
@@ -144,11 +151,6 @@ var Interpreter = {
         error('Erreur du code: Fonction ' + word + ' non implémenté.');
     }
   },
-  take: function(item) {
-    item.x = 0;
-    item.y = 0;
-    this.player.addChild(item);
-  },
   /**
    * INBOX
    */
@@ -158,8 +160,8 @@ var Interpreter = {
       error("Inputs vide.");
     }
     Interpreter.hand = input;
-    tween = this.player.game.add.tween(this.player).to({x:42, y:50},200,Phaser.Easing.Linear.None, true);
-    this.take(input)
+    Interpreter.hand.game.add.tween(Interpreter.hand).to( { x: 52 }, 20, Phaser.Easing.Linear.None, true);
+    Inputs.inputs[0].visible = true;
   },
 
   /**
@@ -171,10 +173,7 @@ var Interpreter = {
       return;
     }
     Outputs.outputs.push(Interpreter.hand);
-    tween = this.player.game.add.tween(this.player).to({x:280, y:90},200,Phaser.Easing.Linear.None, true);
-    this.player.removeChild(this.player.children[0]);
-
-
+    Interpreter.hand.game.add.tween(Interpreter.hand).to( { x:278 , y:278}, 20, Phaser.Easing.Linear.None, true);
     Interpreter.hand = null;
   },
 
@@ -195,7 +194,6 @@ var Interpreter = {
       }
     }
     Memory.set(add, Interpreter.hand);
-    document.querySelector('#memoryElt' + add).innerHTML = Interpreter.hand;
   },
 
   /**
@@ -273,15 +271,15 @@ var Interpreter = {
    * ADD
    */
   add : function() {
-    var addValue = parseInt(Interpreter.copyfrom());
+    var addValue = parseInt(Interpreter.copyfrom().children[0].text);
     if(isNaN(addValue)) {
       error('La valeur ' + addValue + ' ne peut pas être additionné avec la main');
     }
-    var hand = parseInt(Interpreter.hand);
+    var hand = parseInt(Interpreter.hand.children[0].text);
     if(isNaN(hand)) {
       error('Impossible de faire une addition avec ' + hand);
     }
-    Interpreter.hand +=  addValue;
+    Interpreter.hand.children[0].text = parseInt(Interpreter.hand.children[0].text)+addValue;
   },
 
   /**
@@ -335,6 +333,7 @@ var Interpreter = {
 };
 
 function error(string) {
+  alert(string);
   document.querySelector('.errors').textContent = string;
   var commands = document.querySelectorAll('.command--btn');
   for (var i = 0; i < commands.length; i++) {

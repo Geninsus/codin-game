@@ -23,22 +23,23 @@ g.Game.prototype = {
 
 
 
-		this.startLevel();
+		this.startLevel(this._currentLevel-1);
 	},
-	startLevel: function(i) {
+	startLevel: function() {
 		Inputs.init(data[this._currentLevel-1].inputsGenerator());
-		var style = { font: "20px Arial", fill: "#ff0044", align: "center",};
-		var inputs = [];
-		for (var i = 0 ; i < data[this._currentLevel-1].inputs.length ; i++) {
-			var item = this.add.sprite(10, g._HEIGHT - 42*(i+1) + 200, 'item');
-			this.add.tween(item).to( { y: '-200' }, 2000, Phaser.Easing.Linear.None, true);
-			item.addChild(this.add.text(15, 2, data[this._currentLevel-1].inputs[i].toString(), style))
-			inputs.push(item);
+		Inputs.inputs = []
+		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
+		for (var i = 0 ; i < data[this._currentLevel-1].inputs.length; i++) {
+			var item = this.add.sprite(10, 278, 'item');
+			if (i != 0) {
+				item.visible = false;
+			}
+			item.addChild(this.add.text(5, 5, data[this._currentLevel-1].inputs[i].toString(), style));
+			Inputs.inputs.push(item);
 		}
-		Inputs.init(inputs);
 		Outputs.init([]);
-		Memory.init([]);
-		Interpreter.parser("LABEL 1 INBOX OUTBOX GOTO 1");
+		Memory.init([0]);
+		Interpreter.parser("INBOX COPYTO 0 COPYFROM 0 ADD 0 SUB 0 INC 0 DEC 0 OUTBOX");
 		Interpreter.player = this.player;
 	},
 	managePause: function() {

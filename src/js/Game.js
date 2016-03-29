@@ -39,7 +39,7 @@ g.Game.prototype = {
 		}
 		Outputs.init([]);
 		Memory.init([]);
-		Interpreter.parser("LABEL 1 INBOX OUTBOX GOTO 1");
+		Interpreter.parser("LABEL 1 INBOX OUTBOX JUMP 1");
 		Interpreter.player = this.player;
 	},
 	managePause: function() {

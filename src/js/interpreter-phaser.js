@@ -158,7 +158,8 @@ var Interpreter = {
       error("Inputs vide.");
     }
     Interpreter.hand = input;
-    alert('ds');
+    Interpreter.hand.game.add.tween(Interpreter.hand).to( { x: 52 }, 20, Phaser.Easing.Linear.None, true);
+    Inputs.inputs[0].visible = true;
   },
 
   /**
@@ -170,10 +171,7 @@ var Interpreter = {
       return;
     }
     Outputs.outputs.push(Interpreter.hand);
-    tween = this.player.game.add.tween(this.player).to({x:280, y:90},200,Phaser.Easing.Linear.None, true);
-    this.player.removeChild(this.player.children[0]);
-
-
+    Interpreter.hand.game.add.tween(Interpreter.hand).to( { x:278 , y:278}, 20, Phaser.Easing.Linear.None, true);
     Interpreter.hand = null;
   },
 
@@ -334,6 +332,7 @@ var Interpreter = {
 };
 
 function error(string) {
+  alert(string);
   document.querySelector('.errors').textContent = string;
   var commands = document.querySelectorAll('.command--btn');
   for (var i = 0; i < commands.length; i++) {

@@ -28,7 +28,7 @@ g.Game.prototype = {
 	startLevel: function() {
 		Inputs.init(data[this._currentLevel-1].inputsGenerator());
 		Inputs.inputs = []
-		var style = { font: "20px Arial", fill: "#ff0044", align: "center",};
+		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
 		for (var i = 0 ; i < data[this._currentLevel-1].inputs.length; i++) {
 			var item = this.add.sprite(10, 278, 'item');
 			if (i != 0) {
@@ -38,8 +38,8 @@ g.Game.prototype = {
 			Inputs.inputs.push(item);
 		}
 		Outputs.init([]);
-		Memory.init([]);
-		Interpreter.parser("LABEL 1 INBOX OUTBOX JUMP 1");
+		Memory.init([0]);
+		Interpreter.parser("INBOX COPYTO 0 COPYFROM 0 ADD 0 SUB 0 INC 0 DEC 0 OUTBOX");
 		Interpreter.player = this.player;
 	},
 	managePause: function() {

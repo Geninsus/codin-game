@@ -158,8 +158,7 @@ var Interpreter = {
       error("Inputs vide.");
     }
     Interpreter.hand = input;
-    tween = this.player.game.add.tween(this.player).to({x:42, y:50},200,Phaser.Easing.Linear.None, true);
-    this.take(input)
+    alert('ds');
   },
 
   /**

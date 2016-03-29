@@ -25,15 +25,17 @@ g.Game.prototype = {
 
 		this.startLevel();
 	},
-	startLevel: function(i) {
+	startLevel: function() {
 		Inputs.init(data[this._currentLevel-1].inputsGenerator());
 		var style = { font: "20px Arial", fill: "#ff0044", align: "center",};
 		var inputs = [];
-		for (var i = 0 ; i < data[this._currentLevel-1].inputsGenerator().length ; i++) {
-			var item = this.add.sprite(10, g._HEIGHT - 42*(i+1) + 200, 'item');
-			this.add.tween(item).to( { y: '-200' }, 2000, Phaser.Easing.Linear.None, true);
-			item.addChild(this.add.text(15, 2, data[this._currentLevel-1].inputsGenerator()[i].toString(), style))
-			inputs.push(item);
+		for (var i = 0 ; i < data[0].inputs[i].length ; i++) {
+			var item = this.add.sprite(10, 10, 'item');
+			if (i =! 0) {
+				item.visibility = false;
+			}
+			item.addChild(this.add.text(15, 2, Inputs.inputs[i].toString(), style))
+			Inputs.inputs.push(item);
 		}
 		Inputs.init(inputs);
 		Outputs.init([]);

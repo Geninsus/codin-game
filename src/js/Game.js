@@ -42,7 +42,6 @@ g.Game.prototype = {
 		Outputs.init([]);
 		Memory.init([0]);
 		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
-		Interpreter.player = this.player;
 	},
 	managePause: function() {
 		this.game.paused = true;

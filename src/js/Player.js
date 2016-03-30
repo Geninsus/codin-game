@@ -5,6 +5,8 @@ var Player = {
 
 	game : null,
 
+	hand : null,
+
 	init: function(game) {
 		this.game = game;
 		this.sprite = this.game.add.sprite(20,20,'player');
@@ -18,5 +20,9 @@ var Player = {
 		item.sprite.x = 0;
 		item.sprite.y = 0;
 		this.sprite.addChild(item.sprite);
+	},
+
+	drop: function() {
+		this.sprite.removeChildAt(0);
 	}
 };

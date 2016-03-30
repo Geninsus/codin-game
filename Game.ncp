@@ -1,0 +1,117 @@
+<Project>
+  <Name>Game</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>main</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>g</Name>
+        <Access>Public</Access>
+        <Location left="278" top="47" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">phaser.state Boot</Member>
+        <Member type="Field">phaser.state Preloader</Member>
+        <Member type="Field">phaser.state MainMenu</Member>
+        <Member type="Field">phaser.state LevelMenu</Member>
+        <Member type="Field">phaser.state Game</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Game</Name>
+        <Access>Public</Access>
+        <Location left="77" top="47" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">phaser.sprite[] buttons</Member>
+        <Member type="Field">object player</Member>
+        <Member type="Method">public void create()</Member>
+        <Member type="Method">public void update()</Member>
+        <Member type="Method">public void startLevel()</Member>
+        <Member type="Method">public void managePause()</Member>
+        <Member type="Method">public void managePrevious()</Member>
+        <Member type="Method">public void manageNext()</Member>
+        <Member type="Method">public void manageAudio()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>player</Name>
+        <Access>Public</Access>
+        <Location left="474" top="47" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">phaser.sprite sprite</Member>
+        <Member type="Method">public void take()</Member>
+        <Member type="Method">public void moveTo(int x, int y)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Interpreter</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Interpreter</Name>
+        <Access>Public</Access>
+        <Location left="207" top="10" />
+        <Size width="162" height="434" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int newField</Member>
+        <Member type="Method">public void parser(str code)</Member>
+        <Member type="Method">public void init()</Member>
+        <Member type="Method">public void run()</Member>
+        <Member type="Method">public void next()</Member>
+        <Member type="Method">public void prev()</Member>
+        <Member type="Method">public void call(str word)</Member>
+        <Member type="Method">public void take(phaser.sprite item)</Member>
+        <Member type="Method">public void outbox()</Member>
+        <Member type="Method">public void copyto()</Member>
+        <Member type="Method">public void copyfrom()</Member>
+        <Member type="Method">public void label()</Member>
+        <Member type="Method">public void jump()</Member>
+        <Member type="Method">public void jumpz()</Member>
+        <Member type="Method">public void jumpn()</Member>
+        <Member type="Method">public void add()</Member>
+        <Member type="Method">public void sub()</Member>
+        <Member type="Method">public void inc()</Member>
+        <Member type="Method">public void dec()</Member>
+        <Member type="Method">public void reset()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Memory</Name>
+        <Access>Public</Access>
+        <Location left="613" top="10" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void init(char[] values)</Member>
+        <Member type="Method">public void get(int indice)</Member>
+        <Member type="Method">public void set(int indice, char value)</Member>
+        <Member type="Method">public void display()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Inputs</Name>
+        <Access>Public</Access>
+        <Location left="405" top="10" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void init(char[] inputs)</Member>
+        <Member type="Method">public void reset()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Outputs</Name>
+        <Access>Public</Access>
+        <Location left="818" top="10" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void reset()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships />
+  </ProjectItem>
+</Project>

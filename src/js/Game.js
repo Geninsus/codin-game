@@ -34,6 +34,9 @@ g.Game.prototype = {
 		for (var i = 0 ; i < data.inputs.length; i++) {
 			var item = Object.create(Item);
 			item.init(this,10, 278, data.inputs[i]);
+			if (i != 0) {
+				item.sprite.visible = false;
+			}
 			Inputs.inputs.push(item);
 		}
 		Outputs.init([]);

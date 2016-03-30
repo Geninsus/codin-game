@@ -7,21 +7,14 @@ var Memory = {
     if(Memory.memory[indice] === undefined) {
       error("L'indice " + indice + " n'existe pas en mémoire.");
     }
-    var tmpSprite = Memory.memory[indice].game.add.sprite(Memory.memory[indice].x, Memory.memory[indice].y, 'item');
-    var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
-    tmpSprite.addChild(tmpSprite.game.add.text(5, 5, Memory.memory[indice].children[0].text.toString(), style));
-    tmpSprite.game.add.tween(tmpSprite).to( { x:52, y:278 }, 20, Phaser.Easing.Linear.None, true);
-    return tmpSprite;
+    return Memory.memory[indice];
   },
 
   set : function(indice, value) {
     if(Memory.memory[indice] === undefined) {
       error("L'indice " + indice + " n'existe pas en mémoire.");
     }
-    Memory.memory[indice] = value.game.add.sprite(value.x, value.y, 'item');
-    var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
-    Memory.memory[indice].addChild(Memory.memory[indice].game.add.text(5, 5, value.children[0].text.toString(), style));
-    Memory.memory[indice].game.add.tween(Memory.memory[indice]).to( { x:90+indice*42, y:194 }, 20, Phaser.Easing.Linear.None, true);
+    Memory.memory[indice] = value;
   },
 
   display: function() {

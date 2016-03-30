@@ -3,6 +3,8 @@ var Player = {
 
 	sprite : null,
 
+	game : null,
+
 	init: function(game) {
 		this.game = game;
 		this.sprite = this.game.add.sprite(20,20,'player');
@@ -13,6 +15,6 @@ var Player = {
 	},
 
 	take: function(item) {
-
+		
 	}
 };

@@ -28,18 +28,13 @@ g.Game.prototype = {
 		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
 		this.currentCommand = this.add.text(40,25,"COMMANDS",style);
 
-		this.startLevel(this._currentLevel-1);
+		this.startLevel();
 	},
 	startLevel: function() {
-		Inputs.init(data.levels[this._currentLevel-1].inputsGenerator());
+		data.levels[this._currentLevel-1].inputsGenerator();
 		Inputs.inputs = [];
-		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
 		for (var i = 0 ; i < data.inputs.length; i++) {
-			var item = this.add.sprite(10, 278, 'item');
-			if (i !== 0) {
-				item.visible = false;
-			}
-			item.addChild(this.add.text(5, 5, data.inputs[i].toString(), style));
+			var item = Item.init(this,10, 278, data.inputs[i]);
 			Inputs.inputs.push(item);
 		}
 		Outputs.init([]);

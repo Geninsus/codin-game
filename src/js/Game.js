@@ -64,5 +64,14 @@ g.Game.prototype = {
 	update: function() {
 	},
 	render: function() {
+	},
+	checkWin : function(i) {
+		if(Outputs.outputs[i] != data.outputs[i]) {
+			alert('La sortie vaut ' + Outputs.outputs[i] + ' alors qu\'elle devrait valoir ' + Data.outputs[i]);
+		} else {
+			if(Outputs.outputs.length == data.outputs.length) {
+
+			}
+		}
 	}
 };

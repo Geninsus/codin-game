@@ -17,9 +17,7 @@ g.Game.prototype = {
 		this.audioButton.animations.play(this.audioStatus);
 
 		/*Initialisation Player*/
-		this.player = Player;
-		this.player.init(this);
-
+		Player.init(this);
 
 		this.nextButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
 		this.previousButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
@@ -34,7 +32,8 @@ g.Game.prototype = {
 		data.levels[this._currentLevel-1].inputsGenerator();
 		Inputs.inputs = [];
 		for (var i = 0 ; i < data.inputs.length; i++) {
-			var item = Item.init(this,10, 278, data.inputs[i]);
+			var item = Object.create(Item);
+			item.init(this,10, 278, data.inputs[i]);
 			Inputs.inputs.push(item);
 		}
 		Outputs.init([]);

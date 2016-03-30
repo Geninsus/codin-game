@@ -18,4 +18,4 @@ var Item = {
 		this.value = n;
 		this.sprite.children[0].text = n.toString();
 	}
-}
+};

@@ -15,6 +15,8 @@ var Player = {
 	},
 
 	take: function(item) {
-		this.sprite.addChild(item);
+		item.sprite.x = 0;
+		item.sprite.y = 0;
+		this.sprite.addChild(item.sprite);
 	}
 };

@@ -16,7 +16,11 @@ g.Game.prototype = {
 		this.audioButton.animations.add('false', [1], 10, true);
 		this.audioButton.animations.play(this.audioStatus);
 
-		this.player = this.add.sprite(20,20,'player');
+		/*Initialisation Player*/
+		this.player = Player;
+		this.player.init(this);
+
+
 		this.nextButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
 		this.previousButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
 		this.previousButton.frame = 1;

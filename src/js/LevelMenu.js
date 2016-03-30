@@ -53,7 +53,7 @@ g.LevelMenu.prototype = {
 
 	createLevelIcons: function() {
 		var levelnr = 0;
-		var inconNb = data.length;
+		var inconNb = data.levels.length;
 		var i = 0;
 		for (var y=0; y < Math.ceil(inconNb/ICON_BY_LINE) ; y++) {
 			for (var x=0; x < ICON_BY_LINE; x++) {

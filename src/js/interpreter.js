@@ -172,7 +172,11 @@ var Interpreter = {
       error("Outbox avec main vide.");
       return;
     }
+    var l = Outputs.outputs.length;
     Outputs.outputs.push(Interpreter.hand);
+    if(Outputs.outputs[l].children[0].text != data.outputs[l]) {
+      error('Output' + Outputs.outputs[l].children[0].text + ' Attendu ' + data.outputs[l]);
+    }
     Interpreter.hand.game.add.tween(Interpreter.hand).to( { x:278 , y:278}, 20, Phaser.Easing.Linear.None, true);
     Interpreter.hand = null;
   },

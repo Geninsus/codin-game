@@ -5,7 +5,8 @@ var Item = {
 
 	value : null,
 
-	init : function(value) {
-		
+	init : function(game,x,y,value) {
+
+		//this.add.sprite(10, 278, 'item');
 	}
 }

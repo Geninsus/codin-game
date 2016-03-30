@@ -17,8 +17,8 @@ g.Game.prototype = {
 		this.audioButton.animations.play(this.audioStatus);
 
 		this.player = this.add.sprite(20,20,'player');
-		this.nextButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
-		this.previousButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
+		this.nextButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
+		this.previousButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
 		this.previousButton.frame = 1;
 
 		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
@@ -28,11 +28,11 @@ g.Game.prototype = {
 	},
 	startLevel: function() {
 		Inputs.init(data[this._currentLevel-1].inputsGenerator());
-		Inputs.inputs = []
+		Inputs.inputs = [];
 		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
 		for (var i = 0 ; i < data[this._currentLevel-1].inputs.length; i++) {
 			var item = this.add.sprite(10, 278, 'item');
-			if (i != 0) {
+			if (i !== 0) {
 				item.visible = false;
 			}
 			item.addChild(this.add.text(5, 5, data[this._currentLevel-1].inputs[i].toString(), style));

@@ -1,21 +1,27 @@
 var Memory = {
   init : function(values) {
-    Memory.memory = values[0] !== "" ? values : [];
-    Memory.display();
+    Memory.memory = values;
   },
 
   get : function(indice) {
     if(Memory.memory[indice] === undefined) {
       error("L'indice " + indice + " n'existe pas en mémoire.");
     }
-    return Memory.memory[indice];
+    var tmpSprite = Memory.memory[indice].game.add.sprite(Memory.memory[indice].x, Memory.memory[indice].y, 'item');
+    var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
+    tmpSprite.addChild(tmpSprite.game.add.text(5, 5, Memory.memory[indice].children[0].text.toString(), style));
+    tmpSprite.game.add.tween(tmpSprite).to( { x:52, y:278 }, 20, Phaser.Easing.Linear.None, true);
+    return tmpSprite;
   },
 
   set : function(indice, value) {
     if(Memory.memory[indice] === undefined) {
       error("L'indice " + indice + " n'existe pas en mémoire.");
     }
-    Memory.memory[indice] = value;
+    Memory.memory[indice] = value.game.add.sprite(value.x, value.y, 'item');
+    var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
+    Memory.memory[indice].addChild(Memory.memory[indice].game.add.text(5, 5, value.children[0].text.toString(), style));
+    Memory.memory[indice].game.add.tween(Memory.memory[indice]).to( { x:90+indice*42, y:194 }, 20, Phaser.Easing.Linear.None, true);
   },
 
   display: function() {
@@ -29,7 +35,7 @@ var Memory = {
 var Inputs = {
 
   init : function(inputs) {
-    Inputs.inputs = inputs[0] !== "" ? inputs : [];
+    Inputs.inputs = inputs;
   },
 
   reset : function() {
@@ -68,6 +74,7 @@ var Interpreter = {
 
   parser : function(code) {
     var codes = code.trim().split(/\s+/);
+    Interpreter.codes = codes;
     if(codes[0] === "") codes = [];
     return codes;
   },
@@ -144,18 +151,17 @@ var Interpreter = {
         error('Erreur du code: Fonction ' + word + ' non implémenté.');
     }
   },
-
   /**
    * INBOX
    */
   inbox : function() {
-    //alert("dsf");
-    //this.game.add.tween(this.items[0]).to( {x:500, y: 200 }, 2000, Phaser.Easing.Linear.Out, true);
     var input = Inputs.inputs.shift();
     if(!input) {
       error("Inputs vide.");
     }
-    Interpreter.hand = parseInt(input) || input;
+    Interpreter.hand = input;
+    Interpreter.hand.game.add.tween(Interpreter.hand).to( { x: 52 }, 20, Phaser.Easing.Linear.None, true);
+    Inputs.inputs[0].visible = true;
   },
 
   /**
@@ -167,7 +173,7 @@ var Interpreter = {
       return;
     }
     Outputs.outputs.push(Interpreter.hand);
-    document.querySelector('#outputs').innerHTML += Interpreter.hand + '<br>';
+    Interpreter.hand.game.add.tween(Interpreter.hand).to( { x:278 , y:278}, 20, Phaser.Easing.Linear.None, true);
     Interpreter.hand = null;
   },
 
@@ -188,7 +194,6 @@ var Interpreter = {
       }
     }
     Memory.set(add, Interpreter.hand);
-    document.querySelector('#memoryElt' + add).innerHTML = Interpreter.hand;
   },
 
   /**
@@ -207,7 +212,7 @@ var Interpreter = {
         return;
       }
     }
-    return parseInt(Memory.get(add)) || Memory.get(add);
+    return Memory.get(add);
   },
 
   /**
@@ -266,15 +271,17 @@ var Interpreter = {
    * ADD
    */
   add : function() {
-    var addValue = parseInt(Interpreter.copyfrom());
+    var value = Interpreter.copyfrom();
+    value.visible = false;
+    var addValue = parseInt(value.children[0].text);
     if(isNaN(addValue)) {
       error('La valeur ' + addValue + ' ne peut pas être additionné avec la main');
     }
-    var hand = parseInt(Interpreter.hand);
+    var hand = parseInt(Interpreter.hand.children[0].text);
     if(isNaN(hand)) {
       error('Impossible de faire une addition avec ' + hand);
     }
-    Interpreter.hand +=  addValue;
+    Interpreter.hand.children[0].text = parseInt(Interpreter.hand.children[0].text)+addValue;
   },
 
   /**
@@ -328,6 +335,7 @@ var Interpreter = {
 };
 
 function error(string) {
+  alert(string);
   document.querySelector('.errors').textContent = string;
   var commands = document.querySelectorAll('.command--btn');
   for (var i = 0; i < commands.length; i++) {

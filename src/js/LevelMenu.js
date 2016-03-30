@@ -191,7 +191,7 @@ g.LevelMenu.prototype = {
 		console.log('ici');
 		console.log(this.game.state);
 		this.game.state.states._levelNumber = levelnr;
-		this.game.state.states['Game']._currentLevel = levelnr;
+		this.game.state.states.Game._currentLevel = levelnr;
 		this.state.start('Game');
 
 	}

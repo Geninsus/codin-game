@@ -85,7 +85,6 @@ var Interpreter = {
   },
 
   next : function() {
-    g.Game.prototype.checkWin();
     Interpreter.iteration ++;
     if(Interpreter.iteration > Interpreter.maxIteration) {
       error('Le nombre maximal d\'itération (' + Interpreter.maxIteration + ') a été atteint');

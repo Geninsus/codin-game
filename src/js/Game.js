@@ -27,20 +27,20 @@ g.Game.prototype = {
 		this.startLevel(this._currentLevel-1);
 	},
 	startLevel: function() {
-		Inputs.init(data[this._currentLevel-1].inputsGenerator());
+		Inputs.init(data.levels[this._currentLevel-1].inputsGenerator());
 		Inputs.inputs = [];
 		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
-		for (var i = 0 ; i < data[this._currentLevel-1].inputs.length; i++) {
+		for (var i = 0 ; i < data.inputs.length; i++) {
 			var item = this.add.sprite(10, 278, 'item');
 			if (i !== 0) {
 				item.visible = false;
 			}
-			item.addChild(this.add.text(5, 5, data[this._currentLevel-1].inputs[i].toString(), style));
+			item.addChild(this.add.text(5, 5, data.inputs[i].toString(), style));
 			Inputs.inputs.push(item);
 		}
 		Outputs.init([]);
 		Memory.init([0]);
-		Interpreter.parser("LABEL A INBOX COPYTO 0 ADD 0 OUTBOX JUMP A");
+		Interpreter.parser("LABEL A INBOX COPYTO 0 INBOX ADD 0 OUTBOX JUMP A");
 		Interpreter.player = this.player;
 	},
 	managePause: function() {

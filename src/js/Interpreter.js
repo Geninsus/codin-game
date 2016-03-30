@@ -156,7 +156,9 @@ var Interpreter = {
     Player.moveTo(Player.hand.sprite.x,Player.hand.sprite.y);
     Player.take(Player.hand);
     Player.moveTo(100,100);
-    Inputs.inputs[0].sprite.visible = true;
+    if(Inputs.inputs.length > 0) {
+      Inputs.inputs[0].sprite.visible = true;
+    }
   },
 
   /**

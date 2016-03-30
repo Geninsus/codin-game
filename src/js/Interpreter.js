@@ -1,50 +1,49 @@
 var Memory = {
+  memory : [],
   init : function(values) {
-    Memory.memory = values;
+    this.memory = values;
   },
 
   get : function(indice) {
-    if(Memory.memory[indice] === undefined) {
+    if(this.memory[indice] === undefined) {
       error("L'indice " + indice + " n'existe pas en mémoire.");
     }
-    return Memory.memory[indice];
+    return this.memory[indice];
   },
 
   set : function(indice, value) {
-    if(Memory.memory[indice] === undefined) {
+    if(this.memory[indice] === undefined) {
       error("L'indice " + indice + " n'existe pas en mémoire.");
     }
-    Memory.memory[indice] = value;
+    this.memory[indice] = value;
   },
 
   display: function() {
     document.querySelector('#memory').innerHTML = "";
-    for(var el in Memory.memory) {
+    for(var el in this.memory) {
       document.querySelector('#memory').innerHTML += el + " ";
     }
   }
 };
 
 var Inputs = {
-
-  init : function(inputs) {
-    Inputs.inputs = inputs;
+  inputs : [],
+  init   : function(inputs) {
+    this.inputs = [];
+    this.inputs = inputs;
   },
-
-  reset : function() {
-    Inputs.inputs = [];
+  push : function(elt) {
+    this.inputs.push(elt);
   }
 };
 
 var Outputs = {
   outputs : [],
-
-  init : function(outputs) {
-    Outputs.outputs = outputs;
+  init    : function() {
+    this.outputs = [];
   },
-
-  reset : function() {
-    Outputs.outputs = [];
+  push    : function(elt) {
+    this.outputs.push(elt);
   }
 };
 
@@ -169,7 +168,7 @@ var Interpreter = {
       error("Outbox avec main vide.");
       return;
     }
-    Outputs.outputs.push(Interpreter.hand);
+    Outputs.push(Interpreter.hand);
     Interpreter.hand.game.add.tween(Interpreter.hand).to( { x:278 , y:278}, 20, Phaser.Easing.Linear.None, true);
     Interpreter.hand = null;
     g.Game.prototype.checkWin(Outputs.outputs.length - 1)

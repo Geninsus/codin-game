@@ -30,16 +30,17 @@ g.Game.prototype = {
 	},
 	startLevel: function() {
 		data.levels[this._currentLevel-1].inputsGenerator();
-		Inputs.reset();
+		var inputs = [];
 		for (var i = 0 ; i < data.inputs.length; i++) {
 			var item = Object.create(Item);
 			item.init(this,10, 278, data.inputs[i]);
 			if (i != 0) {
 				item.sprite.visible = false;
 			}
-			Inputs.inputs.push(item);
+			inputs.push(item);
 		}
-		Outputs.init([]);
+		Inputs.init(inputs);
+		Outputs.init();
 		Memory.init([0]);
 		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 	},

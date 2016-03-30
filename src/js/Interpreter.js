@@ -113,7 +113,7 @@ var Interpreter = {
         Interpreter.copyto();
         break;
       case 'COPYFROM':
-        Interpreter.hand = Interpreter.copyfrom();
+        Player.hand = Interpreter.copyfrom();
         break;
       case 'LABEL':
         Interpreter.label();
@@ -151,9 +151,9 @@ var Interpreter = {
     if(!input) {
       error("Inputs vide.");
     }
-    Interpreter.hand = input;
-    Player.moveTo(Interpreter.hand.sprite.x,Interpreter.hand.sprite.y);
-    Player.take(Interpreter.hand);
+    Player.hand = input;
+    Player.moveTo(Player.hand.sprite.x,Player.hand.sprite.y);
+    Player.take(Player.hand);
     Player.moveTo(100,100);
     if(Inputs.inputs.length > 0) {
       Inputs.inputs[0].sprite.visible = true;
@@ -164,13 +164,13 @@ var Interpreter = {
    * OUTBOX
    */
   outbox : function() {
-    if(!Interpreter.hand) {
+    if(!Player.hand) {
       error("Outbox avec main vide.");
       return;
     }
-    Outputs.push(Interpreter.hand);
-    Interpreter.hand.game.add.tween(Interpreter.hand).to( { x:278 , y:278}, 20, Phaser.Easing.Linear.None, true);
-    Interpreter.hand = null;
+    Outputs.push(Player.hand);
+    Player.moveTo(200,200);
+    Player.drop();
     g.Game.prototype.checkWin(Outputs.outputs.length - 1)
   },
 
@@ -190,7 +190,7 @@ var Interpreter = {
         return;
       }
     }
-    Memory.set(add, Interpreter.hand);
+    Memory.set(add, Player.hand);
   },
 
   /**
@@ -246,7 +246,7 @@ var Interpreter = {
    * JUMPZ
    */
   jumpz : function() {
-    if(Interpreter.hand === 0) {
+    if(Player.hand === 0) {
       Interpreter.jump();
     } else {
       Interpreter.i ++;
@@ -257,7 +257,7 @@ var Interpreter = {
    * JUMPN
    */
   jumpn : function() {
-    if(Interpreter.hand < 0) {
+    if(Player.hand < 0) {
       Interpreter.jump();
     } else {
       Interpreter.i ++;
@@ -274,11 +274,11 @@ var Interpreter = {
     if(isNaN(addValue)) {
       error('La valeur ' + addValue + ' ne peut pas être additionné avec la main');
     }
-    var hand = parseInt(Interpreter.hand.children[0].text);
+    var hand = parseInt(Player.hand.children[0].text);
     if(isNaN(hand)) {
       error('Impossible de faire une addition avec ' + hand);
     }
-    Interpreter.hand.children[0].text = parseInt(Interpreter.hand.children[0].text)+addValue;
+    Player.hand.children[0].text = parseInt(Player.hand.children[0].text)+addValue;
   },
 
   /**
@@ -289,11 +289,11 @@ var Interpreter = {
     if(isNaN(subValue)) {
       error('La valeur ' + subValue + ' ne peut pas être soustraite avec la main');
     }
-    var hand = parseInt(Interpreter.hand);
+    var hand = parseInt(Player.hand);
     if(isNaN(hand)) {
       error('Impossible de faire une addition avec ' + hand);
     }
-    Interpreter.hand -=  subValue;
+    Player.hand -=  subValue;
   },
 
   /**
@@ -305,7 +305,7 @@ var Interpreter = {
       error('La valeur ' + value + ' ne peut pas être incrémenté');
     }
     value++;
-    Interpreter.hand = value;
+    Player.hand = value;
     Interpreter.i --;
     Interpreter.copyto(value);
   },
@@ -319,13 +319,13 @@ var Interpreter = {
       error('La valeur ' + value + ' ne peut pas être décrémenté');
     }
     value--;
-    Interpreter.hand = value;
+    Player.hand = value;
     Interpreter.i --;
     Interpreter.copyto(value);
   },
 
   reset : function() {
-    Interpreter.hand = null;
+    Player.hand = null;
     Interpreter.codes = [];
   }
 

@@ -41,7 +41,7 @@ g.Game.prototype = {
 		}
 		Outputs.init([]);
 		Memory.init([0]);
-		Interpreter.parser("LABEL A INBOX COPYTO 0 INBOX ADD 0 OUTBOX JUMP A");
+		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 		Interpreter.player = this.player;
 	},
 	managePause: function() {
@@ -66,5 +66,14 @@ g.Game.prototype = {
 	update: function() {
 	},
 	render: function() {
+	},
+	checkWin : function(i) {
+		if(Outputs.outputs[i].value != data.outputs[i]) {
+			alert('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
+		} else {
+			if(Outputs.outputs.length == data.outputs.length) {
+
+			}
+		}
 	}
 };

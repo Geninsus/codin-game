@@ -153,7 +153,9 @@ var Interpreter = {
       error("Inputs vide.");
     }
     Interpreter.hand = input;
-    Interpreter.hand.game.add.tween(Interpreter.hand).to( { x: 52 }, 20, Phaser.Easing.Linear.None, true);
+    Player.moveTo(Interpreter.hand.sprite.x,Interpreter.hand.sprite.y);
+    Player.take(Interpreter.hand);
+    Player.moveTo(100,100);
     Inputs.inputs[0].visible = true;
   },
 

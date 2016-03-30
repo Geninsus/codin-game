@@ -187,9 +187,7 @@ g.LevelMenu.prototype = {
 
 	onLevelSelected: function(levelnr) {
 		// pass levelnr variable to 'Game' state
-		//
-		console.log('ici');
-		console.log(this.game.state);
+
 		this.game.state.states._levelNumber = levelnr;
 		this.game.state.states.Game._currentLevel = levelnr;
 		this.state.start('Game');

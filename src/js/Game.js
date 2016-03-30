@@ -30,7 +30,7 @@ g.Game.prototype = {
 	},
 	startLevel: function() {
 		data.levels[this._currentLevel-1].inputsGenerator();
-		Inputs.inputs = [];
+		Inputs.reset();
 		for (var i = 0 ; i < data.inputs.length; i++) {
 			var item = Object.create(Item);
 			item.init(this,10, 278, data.inputs[i]);
@@ -42,7 +42,6 @@ g.Game.prototype = {
 		Outputs.init([]);
 		Memory.init([0]);
 		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
-		Interpreter.player = this.player;
 	},
 	managePause: function() {
 		this.game.paused = true;
@@ -71,8 +70,9 @@ g.Game.prototype = {
 		if(Outputs.outputs[i].value != data.outputs[i]) {
 			alert('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
 		} else {
+			console.log(Outputs.outputs.length, data.outputs.length)
 			if(Outputs.outputs.length == data.outputs.length) {
-
+				alert('ok');
 			}
 		}
 	}

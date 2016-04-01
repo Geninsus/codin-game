@@ -1,5 +1,6 @@
 g.Game = function(game) {};
 g.Game.prototype = {
+	currentLevel : null,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
 		this.add.sprite(g._WIDTH-160,0, 'panel-left');
@@ -29,19 +30,21 @@ g.Game.prototype = {
 		this.startLevel();
 	},
 	startLevel: function() {
-		data.levels[this._currentLevel-1].inputsGenerator();
+		this.currentLevel = this._currentLevel;
+		data.levels[this.currentLevel-1].inputsGenerator();
 		var inputs = [];
 		for (var i = 0 ; i < data.inputs.length; i++) {
 			var item = Object.create(Item);
-			item.init(this,10, 278, data.inputs[i]);
-			if (i != 0) {
+			item.init(this, data.inputs[i], true, 10, 278);
+			if (i !== 0) {
 				item.sprite.visible = false;
 			}
 			inputs.push(item);
 		}
 		Inputs.init(inputs);
 		Outputs.init();
-		Memory.init([0]);
+		Memory.init(data.levels[this._currentLevel-1].memory);
+		Interpreter.init(true);
 		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 	},
 	managePause: function() {
@@ -71,9 +74,26 @@ g.Game.prototype = {
 		if(Outputs.outputs[i].value != data.outputs[i]) {
 			alert('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
 		} else {
-			console.log(Outputs.outputs.length, data.outputs.length)
 			if(Outputs.outputs.length == data.outputs.length) {
 				alert('ok');
+				console.log(this);
+				data.levels[this.currentLevel-1].inputsGenerator();
+				var inputs = [];
+				for (var i = 0 ; i < data.inputs.length; i++) {
+					var item = Object.create(Item);
+					item.init(this, data.inputs[i]);
+					if(item.sprite != null) {
+						if (i !== 0) {
+							item.sprite.visible = false;
+						}
+					}
+					inputs.push(item);
+				}
+				Inputs.init(inputs);
+				Outputs.init();
+				Memory.init([0]);
+				Interpreter.init(false);
+				Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 			}
 		}
 	}

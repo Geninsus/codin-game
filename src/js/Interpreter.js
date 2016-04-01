@@ -50,6 +50,8 @@ var Outputs = {
 
 var Interpreter = {
 
+  visual : false,
+
   codes : [],
 
   i : 0,
@@ -57,8 +59,6 @@ var Interpreter = {
   maxIteration : 1000,
 
   iteration : 0,
-
-  hand : null,
 
   labels : {},
 
@@ -71,10 +71,11 @@ var Interpreter = {
     return codes;
   },
 
-  init : function() {
+  init : function(visual=true) {
     Interpreter.iteration = 0;
     Interpreter.labels = {};
     Interpreter.i = 0;
+    this.visual = visual;
   },
 
   run : function() {
@@ -152,11 +153,13 @@ var Interpreter = {
       error("Inputs vide.");
     }
     Player.hand = input;
-    Player.moveTo(Player.hand.sprite.x,Player.hand.sprite.y);
-    Player.take(Player.hand);
-    Player.moveTo(100,100);
-    if(Inputs.inputs.length > 0) {
-      Inputs.inputs[0].sprite.visible = true;
+    if(this.visual) {
+      Player.moveTo(Player.hand.sprite.x,Player.hand.sprite.y);
+      Player.take(Player.hand);
+      Player.moveTo(100,100);
+      if(Inputs.inputs.length > 0) {
+        Inputs.inputs[0].sprite.visible = true;
+      }
     }
   },
 
@@ -169,9 +172,11 @@ var Interpreter = {
       return;
     }
     Outputs.push(Player.hand);
-    Player.moveTo(200,200);
-    Player.drop();
-    g.Game.prototype.checkWin(Outputs.outputs.length - 1)
+    if(this.visual) {
+      Player.moveTo(200,200);
+      Player.drop();
+    }
+    g.Game.prototype.checkWin(Outputs.outputs.length - 1);
   },
 
   /**

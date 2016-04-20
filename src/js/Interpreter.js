@@ -175,12 +175,8 @@ var Interpreter = {
     }
     Player.hand = input;
     if(this.visual) {
-      Player.moveTo(Player.hand.sprite.x,Player.hand.sprite.y);
+      Player.moveTo(Player.inboxPosition);
       Player.take(Player.hand);
-      Player.moveTo(100,100);
-      if(Inputs.inputs.length > 0) {
-        Inputs.inputs[0].sprite.visible = true;
-      }
       Inputs.takeItem();
     }
   },
@@ -195,7 +191,7 @@ var Interpreter = {
     }
     Outputs.push(Player.hand);
     if(this.visual) {
-      Player.moveTo(200,200);
+      Player.moveTo({x:200,y:200});
       Player.drop();
     }
     g.Game.prototype.checkWin(Outputs.outputs.length - 1);

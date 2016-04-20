@@ -9,7 +9,7 @@ var Player = {
 
 	init: function(game) {
 		this.game = game;
-		this.sprite = this.game.add.sprite(20,20,'player');
+		this.sprite = this.game.add.sprite(100,100,'player');
 	},
 
 	moveTo: function(x,y) {

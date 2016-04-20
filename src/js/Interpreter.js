@@ -31,10 +31,12 @@ var Inputs = {
   init   : function(inputs) {
     this.inputs = [];
     this.inputs = inputs;
-    for (var i = 0 ; i < this.inputs.length ; i++) {
-        this.inputs[i].sprite.x = 10;
-        this.inputs[i].sprite.y = 360 + 50 * i;
-        this.inputs[i].sprite.game.add.tween(this.inputs[i].sprite).to( Inputs.position(i), 300, Phaser.Easing.Linear.None, true);
+    if(this.visual) {
+      for (var i = 0 ; i < this.inputs.length ; i++) {
+          this.inputs[i].sprite.x = 10;
+          this.inputs[i].sprite.y = 360 + 50 * i;
+          this.inputs[i].sprite.game.add.tween(this.inputs[i].sprite).to( Inputs.position(i), 300, Phaser.Easing.Linear.None, true);
+      }
     }
   },
   push : function(elt) {

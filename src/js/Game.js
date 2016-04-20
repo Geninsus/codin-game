@@ -73,6 +73,7 @@ g.Game.prototype = {
 			alert('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
 		} else {
 			if(Outputs.outputs.length == data.outputs.length) {
+				alert('fini');
 				data.levels[levelNumber-1].inputsGenerator();
 				var inputs = [];
 				for (var i = 0 ; i < data.inputs.length; i++) {

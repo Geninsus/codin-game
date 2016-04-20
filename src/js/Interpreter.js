@@ -32,11 +32,26 @@ var Inputs = {
     this.inputs = [];
     this.inputs = inputs;
     for (var i = 0 ; i < this.inputs.length ; i++) {
-      
+        this.inputs[i].sprite.x = 10;
+        this.inputs[i].sprite.y = 360 + 50 * i;
+        this.inputs[i].sprite.game.add.tween(this.inputs[i].sprite).to( Inputs.position(i), 300, Phaser.Easing.Linear.None, true);
     }
   },
   push : function(elt) {
     this.inputs.push(elt);
+  },
+
+  position : function (index) {
+    if (index<0 || index>7 ) {
+      return "Error";
+    }
+    return {x:10,y:10+(360 - 10 + 50*index - 50*7)};
+  },
+
+  takeItem : function () {
+    for (var i = 0 ; i < this.inputs.length ; i++) {
+        this.inputs[i].sprite.game.add.tween(this.inputs[i].sprite).to( Inputs.position(i), 300, Phaser.Easing.Linear.None, true);
+    }
   }
 };
 
@@ -163,6 +178,7 @@ var Interpreter = {
       if(Inputs.inputs.length > 0) {
         Inputs.inputs[0].sprite.visible = true;
       }
+      Inputs.takeItem();
     }
   },
 

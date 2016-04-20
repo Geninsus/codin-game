@@ -1,6 +1,6 @@
 g.Game = function(game) {};
 g.Game.prototype = {
-	currentLevel : null,
+	levelNumber : null,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
 		this.add.sprite(g._WIDTH-160,0, 'panel-left');
@@ -30,8 +30,9 @@ g.Game.prototype = {
 		this.startLevel();
 	},
 	startLevel: function() {
-		this.currentLevel = this._currentLevel;
-		data.levels[this.currentLevel-1].inputsGenerator();
+		levelNumber = this._currentLevel;
+		data.levels[levelNumber-1].inputsGenerator();
+		this.currentLevel = 42;
 		var inputs = [];
 		for (var i = 0 ; i < data.inputs.length; i++) {
 			var item = Object.create(Item);
@@ -43,7 +44,7 @@ g.Game.prototype = {
 		}
 		Inputs.init(inputs);
 		Outputs.init();
-		Memory.init(data.levels[this._currentLevel-1].memory);
+		Memory.init(data.levels[levelNumber-1].memory);
 		Interpreter.init(true);
 		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 	},
@@ -75,9 +76,7 @@ g.Game.prototype = {
 			alert('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
 		} else {
 			if(Outputs.outputs.length == data.outputs.length) {
-				alert('ok');
-				console.log(this);
-				data.levels[this.currentLevel-1].inputsGenerator();
+				data.levels[levelNumber-1].inputsGenerator();
 				var inputs = [];
 				for (var i = 0 ; i < data.inputs.length; i++) {
 					var item = Object.create(Item);

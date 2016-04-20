@@ -5,7 +5,7 @@ var Item = {
 
 	value : null,
 
-	style : { font: "20px Arial", fill: "#ff0044", align: "center" },
+	style : { font: "15px Arial", fill: "#ff0044", align: "center" },
 
 	init : function(game, value, visual = false, x = null, y = null) {
 		this.game = game;

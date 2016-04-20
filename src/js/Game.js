@@ -36,10 +36,7 @@ g.Game.prototype = {
 		var inputs = [];
 		for (var i = 0 ; i < data.inputs.length; i++) {
 			var item = Object.create(Item);
-			item.init(this, data.inputs[i], true, 10, 278);
-			if (i !== 0) {
-				item.sprite.visible = false;
-			}
+			item.init(this, data.inputs[i], true);
 			inputs.push(item);
 		}
 		Inputs.init(inputs);

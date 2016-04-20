@@ -3,7 +3,7 @@ g.Game.prototype = {
 	currentLevel : null,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
-		this.add.sprite(g._WIDTH-160,0, 'panel-left');
+		this.add.sprite(g._WIDTH-200,0, 'panel-left');
 
 		this.ballStartPos = { x: g._WIDTH*0.5, y: g._HEIGHT*0.5 };
 

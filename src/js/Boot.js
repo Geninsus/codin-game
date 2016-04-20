@@ -1,6 +1,6 @@
 var g = {
-    _WIDTH: 480,
-    _HEIGHT: 320
+    _WIDTH: 640,
+    _HEIGHT: 360
 };
 g.Boot = function(game) {};
 g.Boot.prototype = {

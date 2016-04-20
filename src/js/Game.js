@@ -3,7 +3,7 @@ g.Game.prototype = {
 	levelNumber : null,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
-		this.add.sprite(g._WIDTH-160,0, 'panel-left');
+		this.add.sprite(g._WIDTH-200,0, 'panel-left');
 
 		this.ballStartPos = { x: g._WIDTH*0.5, y: g._HEIGHT*0.5 };
 
@@ -39,10 +39,10 @@ g.Game.prototype = {
 			item.init(this, data.inputs[i], true);
 			inputs.push(item);
 		}
+		Interpreter.init(true);
 		Inputs.init(inputs);
 		Outputs.init();
 		Memory.init(data.levels[levelNumber-1].memory);
-		Interpreter.init(true);
 		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 	},
 	managePause: function() {
@@ -86,10 +86,10 @@ g.Game.prototype = {
 					}
 					inputs.push(item);
 				}
+				Interpreter.init(false);
 				Inputs.init(inputs);
 				Outputs.init();
 				Memory.init([0]);
-				Interpreter.init(false);
 				Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 			}
 		}

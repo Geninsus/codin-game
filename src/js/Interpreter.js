@@ -1,5 +1,6 @@
 var Memory = {
   memory : [],
+
   init : function(values) {
     this.memory = values;
   },
@@ -31,10 +32,10 @@ var Inputs = {
   init   : function(inputs) {
     this.inputs = [];
     this.inputs = inputs;
-    if(this.visual) {
+    if(Interpreter.visual) {
       for (var i = 0 ; i < this.inputs.length ; i++) {
-          this.inputs[i].sprite.x = 10;
-          this.inputs[i].sprite.y = 360 + 50 * i;
+          this.inputs[i].sprite.x = 40;
+          this.inputs[i].sprite.y = 360 + 28 * i;
           this.inputs[i].sprite.game.add.tween(this.inputs[i].sprite).to( Inputs.position(i), 300, Phaser.Easing.Linear.None, true);
       }
     }
@@ -47,7 +48,7 @@ var Inputs = {
     if (index<0 || index>7 ) {
       return "Error";
     }
-    return {x:10,y:10+(360 - 10 + 50*index - 50*7)};
+    return {x:40,y:360 - 10 + 28*index - 28*7};
   },
 
   takeItem : function () {

@@ -31,6 +31,9 @@ var Inputs = {
   init   : function(inputs) {
     this.inputs = [];
     this.inputs = inputs;
+    for (var i = 0 ; i < this.inputs.length ; i++) {
+      
+    }
   },
   push : function(elt) {
     this.inputs.push(elt);

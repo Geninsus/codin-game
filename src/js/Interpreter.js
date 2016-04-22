@@ -191,7 +191,7 @@ var Interpreter = {
     }
     Outputs.push(Player.hand);
     if(this.visual) {
-      Player.moveTo({x:200,y:200});
+      Player.moveTo(Player.outboxPosition);
       Player.drop();
     }
     g.Game.prototype.checkWin(Outputs.outputs.length - 1);

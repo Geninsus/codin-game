@@ -9,6 +9,8 @@ var Player = {
 
 	inboxPosition : {x : 68 , y : 360 - 8*28},
 
+	outboxPosition : {x : 285,y : 360 - 8*28},
+
 	init: function(game) {
 		this.game = game;
 		this.sprite = this.game.add.sprite(100,100,'player');

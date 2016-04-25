@@ -48,7 +48,7 @@ g.Game.prototype = {
 		Inputs.init(inputs);
 		Outputs.init();
 		Memory.init(data.levels[levelNumber-1].memory);
-		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
+		Interpreter.parser("LABEL A INBOX COPYTO 0 COPYTO 10 OUTBOX JUMP A");
 	},
 	managePause: function() {
 		this.game.paused = true;

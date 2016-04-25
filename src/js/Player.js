@@ -27,16 +27,23 @@ var Player = {
 		this.down = this.sprite.animations.add('down', [12,15], 10, true);
 	},
 
-	moveTo: function(position, action = "take") {
+	moveTo: function(position, action = null, index = null) {
 		//this.game.physics.arcade.moveToObject(this.sprite,Inputs.inputs[0].sprite);
 		this.spriteTween = this.game.add.tween(this.sprite).to( position, 1000, Phaser.Easing.Linear.None, true);
-		this.action = action
+		this.action = action;
+		this.dropIndex = index;
 		this.spriteTween.onComplete.add(this.moveToCallback, this);
 		if (position.x < this.sprite.x) {
 			this.sprite.play('left');
 		}
 		else if (position.x > this.sprite.x) {
 			this.sprite.play('right');
+		}
+		else if(position.y > this.sprite.y){
+			this.sprite.play('up');
+		}
+		else if(position.y < this.sprite.y){
+			this.sprite.play('down');
 		}
 	},
 
@@ -48,8 +55,12 @@ var Player = {
 			Inputs.takeItem();
 	      	}
       	else if (this.action == "drop") {
-      		this.drop();
+      		this.drop(Outputs.position(0));
       		Outputs.addItem();
+      	}
+      	else if (this.action == "copyto") {
+      		var item = Object.create(Item);
+    		item.init(this.game, this.hand.value, true,Memory.position(this.dropIndex).x,Memory.position(this.dropIndex).y);
       	}
 	},
 
@@ -59,10 +70,10 @@ var Player = {
 		this.sprite.addChild(item.sprite);
 	},
 
-	drop: function() {
+	drop: function(position) {
 		item = this.sprite.removeChildAt(0);
-		item.x = 316;
-		item.y = 154;
+		item.x = position.x;
+		item.y = position.y;
 		this.game.world.addChild(item);
 	},
 

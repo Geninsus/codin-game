@@ -24,6 +24,13 @@ var Memory = {
     for(var el in this.memory) {
       document.querySelector('#memory').innerHTML += el + " ";
     }
+  },
+
+  position: function(index) {
+    if (index<0 || index>19) {
+      return "Error";
+    }
+    return {x:120 + 28*(index%5),y:154 + 28*(Math.floor(index/5))};
   }
 };
 
@@ -224,6 +231,10 @@ var Interpreter = {
       }
     }
     Memory.set(add, Player.hand);
+    position = Memory.position(add);
+    position.x += -35;
+    position.y += -20;
+    Player.moveTo(position,"copyto",add);
   },
 
   /**

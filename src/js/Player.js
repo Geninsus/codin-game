@@ -39,7 +39,6 @@ var Player = {
 	},
 
 	moveToCallback : function() {
-		console.log(this);
 		this.sprite.animations.stop();
 		if (this.action == "take") {
 			this.take(this.hand);

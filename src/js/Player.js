@@ -9,6 +9,8 @@ var Player = {
 
 	action : null,
 
+	spriteTween : null,
+
 	inboxPosition : {x : 68 , y : 360 - 8*28},
 
 	outboxPosition : {x : 285, y : 360 - 8*28},
@@ -27,9 +29,9 @@ var Player = {
 
 	moveTo: function(position, action = "take") {
 		//this.game.physics.arcade.moveToObject(this.sprite,Inputs.inputs[0].sprite);
-		tween = this.game.add.tween(this.sprite).to( position, 1000, Phaser.Easing.Linear.None, true);
+		this.spriteTween = this.game.add.tween(this.sprite).to( position, 1000, Phaser.Easing.Linear.None, true);
 		this.action = action
-		tween.onComplete.add(this.moveToCallback, this);
+		this.spriteTween.onComplete.add(this.moveToCallback, this);
 		if (position.x < this.sprite.x) {
 			this.sprite.play('left');
 		}
@@ -39,6 +41,7 @@ var Player = {
 	},
 
 	moveToCallback : function() {
+		this.spriteTween = null;
 		this.sprite.animations.stop();
 		if (this.action == "take") {
 			this.take(this.hand);

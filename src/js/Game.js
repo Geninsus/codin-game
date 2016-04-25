@@ -64,7 +64,9 @@ g.Game.prototype = {
 
 	},
 	manageNext: function() {
-		Interpreter.next();
+		if (Player.spriteTween == null) {
+			Interpreter.next();
+		}
 	},
 	manageAudio: function() {
 		this.audioStatus =! this.audioStatus;

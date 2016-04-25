@@ -92,11 +92,12 @@ var Interpreter = {
     return codes;
   },
 
-  init : function(visual=true) {
+  init : function(visual=true,game) {
     Interpreter.iteration = 0;
     Interpreter.labels = {};
     Interpreter.i = 0;
     this.visual = visual;
+    this.game = game;
   },
 
   run : function() {
@@ -112,6 +113,7 @@ var Interpreter = {
     }
     if(Interpreter.i >= Interpreter.codes.length) return;
     if(Interpreter.dictionary.indexOf(Interpreter.codes[Interpreter.i]) != -1) {
+      this.game.currentCommand.setText("Command : "+Interpreter.codes[Interpreter.i]);
       Interpreter.call(Interpreter.codes[Interpreter.i]);
     } else {
       error('Commande ' + Interpreter.codes[Interpreter.i] + ' inconnue.');

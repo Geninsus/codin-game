@@ -28,6 +28,12 @@ g.Game.prototype = {
 		this.currentCommand = this.add.text(40,25,"COMMANDS",style);
 
 		this.startLevel();
+
+		this.add.sprite(680-180-100, 90, 'inc');
+		this.add.sprite(680-180-100, 115, 'dec');
+		this.add.sprite(680-180-100, 140, 'jump');
+		this.add.sprite(680-180-110, 165, 'jumpz');
+
 	},
 	startLevel: function() {
 		levelNumber = this._currentLevel;
@@ -65,6 +71,7 @@ g.Game.prototype = {
 		this.audioButton.animations.play(this.audioStatus);
 	},
 	update: function() {
+		Player.update();
 	},
 	render: function() {
 	},

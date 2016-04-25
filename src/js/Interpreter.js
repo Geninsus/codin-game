@@ -175,9 +175,7 @@ var Interpreter = {
     }
     Player.hand = input;
     if(this.visual) {
-      Player.moveTo(Player.inboxPosition);
-      Player.take(Player.hand);
-      Inputs.takeItem();
+      Player.moveTo(Player.inboxPosition,"take");
     }
   },
 
@@ -191,8 +189,7 @@ var Interpreter = {
     }
     Outputs.push(Player.hand);
     if(this.visual) {
-      Player.moveTo(Player.outboxPosition);
-      Player.drop();
+      Player.moveTo(Player.outboxPosition,"drop");
     }
     g.Game.prototype.checkWin(Outputs.outputs.length - 1);
   },

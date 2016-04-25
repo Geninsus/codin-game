@@ -39,6 +39,7 @@ g.Preloader.prototype = {
 
 		this.load.spritesheet('levelSelection', 'assets/img/levelSelection.png', 96, 96);
 		this.load.bitmapFont('font72', 'assets/font/font72.png', 'assets/font/font72.xml');
+
 	},
 	create: function() {
 		this.game.state.start('MainMenu');

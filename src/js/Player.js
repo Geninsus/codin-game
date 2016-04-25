@@ -49,6 +49,7 @@ var Player = {
 	      	}
       	else if (this.action == "drop") {
       		this.drop();
+      		Outputs.addItem();
       	}
 	},
 
@@ -56,11 +57,13 @@ var Player = {
 		item.sprite.x = 0;
 		item.sprite.y = 0;
 		this.sprite.addChild(item.sprite);
-		//this.sprite.play('right');
 	},
 
 	drop: function() {
-		this.sprite.removeChildAt(0);
+		item = this.sprite.removeChildAt(0);
+		item.x = 316;
+		item.y = 154;
+		this.game.world.addChild(item);
 	},
 
 	update: function() {

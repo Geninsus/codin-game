@@ -17,7 +17,7 @@ g.Preloader.prototype = {
 		this.load.image('title', 'assets/img/title.png');
 		this.load.image('button-pause', 'assets/img/button-pause.png');
 		this.load.image('screen-bg', 'assets/img/screen-bg.png');
-		this.load.image('screen-mainmenu', 'assets/img/screen-mainmenu.png');
+		this.load.image('screen-mainmenu', 'assets/img/start-background.png');
 		this.load.image('screen-howtoplay', 'assets/img/screen-howtoplay.png');
 		this.load.image('border-horizontal', 'assets/img/border-horizontal.png');
 		this.load.image('border-vertical', 'assets/img/border-vertical.png');

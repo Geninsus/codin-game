@@ -4,9 +4,8 @@ g.Game.prototype = {
 	verfifNumber : null
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
-		this.add.sprite(g._WIDTH-200,0, 'panel-left');
+		this.add.sprite(g._WIDTH-160,0, 'panel-left');
 
-		this.ballStartPos = { x: g._WIDTH*0.5, y: g._HEIGHT*0.5 };
 
 		this.pauseButton = this.add.button(g._WIDTH-8, 8, 'button-pause', this.managePause, this);
 		this.pauseButton.anchor.set(1,0);
@@ -26,9 +25,15 @@ g.Game.prototype = {
 		this.previousButton.frame = 1;
 
 		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
-		this.currentCommand = this.add.text(40,25,"COMMANDS",style);
+		this.currentCommand = this.add.text(40,25,"Command : ",style);
 
 		this.startLevel();
+
+		this.add.sprite(680-180-100, 90, 'inc');
+		this.add.sprite(680-180-100, 115, 'dec');
+		this.add.sprite(680-180-100, 140, 'jump');
+		this.add.sprite(680-180-110, 165, 'jumpz');
+
 	},
 	startLevel: function() {
 		levelNumber = this._currentLevel;
@@ -40,11 +45,11 @@ g.Game.prototype = {
 			item.init(this, data.inputs[i], true);
 			inputs.push(item);
 		}
-		Interpreter.init(true);
+		Interpreter.init(true, this);
 		Inputs.init(inputs);
 		Outputs.init();
 		Memory.init(data.levels[levelNumber-1].memory);
-		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
+		Interpreter.parser("LABEL A INBOX COPYTO 0 COPYTO 10 OUTBOX JUMP A");
 	},
 	managePause: function() {
 		this.game.paused = true;
@@ -59,7 +64,9 @@ g.Game.prototype = {
 
 	},
 	manageNext: function() {
-		Interpreter.next();
+		if (Player.spriteTween == null) {
+			Interpreter.next();
+		}
 	},
 	manageRun: function() {
 		while(Interpreter.i < Interpreter.codes.length) {
@@ -71,6 +78,7 @@ g.Game.prototype = {
 		this.audioButton.animations.play(this.audioStatus);
 	},
 	update: function() {
+		Player.update();
 	},
 	render: function() {
 	},
@@ -92,7 +100,7 @@ g.Game.prototype = {
 					}
 					inputs.push(item);
 				}
-				Interpreter.init(false);
+				Interpreter.init(false,this);
 				Inputs.init(inputs);
 				Outputs.init();
 				Memory.init(data.levels[levelNumber-1].memory);

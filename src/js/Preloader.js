@@ -21,7 +21,17 @@ g.Preloader.prototype = {
 		this.load.image('screen-howtoplay', 'assets/img/screen-howtoplay.png');
 		this.load.image('border-horizontal', 'assets/img/border-horizontal.png');
 		this.load.image('border-vertical', 'assets/img/border-vertical.png');
-
+		this.load.image('add', 'assets/buttons/button-add.png');
+		this.load.image('copyfrom', 'assets/buttons/button-copyfrom.png');
+		this.load.image('copyto', 'assets/buttons/button-copyto.png');
+		this.load.image('dec', 'assets/buttons/button-dec.png');
+		this.load.image('inbox', 'assets/buttons/button-inbox.png');
+		this.load.image('inc', 'assets/buttons/button-inc.png');
+		this.load.image('jump', 'assets/buttons/button-jump.png');
+		this.load.image('jumpn', 'assets/buttons/button-jumpn.png');
+		this.load.image('jumpz', 'assets/buttons/button-jumpz.png');
+		this.load.image('outbox', 'assets/buttons/button-outbox.png');
+		this.load.image('sub', 'assets/buttons/button-sub.png');
 		this.load.spritesheet('button-audio', 'assets/img/button-audio.png', 35, 35);
 		this.load.spritesheet('button-navigation', 'assets/img/button-navigation.png', 35, 35);
 		this.load.spritesheet('button-start', 'assets/img/button-start.png', 146, 51);
@@ -29,6 +39,7 @@ g.Preloader.prototype = {
 
 		this.load.spritesheet('levelSelection', 'assets/img/levelSelection.png', 96, 96);
 		this.load.bitmapFont('font72', 'assets/font/font72.png', 'assets/font/font72.xml');
+
 	},
 	create: function() {
 		this.game.state.start('MainMenu');

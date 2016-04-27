@@ -24,6 +24,13 @@ var Memory = {
     for(var el in this.memory) {
       document.querySelector('#memory').innerHTML += el + " ";
     }
+  },
+
+  position: function(index) {
+    if (index<0 || index>19) {
+      return "Error";
+    }
+    return {x:120 + 28*(index%5),y:154 + 28*(Math.floor(index/5))};
   }
 };
 
@@ -45,7 +52,7 @@ var Inputs = {
   },
 
   position : function (index) {
-    if (index<0 || index>7 ) {
+    if (index<0) {
       return "Error";
     }
     return {x:40,y:360 - 10 + 28*index - 28*7};
@@ -65,7 +72,18 @@ var Outputs = {
   },
   push    : function(elt) {
     this.outputs.push(elt);
-  }
+  },
+  addItem : function() {
+    for (var i = 0 ; i < this.outputs.length ; i++) {
+        this.outputs[i].sprite.game.add.tween(this.outputs[i].sprite).to( {y :"+28"}, 300, Phaser.Easing.Linear.None, true);
+    }
+  },
+  position : function (index) {
+    if (index<0) {
+      return "Error";
+    }
+    return {x:316,y:154 + 28*index};
+  },
 };
 
 
@@ -92,11 +110,12 @@ var Interpreter = {
     return codes;
   },
 
-  init : function(visual=true) {
+  init : function(visual=true,game) {
     Interpreter.iteration = 0;
     Interpreter.labels = {};
     Interpreter.i = 0;
     this.visual = visual;
+    this.game = game;
   },
 
   run : function() {
@@ -112,6 +131,7 @@ var Interpreter = {
     }
     if(Interpreter.i >= Interpreter.codes.length) return;
     if(Interpreter.dictionary.indexOf(Interpreter.codes[Interpreter.i]) != -1) {
+      this.game.currentCommand.setText("Command : "+Interpreter.codes[Interpreter.i]);
       Interpreter.call(Interpreter.codes[Interpreter.i]);
     } else {
       error('Commande ' + Interpreter.codes[Interpreter.i] + ' inconnue.');
@@ -175,13 +195,7 @@ var Interpreter = {
     }
     Player.hand = input;
     if(this.visual) {
-      Player.moveTo(Player.hand.sprite.x,Player.hand.sprite.y);
-      Player.take(Player.hand);
-      Player.moveTo(100,100);
-      if(Inputs.inputs.length > 0) {
-        Inputs.inputs[0].sprite.visible = true;
-      }
-      Inputs.takeItem();
+      Player.moveTo(Player.inboxPosition,"take");
     }
   },
 
@@ -195,8 +209,7 @@ var Interpreter = {
     }
     Outputs.push(Player.hand);
     if(this.visual) {
-      Player.moveTo(200,200);
-      Player.drop();
+      Player.moveTo(Player.outboxPosition,"drop");
     }
     g.Game.prototype.checkWin(Outputs.outputs.length - 1);
   },
@@ -218,6 +231,10 @@ var Interpreter = {
       }
     }
     Memory.set(add, Player.hand);
+    position = Memory.position(add);
+    position.x += -35;
+    position.y += -20;
+    Player.moveTo(position,"copyto",add);
   },
 
   /**

@@ -212,9 +212,9 @@ var Interpreter = {
     Outputs.push(Player.hand);
     if(this.visual) {
       Player.moveTo(Player.outboxPosition,"drop");
-      g.Game.prototype.checkWin(Outputs.outputs.length - 1);
+      g.Game.prototype.checkWin(Outputs.outputs.length - 1, this.game);
     } else {
-      g.Game.prototype.checkWinExpress(Outputs.outputs.length - 1);
+      g.Game.prototype.checkWinExpress(Outputs.outputs.length - 1, this.game);
     }
   },
 

@@ -87,17 +87,17 @@ g.Game.prototype = {
 	},
 	render: function() {
 	},
-	checkWin : function(i) {
+	checkWin : function(i, that) {
 		if(Outputs.outputs[i].value != data.outputs[i]) {
 			alert('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
 		} else {
 			if(Outputs.outputs.length == data.outputs.length) {
 				console.log('C\'est bon ! Passons aux simulations.');
-				this.simulate()
+				this.simulate(that)
 			}
 		}
 	},
-	simulate : function() {
+	simulate : function(that) {
 		data.levels[levelNumber-1].inputsGenerator();
 		var inputs = [];
 		for (var i = 0 ; i < data.inputs.length; i++) {
@@ -110,14 +110,14 @@ g.Game.prototype = {
 			}
 			inputs.push(item);
 		}
-		Interpreter.init(false,this);
+		Interpreter.init(false,that);
 		Inputs.init(inputs);
 		Outputs.init();
 		Memory.init(data.levels[levelNumber-1].memory);
 		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 		Interpreter.run();
 	},
-	checkWinExpress : function(i) {
+	checkWinExpress : function(i, game) {
 		if(Outputs.outputs[i].value != data.outputs[i]) {
 			alert('Erreur lors de la simulation ' + i + '.');
 		} else {
@@ -126,10 +126,9 @@ g.Game.prototype = {
 				console.log(this.localSimulationNumber)
 				if(this.localSimulationNumber > this.simulationNumber) {
 					alert('GAGNE!');
-				
-
+					game.state.start('LevelMenu');
 				} else {
-					this.simulate();
+					this.simulate(game);
 				}
 			}
 		}

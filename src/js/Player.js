@@ -31,10 +31,11 @@ var Player = {
 	moveTo: function(position, action = null, index = null) {
 		//this.game.physics.arcade.moveToObject(this.sprite,Inputs.inputs[0].sprite);
 		distance = Math.sqrt(Math.pow((position.x-this.sprite.x),2)+Math.pow((position.y-this.sprite.y),2));
-		speed = 1; // Dans le futur, ce sera speed = var où var est le multiplicateur de vitesse (x2,x4,x8...)
+		speed = (Interpreter.isRunning == true) ? 4:1; // Dans le futur, ce sera speed = var où var est le multiplicateur de vitesse (x2,x4,x8...)
 		time = distance / (speed/10);
-		console.log(distance);
-		console.log(time);
+		if (time == 0) {
+			time = 1;
+		}
 		this.spriteTween = this.game.add.tween(this.sprite).to( position, time, Phaser.Easing.Linear.None, true);
 		this.action = action;
 		this.dropIndex = index;
@@ -68,6 +69,13 @@ var Player = {
       		var item = Object.create(Item);
     		item.init(this.game, this.hand.value, true,Memory.position(this.dropIndex).x,Memory.position(this.dropIndex).y);
       	}
+      	else if (this.action == "copyfrom") {
+      		item = this.drop();
+      		if (item != null) {
+      			item.kill();
+      		}
+      		this.take(this.hand);
+      	}
 	},
 
 	take: function(item) {
@@ -76,11 +84,15 @@ var Player = {
 		this.sprite.addChild(item.sprite);
 	},
 
-	drop: function(position) {
-		item = this.sprite.removeChildAt(0);
+	drop: function(position= {x:0,y:0}) {
+		item = this.sprite.removeChild(this.sprite.children[0]);
+		if (item == null) {
+			return null;
+		}
 		item.x = position.x;
 		item.y = position.y;
 		this.game.world.addChild(item);
+		return item;
 	},
 
 	update: function() {

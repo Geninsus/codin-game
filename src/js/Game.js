@@ -6,7 +6,7 @@ g.Game.prototype = {
 		this.add.sprite(0, 0, 'screen-bg');
 		this.add.sprite(g._WIDTH-160,0, 'panel-left');
 
-
+		this.runbutton = this.add.button(g._WIDTH-80, 110, 'button-run', this.manageRun, this, 2, 0, 1);
 		this.pauseButton = this.add.button(g._WIDTH-8, 8, 'button-pause', this.managePause, this);
 		this.pauseButton.anchor.set(1,0);
 		this.pauseButton.input.useHandCursor = true;
@@ -19,9 +19,9 @@ g.Game.prototype = {
 
 
 		/*Groups initialisation*/
-
 		this.itemsGroup = this.add.group();
 		this.playerGroup = this.add.group();
+
 		/*Initialisation Player*/
 		Player.init(this);
 
@@ -54,7 +54,7 @@ g.Game.prototype = {
 		Inputs.init(inputs);
 		Outputs.init();
 		Memory.init(data.levels[levelNumber-1].memory);
-		Interpreter.parser("LABEL A INBOX COPYTO 0 COPYTO 10 OUTBOX JUMP A");
+		Interpreter.parser("LABEL A INBOX COPYTO 0 COPYFROM 0 OUTBOX COPYFROM 0 OUTBOX JUMP A");
 	},
 	managePause: function() {
 		this.game.paused = true;
@@ -74,16 +74,20 @@ g.Game.prototype = {
 		}
 	},
 	manageRun: function() {
-		while(Interpreter.i < Interpreter.codes.length) {
-      Interpreter.next();
-    }
+		Interpreter.run();
 	},
 	manageAudio: function() {
 		this.audioStatus =! this.audioStatus;
 		this.audioButton.animations.play(this.audioStatus);
 	},
 	update: function() {
-		Player.update();
+		if (Interpreter.isRunning == true) {
+			this.manageNext();
+		}
+		/*Temporaire*/
+		if (Player.sprite.children.length > 1) {
+			alert("STOP");
+		}
 	},
 	render: function() {
 	},

@@ -34,8 +34,10 @@ g.Preloader.prototype = {
 		this.load.image('sub', 'assets/buttons/button-sub.png');
 		this.load.spritesheet('button-audio', 'assets/img/button-audio.png', 35, 35);
 		this.load.spritesheet('button-navigation', 'assets/img/button-navigation.png', 35, 35);
-		this.load.spritesheet('button-start', 'assets/img/button-start.png', 146, 51);
+		this.load.spritesheet('button-start', 'assets/img/button-start2.png', 146, 51);
+		this.load.spritesheet('button-run', 'assets/img/button-run.png', 63, 22);
 		this.load.spritesheet('player', 'assets/img/player.png', 32, 50);
+		this.load.spritesheet('explosion', 'assets/img/explosion.png', 50, 50);
 
 		this.load.spritesheet('levelSelection', 'assets/img/levelSelection.png', 96, 96);
 		this.load.bitmapFont('font72', 'assets/font/font72.png', 'assets/font/font72.xml');

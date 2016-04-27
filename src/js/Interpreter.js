@@ -101,6 +101,8 @@ var Interpreter = {
 
   labels : {},
 
+  isRunning : false,
+
   dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'SUB', 'INC', 'DEC', 'JUMP', 'JUMPZ', 'JUMPN'],
 
   parser : function(code) {
@@ -119,9 +121,7 @@ var Interpreter = {
   },
 
   run : function() {
-    while(Interpreter.i < Interpreter.codes.length) {
-      Interpreter.next();
-    }
+    this.isRunning = true;
   },
 
   next : function() {
@@ -155,7 +155,7 @@ var Interpreter = {
         Interpreter.copyto();
         break;
       case 'COPYFROM':
-        Player.hand = Interpreter.copyfrom();
+        Interpreter.copyfrom(true);
         break;
       case 'LABEL':
         Interpreter.label();
@@ -240,7 +240,7 @@ var Interpreter = {
   /**
    * COPYFROM
    */
-  copyfrom : function() {
+  copyfrom : function(action = false) {
     Interpreter.i++;
     var add = Interpreter.codes[Interpreter.i];
     var regCheck = /^\[([0-9]+)\]$/.exec(add);
@@ -252,6 +252,13 @@ var Interpreter = {
         error("Addresse " + add + " non valide.");
         return;
       }
+    }
+    if (action = true) {
+      var item = Object.create(Item);
+      item.init(this.game, Memory.get(add).value, true,Memory.position(add).x,Memory.position(add).y);
+      Player.hand = item;
+      Player.moveTo({x:item.sprite.x-35,y:item.sprite.y-20},"copyfrom");
+
     }
     return Memory.get(add);
   },

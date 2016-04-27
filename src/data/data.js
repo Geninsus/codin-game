@@ -4,7 +4,7 @@ var data = {
   levels  : [
     {
       wording : 'Le but de cet exercice est de sortir directement les entrées.',
-      memory : [],
+      memory : [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
       inputsGenerator : function () {
         data.inputs = [];
         data.outputs = [];

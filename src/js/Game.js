@@ -1,6 +1,7 @@
 g.Game = function(game) {};
 g.Game.prototype = {
 	levelNumber : null,
+	verfifNumber : null,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
 		this.add.sprite(g._WIDTH-160,0, 'panel-left');
@@ -24,7 +25,7 @@ g.Game.prototype = {
 		/*Initialisation Player*/
 		Player.init(this);
 
-		this.nextButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.managePrevious, this);
+		this.nextButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.manageRun, this);
 		this.previousButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
 		this.previousButton.frame = 1;
 
@@ -41,8 +42,8 @@ g.Game.prototype = {
 	},
 	startLevel: function() {
 		levelNumber = this._currentLevel;
+		verfifNumber = 100;
 		data.levels[levelNumber-1].inputsGenerator();
-		this.currentLevel = 42;
 		var inputs = [];
 		for (var i = 0 ; i < data.inputs.length; i++) {
 			var item = Object.create(Item);
@@ -71,6 +72,11 @@ g.Game.prototype = {
 		if (Player.spriteTween == null) {
 			Interpreter.next();
 		}
+	},
+	manageRun: function() {
+		while(Interpreter.i < Interpreter.codes.length) {
+      Interpreter.next();
+    }
 	},
 	manageAudio: function() {
 		this.audioStatus =! this.audioStatus;
@@ -102,8 +108,9 @@ g.Game.prototype = {
 				Interpreter.init(false,this);
 				Inputs.init(inputs);
 				Outputs.init();
-				Memory.init([0]);
+				Memory.init(data.levels[levelNumber-1].memory);
 				Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
+				this.manageRun();
 			}
 		}
 	}

@@ -17,6 +17,11 @@ g.Game.prototype = {
 		this.audioButton.animations.add('false', [1], 10, true);
 		this.audioButton.animations.play(this.audioStatus);
 
+
+		/*Groups initialisation*/
+
+		this.itemsGroup = this.add.group();
+		this.playerGroup = this.add.group();
 		/*Initialisation Player*/
 		Player.init(this);
 

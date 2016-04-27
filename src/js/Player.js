@@ -18,6 +18,7 @@ var Player = {
 	init: function(game) {
 		this.game = game;
 		this.sprite = this.game.add.sprite(100,100,'player');
+		this.game.playerGroup.add(this.sprite);
 		this.game.physics.arcade.enable(this.sprite);
 
 		// Animations
@@ -29,7 +30,12 @@ var Player = {
 
 	moveTo: function(position, action = null, index = null) {
 		//this.game.physics.arcade.moveToObject(this.sprite,Inputs.inputs[0].sprite);
-		this.spriteTween = this.game.add.tween(this.sprite).to( position, 1000, Phaser.Easing.Linear.None, true);
+		distance = Math.sqrt(Math.pow((position.x-this.sprite.x),2)+Math.pow((position.y-this.sprite.y),2));
+		speed = 1; // Dans le futur, ce sera speed = var où var est le multiplicateur de vitesse (x2,x4,x8...)
+		time = distance / (speed/10);
+		console.log(distance);
+		console.log(time);
+		this.spriteTween = this.game.add.tween(this.sprite).to( position, time, Phaser.Easing.Linear.None, true);
 		this.action = action;
 		this.dropIndex = index;
 		this.spriteTween.onComplete.add(this.moveToCallback, this);
@@ -49,11 +55,11 @@ var Player = {
 
 	moveToCallback : function() {
 		this.spriteTween = null;
-		this.sprite.animations.stop();
+		this.sprite.animations.stop(null, true);
 		if (this.action == "take") {
 			this.take(this.hand);
 			Inputs.takeItem();
-	      	}
+	    }
       	else if (this.action == "drop") {
       		this.drop(Outputs.position(0));
       		Outputs.addItem();

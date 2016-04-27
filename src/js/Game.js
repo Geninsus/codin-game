@@ -1,11 +1,11 @@
 g.Game = function(game) {};
 g.Game.prototype = {
 	levelNumber : null,
-	verfifNumber : null,
+	simulationNumber : 5,
+	localSimulationNumber : 0,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
 		this.add.sprite(g._WIDTH-160,0, 'panel-left');
-
 
 		this.pauseButton = this.add.button(g._WIDTH-8, 8, 'button-pause', this.managePause, this);
 		this.pauseButton.anchor.set(1,0);
@@ -49,7 +49,7 @@ g.Game.prototype = {
 		Inputs.init(inputs);
 		Outputs.init();
 		Memory.init(data.levels[levelNumber-1].memory);
-		Interpreter.parser("LABEL A INBOX COPYTO 0 COPYTO 10 OUTBOX JUMP A");
+		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 	},
 	managePause: function() {
 		this.game.paused = true;
@@ -69,9 +69,9 @@ g.Game.prototype = {
 		}
 	},
 	manageRun: function() {
-		while(Interpreter.i < Interpreter.codes.length) {
-      Interpreter.next();
-    }
+		if (Player.spriteTween == null) {
+				Interpreter.run();
+		}
 	},
 	manageAudio: function() {
 		this.audioStatus =! this.audioStatus;
@@ -87,25 +87,45 @@ g.Game.prototype = {
 			alert('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
 		} else {
 			if(Outputs.outputs.length == data.outputs.length) {
-				alert('fini');
-				data.levels[levelNumber-1].inputsGenerator();
-				var inputs = [];
-				for (var i = 0 ; i < data.inputs.length; i++) {
-					var item = Object.create(Item);
-					item.init(this, data.inputs[i]);
-					if(item.sprite != null) {
-						if (i !== 0) {
-							item.sprite.visible = false;
-						}
-					}
-					inputs.push(item);
+				console.log('C\'est bon ! Passons aux simulations.');
+				this.simulate()
+			}
+		}
+	},
+	simulate : function() {
+		data.levels[levelNumber-1].inputsGenerator();
+		var inputs = [];
+		for (var i = 0 ; i < data.inputs.length; i++) {
+			var item = Object.create(Item);
+			item.init(this, data.inputs[i]);
+			if(item.sprite != null) {
+				if (i !== 0) {
+					item.sprite.visible = false;
 				}
-				Interpreter.init(false,this);
-				Inputs.init(inputs);
-				Outputs.init();
-				Memory.init(data.levels[levelNumber-1].memory);
-				Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
-				this.manageRun();
+			}
+			inputs.push(item);
+		}
+		Interpreter.init(false,this);
+		Inputs.init(inputs);
+		Outputs.init();
+		Memory.init(data.levels[levelNumber-1].memory);
+		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
+		Interpreter.run();
+	},
+	checkWinExpress : function(i) {
+		if(Outputs.outputs[i].value != data.outputs[i]) {
+			alert('Erreur lors de la simulation ' + i + '.');
+		} else {
+			if(Outputs.outputs.length == data.outputs.length) {
+				this.localSimulationNumber++;
+				console.log(this.localSimulationNumber)
+				if(this.localSimulationNumber > this.simulationNumber) {
+					alert('GAGNE!');
+				
+
+				} else {
+					this.simulate();
+				}
 			}
 		}
 	}

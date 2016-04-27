@@ -131,7 +131,9 @@ var Interpreter = {
     }
     if(Interpreter.i >= Interpreter.codes.length) return;
     if(Interpreter.dictionary.indexOf(Interpreter.codes[Interpreter.i]) != -1) {
-      this.game.currentCommand.setText("Command : "+Interpreter.codes[Interpreter.i]);
+      if(this.visual) {
+        this.game.currentCommand.setText("Command : "+Interpreter.codes[Interpreter.i]);
+      }
       Interpreter.call(Interpreter.codes[Interpreter.i]);
     } else {
       error('Commande ' + Interpreter.codes[Interpreter.i] + ' inconnue.');
@@ -210,8 +212,10 @@ var Interpreter = {
     Outputs.push(Player.hand);
     if(this.visual) {
       Player.moveTo(Player.outboxPosition,"drop");
+      g.Game.prototype.checkWin(Outputs.outputs.length - 1);
+    } else {
+      g.Game.prototype.checkWinExpress(Outputs.outputs.length - 1);
     }
-    g.Game.prototype.checkWin(Outputs.outputs.length - 1);
   },
 
   /**

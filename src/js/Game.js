@@ -1,7 +1,7 @@
 g.Game = function(game) {};
 g.Game.prototype = {
 	levelNumber : null,
-	verfifNumber : null
+	verfifNumber : null,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
 		this.add.sprite(g._WIDTH-160,0, 'panel-left');

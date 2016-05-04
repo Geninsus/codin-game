@@ -34,7 +34,7 @@ var Player = {
 	moveTo: function(position, action = null, index = null) {
 		//this.game.physics.arcade.moveToObject(this.sprite,Inputs.inputs[0].sprite);
 		distance = Math.sqrt(Math.pow((position.x-this.sprite.x),2)+Math.pow((position.y-this.sprite.y),2));
-		speed = (Interpreter.isRunning == true) ? 4:1; // Dans le futur, ce sera speed = var où var est le multiplicateur de vitesse (x2,x4,x8...)
+		speed = Interpreter.speed; // Dans le futur, ce sera speed = var où var est le multiplicateur de vitesse (x2,x4,x8...)
 		time = distance / (speed/10);
 		if (time == 0) {
 			time = 1;

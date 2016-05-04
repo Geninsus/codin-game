@@ -7,7 +7,8 @@ g.Game.prototype = {
 		this.add.sprite(0, 0, 'screen-bg');
 		this.add.sprite(g._WIDTH-160,0, 'panel-left');
 
-		this.runbutton = this.add.button(g._WIDTH-80, 110, 'button-run', this.manageRun, this, 2, 0, 1);
+		this.runbutton = this.add.button(g._WIDTH/2-140, g._HEIGHT-24, 'button-run', this.manageRun, this, 0, 1, 2);
+		this.speedbutton = this.add.button(g._WIDTH/2-80, g._HEIGHT-24, 'button-speed', this.manageSpeed, this, 2, 0, 1);
 
 		this.pauseButton = this.add.button(g._WIDTH-8, 8, 'button-pause', this.managePause, this);
 		this.pauseButton.anchor.set(1,0);
@@ -18,6 +19,8 @@ g.Game.prototype = {
 		this.audioButton.animations.add('true', [0], 10, true);
 		this.audioButton.animations.add('false', [1], 10, true);
 		this.audioButton.animations.play(this.audioStatus);
+
+
 
 
 		/*Groups initialisation*/
@@ -79,6 +82,12 @@ g.Game.prototype = {
 		if (Player.spriteTween == null) {
 				Interpreter.run();
 		}
+	},
+	manageSpeed: function() {
+		var currentFrame = Math.trunc(this.speedbutton.frame/3);
+		this.speedbutton.setFrames((currentFrame+1)*3,(currentFrame+1)*3+1,(currentFrame+1)*3+2);
+		Interpreter.speed = Math.pow(2,currentFrame+1)%15;
+		console.log(Interpreter.speed);
 	},
 	manageAudio: function() {
 		this.audioStatus =! this.audioStatus;

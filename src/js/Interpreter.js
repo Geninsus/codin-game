@@ -103,6 +103,8 @@ var Interpreter = {
 
   isRunning : false,
 
+  speed: 1,
+
   dictionary : ['INBOX', 'OUTBOX', 'COPYTO', 'COPYFROM', 'LABEL', 'ADD', 'SUB', 'INC', 'DEC', 'JUMP', 'JUMPZ', 'JUMPN'],
 
   parser : function(code) {

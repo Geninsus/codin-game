@@ -36,7 +36,7 @@ g.Preloader.prototype = {
 		this.load.spritesheet('button-navigation', 'assets/img/button-navigation.png', 35, 35);
 		this.load.spritesheet('button-start', 'assets/img/button-start2.png', 146, 51);
 		this.load.spritesheet('player', 'assets/img/player.png', 32, 50);
-		this.load.spritesheet('button-speed', 'assets/buttons/button-speed.png', 24, 24);
+		this.load.spritesheet('button-speed', 'assets/buttons/button-speed.png', 24, 25);
 		this.load.spritesheet('button-run', 'assets/buttons/button-run.png', 60, 24);
 		this.load.spritesheet('explosion', 'assets/img/explosion.png', 50, 50);
 

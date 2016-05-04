@@ -116,12 +116,14 @@ var Interpreter = {
     Interpreter.iteration = 0;
     Interpreter.labels = {};
     Interpreter.i = 0;
+    Interpreter.isRunning = false;
     this.visual = visual;
     this.game = game;
   },
 
   run : function() {
     this.isRunning = true;
+    Interpreter.i = 0;
   },
 
   next : function() {
@@ -388,7 +390,7 @@ var Interpreter = {
 
 function error(string) {
   alert(string);
-  document.querySelector('.errors').textContent = string;
+  //document.querySelector('.errors').textContent = string;
   var commands = document.querySelectorAll('.command--btn');
   for (var i = 0; i < commands.length; i++) {
     commands[i].className = "btn command--btn btn__disabled";

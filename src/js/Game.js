@@ -1,7 +1,7 @@
 g.Game = function(game) {};
 g.Game.prototype = {
 	levelNumber : null,
-	simulationNumber : 5,
+	simulationNumber : 100,
 	localSimulationNumber : 0,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
@@ -56,7 +56,7 @@ g.Game.prototype = {
 		Inputs.init(inputs);
 		Outputs.init();
 		Memory.init(data.levels[levelNumber-1].memory);
-		Interpreter.parser("LABEL A INBOX COPYTO 0 COPYTO 10 COPYFROM 0 OUTBOX JUMP A");
+		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 	},
 	managePause: function() {
 		this.game.paused = true;
@@ -106,24 +106,31 @@ g.Game.prototype = {
 		}
 	},
 	simulate : function(that) {
-		data.levels[levelNumber-1].inputsGenerator();
-		var inputs = [];
-		for (var i = 0 ; i < data.inputs.length; i++) {
-			var item = Object.create(Item);
-			item.init(this, data.inputs[i]);
-			if(item.sprite != null) {
-				if (i !== 0) {
-					item.sprite.visible = false;
+		//var numSimulation = 100;
+		//for(var simulationNum = 0; simulationNum < numSimulation; simulationNum++) {
+			data.levels[levelNumber-1].inputsGenerator();
+			var inputs = [];
+			for (var i = 0 ; i < data.inputs.length; i++) {
+				var item = Object.create(Item);
+				item.init(this, data.inputs[i]);
+				if(item.sprite != null) {
+					if (i !== 0) {
+						item.sprite.visible = false;
+					}
 				}
+				inputs.push(item);
 			}
-			inputs.push(item);
-		}
-		Interpreter.init(false,that);
-		Inputs.init(inputs);
-		Outputs.init();
-		Memory.init(data.levels[levelNumber-1].memory);
-		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
-		Interpreter.run();
+			Interpreter.init(false,that);
+			Inputs.init(inputs);
+			Outputs.init();
+			Memory.init(data.levels[levelNumber-1].memory);
+			Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
+
+			while(Interpreter.i < Interpreter.codes.length) {
+	  		Interpreter.next();
+			}
+			//console.log('Simulation numéro ' + (simulationNum + 1));
+	//	}
 	},
 	checkWinExpress : function(i, game) {
 		if(Outputs.outputs[i].value != data.outputs[i]) {
@@ -131,11 +138,13 @@ g.Game.prototype = {
 		} else {
 			if(Outputs.outputs.length == data.outputs.length) {
 				this.localSimulationNumber++;
-				console.log(this.localSimulationNumber)
 				if(this.localSimulationNumber > this.simulationNumber) {
 					alert('GAGNE!');
 					game.state.start('LevelMenu');
+					PLAYER_DATA[this._levelNumber] = 3;
+					window.localStorage.setItem('mygame_progress', JSON.stringify(PLAYER_DATA));
 				} else {
+					console.log('Simulation numéro ' + (this.localSimulationNumber));
 					this.simulate(game);
 				}
 			}

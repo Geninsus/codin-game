@@ -20,6 +20,9 @@ var Player = {
 		this.sprite = this.game.add.sprite(100,100,'player');
 		this.game.playerGroup.add(this.sprite);
 		this.game.physics.arcade.enable(this.sprite);
+		this.spriteTween = null;
+		this.action = null;
+		this.hand = null;
 
 		// Animations
 		this.up = this.sprite.animations.add('up', [0,3], 10, true);

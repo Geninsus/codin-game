@@ -20,7 +20,9 @@ g.Game.prototype = {
 		this.audioButton.animations.add('false', [1], 10, true);
 		this.audioButton.animations.play(this.audioStatus);
 
-
+		this.rulesMask = this.add.graphics(0, 0);
+		this.rulesMask.beginFill(0xffffff);
+		this.rulesMask.drawRect(g._WIDTH-320, 0, 160, 100);
 
 
 		/*Groups initialisation*/
@@ -52,6 +54,12 @@ g.Game.prototype = {
 	},
 	startLevel: function() {
 		levelNumber = this._currentLevel;
+		var style = { font: "16px Arial", fill: "#ff0044", align: "center"};
+		this.rulesText = this.add.text(g._WIDTH-320+10,10,data.levels[levelNumber-1].wording,style);
+		this.rulesText.mask = this.rulesMask;
+		this.rulesText.align = "left";
+		this.rulesText.wordWrapWidth = 140;
+		this.rulesText.wordWrap = true;
 		verfifNumber = 100;
 		data.levels[levelNumber-1].inputsGenerator();
 		var inputs = [];

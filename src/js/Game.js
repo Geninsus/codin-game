@@ -7,9 +7,9 @@ g.Game.prototype = {
 		this.add.sprite(0, 0, 'screen-bg');
 		this.add.sprite(g._WIDTH-160,0, 'panel-left');
 
-		this.runbutton = this.add.button(g._WIDTH/2-140, g._HEIGHT-24, 'button-run', this.manageRun, this, 0, 1, 2);
-		this.speedbutton = this.add.button(g._WIDTH/2-80, g._HEIGHT-24, 'button-speed', this.manageSpeed, this, 2, 0, 1);
-
+		this.playSpeedButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
+		this.nextStepButton = this.add.button(g._WIDTH/2-200+24+5, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
+		this.stopButton = this.add.button(g._WIDTH/2 -200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
 		this.pauseButton = this.add.button(g._WIDTH-8, 8, 'button-pause', this.managePause, this);
 		this.pauseButton.anchor.set(1,0);
 		this.pauseButton.input.useHandCursor = true;
@@ -38,11 +38,18 @@ g.Game.prototype = {
 		this.currentCommand = this.add.text(40,25,"Command : ",style);
 
 		this.startLevel();
+		this.add.sprite(680-180-115, 62, 'inc');
+		this.add.sprite(680-180-115, 62+21, 'dec');
+		this.add.sprite(680-180-115, 62+2*21, 'sub');
+		this.add.sprite(680-180-115, 62+3*21, 'add');
+		this.add.sprite(680-180-115, 62+4*21, 'jump');
+		this.add.sprite(680-180-115, 62+5*21, 'jumpz');
+		this.add.sprite(680-180-115, 62+6*21, 'jumpn');
+		this.add.sprite(680-180-115, 62+7*21, 'outbox');
+		this.add.sprite(680-180-115, 62+8*21, 'inbox');
+		this.add.sprite(680-180-115, 62+9*21, 'copyto');
+		this.add.sprite(680-180-115, 62+10*21, 'copyfrom');
 
-		this.add.sprite(680-180-100, 90, 'inc');
-		this.add.sprite(680-180-100, 115, 'dec');
-		this.add.sprite(680-180-100, 140, 'jump');
-		this.add.sprite(680-180-110, 165, 'jumpz');
 
 	},
 	startLevel: function() {
@@ -81,11 +88,18 @@ g.Game.prototype = {
 	manageRun: function() {
 		if (Player.spriteTween === null) {
 				Interpreter.run();
+				this.manageSpeed;
 		}
 	},
+	manageStop: function(){
+
+	},
 	manageSpeed: function() {
-		var currentFrame = Math.trunc(this.speedbutton.frame/3);
-		this.speedbutton.setFrames((currentFrame+1)*3,(currentFrame+1)*3+1,(currentFrame+1)*3+2);
+		if (Player.spriteTween == null) {
+				Interpreter.run();
+		}
+		var currentFrame = Math.trunc(this.playSpeedButton.frame/3);
+		this.playSpeedButton.setFrames((currentFrame+1)*3,(currentFrame+1)*3+1,(currentFrame+1)*3+2);
 		Interpreter.speed = Math.pow(2,currentFrame+1)%15;
 		console.log(Interpreter.speed);
 	},

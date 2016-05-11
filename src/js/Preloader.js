@@ -15,12 +15,17 @@ g.Preloader.prototype = {
 		this.load.image('panel', 'assets/img/panel.png');
 		this.load.image('panel-left', 'assets/img/panel-left.png');
 		this.load.image('title', 'assets/img/title.png');
-		this.load.image('button-pause', 'assets/img/button-pause.png');
 		this.load.image('screen-bg', 'assets/img/screen-bg.png');
-		this.load.image('screen-mainmenu', 'assets/img/start-background.png');
 		this.load.image('screen-howtoplay', 'assets/img/screen-howtoplay.png');
 		this.load.image('border-horizontal', 'assets/img/border-horizontal.png');
 		this.load.image('border-vertical', 'assets/img/border-vertical.png');
+
+		// START GAME IMAGE LOAD
+		this.load.spritesheet('button-start', 'assets/img/button-start2.png', 146, 51);
+		this.load.image('screen-mainmenu', 'assets/img/start-background.png');
+
+		// GAME IMAGE LOAD
+		//		BOX BUTTON
 		this.load.image('add', 'assets/buttons/button-add.png');
 		this.load.image('copyfrom', 'assets/buttons/button-copyfrom.png');
 		this.load.image('copyto', 'assets/buttons/button-copyto.png');
@@ -32,14 +37,20 @@ g.Preloader.prototype = {
 		this.load.image('jumpz', 'assets/buttons/button-jumpz.png');
 		this.load.image('outbox', 'assets/buttons/button-outbox.png');
 		this.load.image('sub', 'assets/buttons/button-sub.png');
+
+		//		STATE BUTTON
 		this.load.spritesheet('button-audio', 'assets/img/button-audio.png', 35, 35);
 		this.load.spritesheet('button-navigation', 'assets/img/button-navigation.png', 35, 35);
-		this.load.spritesheet('button-start', 'assets/img/button-start2.png', 146, 51);
+		this.load.spritesheet('button-play-speed', 'assets/buttons/button-play.png', 24, 25);
+		this.load.spritesheet('button-pause', 'assets/buttons/button-pause.png',24,25);
+		this.load.spritesheet('button-stop', 'assets/buttons/button-stop.png',24,25);
+		this.load.spritesheet('button-nextStep','assets/buttons/button-nextStep.png',24,25);
+
+		//		PLAYER SHEET
 		this.load.spritesheet('player', 'assets/img/player.png', 32, 50);
-		this.load.spritesheet('button-speed', 'assets/buttons/button-speed.png', 24, 24);
-		this.load.spritesheet('button-run', 'assets/buttons/button-run.png', 60, 24);
 		this.load.spritesheet('explosion', 'assets/img/explosion.png', 50, 50);
 
+		// LEVEL SHEET
 		this.load.spritesheet('levelSelection', 'assets/img/levelSelection.png', 96, 96);
 		this.load.bitmapFont('font72', 'assets/font/font72.png', 'assets/font/font72.xml');
 

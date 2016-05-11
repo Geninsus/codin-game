@@ -38,7 +38,7 @@ g.Game.prototype = {
 		this.startLevel();
 		
 		for(var i = 0; i < data.levels[this._currentLevel-1].commands.length; i++) {
-			this.add.sprite(680-180-115, 62+21*i, data.levels[this._currentLevel-1].commands[i]);
+			this.add.sprite(680-180-115, 104+21*i, data.levels[this._currentLevel-1].commands[i]);
 		}
 
 

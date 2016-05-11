@@ -20,7 +20,9 @@ g.Game.prototype = {
 		this.audioButton.animations.add('false', [1], 10, true);
 		this.audioButton.animations.play(this.audioStatus);
 
-
+		this.rulesMask = this.add.graphics(0, 0);
+		this.rulesMask.beginFill(0xffffff);
+		this.rulesMask.drawRect(g._WIDTH-320, 0, 160, 100);
 
 
 		/*Groups initialisation*/
@@ -30,30 +32,25 @@ g.Game.prototype = {
 		/*Initialisation Player*/
 		Player.init(this);
 
-		this.nextButton = this.add.button(g._WIDTH-(this.pauseButton.width)*2-8*2,this.pauseButton.height + 8*2, 'button-navigation', this.manageRun, this);
-		this.previousButton = this.add.button(g._WIDTH-this.pauseButton.width-8,this.pauseButton.height + 8*2, 'button-navigation', this.manageNext, this);
-		this.previousButton.frame = 1;
-
 		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
 		this.currentCommand = this.add.text(40,25,"Command : ",style);
 
 		this.startLevel();
-		this.add.sprite(680-180-115, 62, 'inc');
-		this.add.sprite(680-180-115, 62+21, 'dec');
-		this.add.sprite(680-180-115, 62+2*21, 'sub');
-		this.add.sprite(680-180-115, 62+3*21, 'add');
-		this.add.sprite(680-180-115, 62+4*21, 'jump');
-		this.add.sprite(680-180-115, 62+5*21, 'jumpz');
-		this.add.sprite(680-180-115, 62+6*21, 'jumpn');
-		this.add.sprite(680-180-115, 62+7*21, 'outbox');
-		this.add.sprite(680-180-115, 62+8*21, 'inbox');
-		this.add.sprite(680-180-115, 62+9*21, 'copyto');
-		this.add.sprite(680-180-115, 62+10*21, 'copyfrom');
+		
+		for(var i = 0; i < data.levels[this._currentLevel-1].commands.length; i++) {
+			this.add.sprite(680-180-115, 104+21*i, data.levels[this._currentLevel-1].commands[i]);
+		}
 
 
 	},
 	startLevel: function() {
 		levelNumber = this._currentLevel;
+		var style = { font: "16px Arial", fill: "#ff0044", align: "center"};
+		this.rulesText = this.add.text(g._WIDTH-320+10,10,data.levels[levelNumber-1].wording,style);
+		this.rulesText.mask = this.rulesMask;
+		this.rulesText.align = "left";
+		this.rulesText.wordWrapWidth = 140;
+		this.rulesText.wordWrap = true;
 		verfifNumber = 100;
 		data.levels[levelNumber-1].inputsGenerator();
 		var inputs = [];
@@ -101,7 +98,6 @@ g.Game.prototype = {
 		var currentFrame = Math.trunc(this.playSpeedButton.frame/3);
 		this.playSpeedButton.setFrames((currentFrame+1)*3,(currentFrame+1)*3+1,(currentFrame+1)*3+2);
 		Interpreter.speed = Math.pow(2,currentFrame+1)%15;
-		console.log(Interpreter.speed);
 	},
 	manageAudio: function() {
 		this.audioStatus =! this.audioStatus;
@@ -152,8 +148,6 @@ g.Game.prototype = {
 			while(Interpreter.i < Interpreter.codes.length) {
 	  		Interpreter.next();
 			}
-			//console.log('Simulation numéro ' + (simulationNum + 1));
-	//	}
 	},
 	checkWinExpress : function(i, game) {
 		if(Outputs.outputs[i].value != data.outputs[i]) {
@@ -164,12 +158,10 @@ g.Game.prototype = {
 				if(this.localSimulationNumber > this.simulationNumber) {
 					alert('GAGNE!');
 					game.state.start('LevelMenu');
-					console.log(levelNumber);
 					PLAYER_DATA[levelNumber-1] = 3;
-					PLAYER_DATA[levelNumber] = 0;
+					if(PLAYER_DATA[levelNumber] == -1) PLAYER_DATA[levelNumber] = 0;
 					window.localStorage.setItem('mygame_progress', JSON.stringify(PLAYER_DATA));
 				} else {
-					console.log('Simulation numéro ' + (this.localSimulationNumber));
 					this.simulate(game);
 				}
 			}

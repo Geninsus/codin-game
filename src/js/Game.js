@@ -74,12 +74,12 @@ g.Game.prototype = {
 
 	},
 	manageNext: function() {
-		if (Player.spriteTween == null) {
+		if (Player.spriteTween === null) {
 			Interpreter.next();
 		}
 	},
 	manageRun: function() {
-		if (Player.spriteTween == null) {
+		if (Player.spriteTween === null) {
 				Interpreter.run();
 		}
 	},
@@ -94,7 +94,7 @@ g.Game.prototype = {
 		this.audioButton.animations.play(this.audioStatus);
 	},
 	update: function() {
-		if (Interpreter.isRunning == true) {
+		if (Interpreter.isRunning === true) {
 			this.manageNext();
 		}
 		/*Temporaire*/
@@ -110,7 +110,7 @@ g.Game.prototype = {
 		} else {
 			if(Outputs.outputs.length == data.outputs.length) {
 				console.log('C\'est bon ! Passons aux simulations.');
-				this.simulate(that)
+				this.simulate(that);
 			}
 		}
 	},
@@ -122,7 +122,7 @@ g.Game.prototype = {
 			for (var i = 0 ; i < data.inputs.length; i++) {
 				var item = Object.create(Item);
 				item.init(this, data.inputs[i]);
-				if(item.sprite != null) {
+				if(item.sprite !== null) {
 					if (i !== 0) {
 						item.sprite.visible = false;
 					}
@@ -150,7 +150,9 @@ g.Game.prototype = {
 				if(this.localSimulationNumber > this.simulationNumber) {
 					alert('GAGNE!');
 					game.state.start('LevelMenu');
-					PLAYER_DATA[this._levelNumber] = 3;
+					console.log(levelNumber);
+					PLAYER_DATA[levelNumber-1] = 3;
+					PLAYER_DATA[levelNumber] = 0;
 					window.localStorage.setItem('mygame_progress', JSON.stringify(PLAYER_DATA));
 				} else {
 					console.log('Simulation numéro ' + (this.localSimulationNumber));

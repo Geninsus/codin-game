@@ -38,8 +38,6 @@ g.Game.prototype = {
 		this.currentCommand = this.add.text(40,25,"Command : ",style);
 
 		this.startLevel();
-		this.add.sprite(680-180-115, 62, 'inc');
-		this.add.sprite(680-180-115, 62+21, 'dec');
 		this.add.sprite(680-180-115, 62+2*21, 'sub');
 		this.add.sprite(680-180-115, 62+3*21, 'add');
 		this.add.sprite(680-180-115, 62+4*21, 'jump');

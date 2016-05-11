@@ -22,6 +22,7 @@ var data = {
     },
     {
       wording : 'Le but de cet exercice est de sortir directement les entrées.',
+      commands : ['inbox', 'outbox'],
       memory : [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
       inputsGenerator : function () {
         data.inputs = [];
@@ -40,6 +41,7 @@ var data = {
     },
     {
       wording : 'Le but de cet exercice est de sortir directement les entrées.',
+      commands : ['inbox', 'outbox'],
       memory : [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
       inputsGenerator : function () {
         data.inputs = [];
@@ -58,6 +60,7 @@ var data = {
     },
     {
       wording : 'Le but de cet exercice est de sortir directement les entrées.',
+      commands : ['inbox', 'outbox'],
       memory : [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
       inputsGenerator : function () {
         data.inputs = [];
@@ -76,6 +79,7 @@ var data = {
     },
     {
       wording : 'Le but de cet exercice est de sortir directement les entrées.',
+      commands : ['inbox', 'outbox'],
       memory : [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
       inputsGenerator : function () {
         data.inputs = [];

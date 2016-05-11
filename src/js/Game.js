@@ -7,10 +7,12 @@ g.Game.prototype = {
 		this.add.sprite(0, 0, 'screen-bg');
 		this.add.sprite(g._WIDTH-160,0, 'panel-left');
 
-		this.playSpeedButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
-		this.nextStepButton = this.add.button(g._WIDTH/2-200+24+5, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
-		this.stopButton = this.add.button(g._WIDTH/2 -200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
-		this.pauseButton = this.add.button(g._WIDTH-8, 8, 'button-pause', this.managePause, this);
+		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
+		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-24 -5, 'button-pause', this.managePause, this, 1, 0 ,2);
+		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
+		this.playButton = this.add.button(g._WIDTH/2-200+3*24+15, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
+		this.speedx2 = this.add.button(g._WIDTH/2-200+4*24+20, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeedx2, this, 4, 3, 5);
+		this.speedx4 = this.add.button(g._WIDTH/2-200+5*24+25, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeedx4, this, 7, 6, 8);
 		this.pauseButton.anchor.set(1,0);
 		this.pauseButton.input.useHandCursor = true;
 		this.audioButton = this.add.button(g._WIDTH-this.pauseButton.width-8*2, 8, 'button-audio', this.manageAudio, this);
@@ -36,7 +38,7 @@ g.Game.prototype = {
 		this.currentCommand = this.add.text(40,25,"Command : ",style);
 
 		this.startLevel();
-		
+
 		for(var i = 0; i < data.levels[this._currentLevel-1].commands.length; i++) {
 			this.add.sprite(680-180-115, 104+21*i, data.levels[this._currentLevel-1].commands[i]);
 		}
@@ -51,7 +53,7 @@ g.Game.prototype = {
 		this.rulesText.align = "left";
 		this.rulesText.wordWrapWidth = 140;
 		this.rulesText.wordWrap = true;
-		verfifNumber = 100;
+		verfifNumber = 1000;
 		data.levels[levelNumber-1].inputsGenerator();
 		var inputs = [];
 		for (var i = 0 ; i < data.inputs.length; i++) {
@@ -85,7 +87,7 @@ g.Game.prototype = {
 	manageRun: function() {
 		if (Player.spriteTween === null) {
 				Interpreter.run();
-				this.manageSpeed;
+				this.manageSpeed(1);
 		}
 	},
 	manageStop: function(){
@@ -95,9 +97,25 @@ g.Game.prototype = {
 		if (Player.spriteTween == null) {
 				Interpreter.run();
 		}
-		var currentFrame = Math.trunc(this.playSpeedButton.frame/3);
+		var currentFrame = Math.trunc(this.playButton.frame/3);
 		this.playSpeedButton.setFrames((currentFrame+1)*3,(currentFrame+1)*3+1,(currentFrame+1)*3+2);
-		Interpreter.speed = Math.pow(2,currentFrame+1)%15;
+		Interpreter.speed = speed
+	},
+	manageSpeedx2: function() {
+		if (Player.spriteTween == null) {
+				Interpreter.run();
+		}
+		var currentFrame = Math.trunc(this.playButton.frame/3);
+		this.playSpeedButton.setFrames((currentFrame+1)*3,(currentFrame+1)*3+1,(currentFrame+1)*3+2);
+		Interpreter.speed = speed
+	},
+	manageSpeedx4: function() {
+		if (Player.spriteTween == null) {
+				Interpreter.run();
+		}
+		var currentFrame = Math.trunc(this.playButton.frame/3);
+		this.playSpeedButton.setFrames((currentFrame+1)*3,(currentFrame+1)*3+1,(currentFrame+1)*3+2);
+		Interpreter.speed = speed
 	},
 	manageAudio: function() {
 		this.audioStatus =! this.audioStatus;

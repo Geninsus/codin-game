@@ -10,12 +10,13 @@ g.Game.prototype = {
 		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
 		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-24 -5, 'button-pause', this.managePause, this, 1, 0 ,2);
 		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
-		this.playButton = this.add.button(g._WIDTH/2-200+3*24+15, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
+		this.speedx1 = this.add.button(g._WIDTH/2-200+3*24+15, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
 		this.speedx2 = this.add.button(g._WIDTH/2-200+4*24+20, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeedx2, this, 4, 3, 5);
 		this.speedx4 = this.add.button(g._WIDTH/2-200+5*24+25, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeedx4, this, 7, 6, 8);
 		this.pauseButton.anchor.set(1,0);
 		this.pauseButton.input.useHandCursor = true;
 		this.audioButton = this.add.button(g._WIDTH-this.pauseButton.width-8*2, 8, 'button-audio', this.manageAudio, this);
+		this.homeButton = this.add.button(g._WIDTH-this.pauseButton.width-8, 8, 'button-home', this.manageHome, this, 1, 0, 2);
 		this.audioButton.anchor.set(1,0);
 		this.audioButton.input.useHandCursor = true;
 		this.audioButton.animations.add('true', [0], 10, true);
@@ -87,7 +88,6 @@ g.Game.prototype = {
 	manageRun: function() {
 		if (Player.spriteTween === null) {
 				Interpreter.run();
-				this.manageSpeed(1);
 		}
 	},
 	manageStop: function(){
@@ -97,29 +97,26 @@ g.Game.prototype = {
 		if (Player.spriteTween == null) {
 				Interpreter.run();
 		}
-		var currentFrame = Math.trunc(this.playButton.frame/3);
-		this.playSpeedButton.setFrames((currentFrame+1)*3,(currentFrame+1)*3+1,(currentFrame+1)*3+2);
-		Interpreter.speed = speed
+		Interpreter.speed = 1;
 	},
 	manageSpeedx2: function() {
 		if (Player.spriteTween == null) {
 				Interpreter.run();
 		}
-		var currentFrame = Math.trunc(this.playButton.frame/3);
-		this.playSpeedButton.setFrames((currentFrame+1)*3,(currentFrame+1)*3+1,(currentFrame+1)*3+2);
-		Interpreter.speed = speed
+		Interpreter.speed = 3;
 	},
 	manageSpeedx4: function() {
 		if (Player.spriteTween == null) {
 				Interpreter.run();
 		}
-		var currentFrame = Math.trunc(this.playButton.frame/3);
-		this.playSpeedButton.setFrames((currentFrame+1)*3,(currentFrame+1)*3+1,(currentFrame+1)*3+2);
-		Interpreter.speed = speed
+		Interpreter.speed = 4;
 	},
 	manageAudio: function() {
 		this.audioStatus =! this.audioStatus;
 		this.audioButton.animations.play(this.audioStatus);
+	},
+	manageHome: function() {
+		this.state.start('LevelMenu');
 	},
 	update: function() {
 		if (Interpreter.isRunning === true) {

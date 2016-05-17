@@ -5,7 +5,8 @@ g.Game.prototype = {
 	localSimulationNumber : 0,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
-		this.add.sprite(g._WIDTH-160,0, 'panel-left');
+		this.add.sprite(g._WIDTH-134-7,7, 'panel-left');
+		this.add.sprite(g._WIDTH-134-7-96,95,'panel-box');
 		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
 		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-24 -5, 'button-pause', this.managePause, this, 1, 0 ,2);
 		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
@@ -47,7 +48,7 @@ g.Game.prototype = {
 	},
 	startLevel: function() {
 		levelNumber = this._currentLevel;
-		var style = { font: "16px Arial", fill: "#ff0044", align: "center"};
+		var style = { font: "14px Arial", fill: "#000000", align: "center"};
 		this.rulesText = this.add.text(g._WIDTH-320+10,10,data.levels[levelNumber-1].wording,style);
 		this.rulesText.mask = this.rulesMask;
 		this.rulesText.align = "left";

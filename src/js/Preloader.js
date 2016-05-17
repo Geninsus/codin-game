@@ -13,6 +13,7 @@ g.Preloader.prototype = {
 		this.load.image('element-w', 'assets/img/element-w.png');
 		this.load.image('element-h', 'assets/img/element-h.png');
 		this.load.image('panel', 'assets/img/panel.png');
+		this.load.image('panel-box', 'assets/img/panel-box.png');
 		this.load.image('panel-left', 'assets/img/panel-left.png');
 		this.load.image('title', 'assets/img/title.png');
 		this.load.image('screen-bg', 'assets/img/game-plate.png');

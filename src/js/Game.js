@@ -6,7 +6,6 @@ g.Game.prototype = {
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
 		this.add.sprite(g._WIDTH-160,0, 'panel-left');
-
 		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
 		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-24 -5, 'button-pause', this.managePause, this, 1, 0 ,2);
 		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
@@ -24,6 +23,7 @@ g.Game.prototype = {
 		this.audioButton.animations.play(this.audioStatus);
 
 		this.rulesMask = this.add.graphics(0, 0);
+		this.rulesMask.inputEnabled = true;
 		this.rulesMask.beginFill(0xffffff);
 		this.rulesMask.drawRect(g._WIDTH-320, 0, 160, 100);
 
@@ -125,6 +125,19 @@ g.Game.prototype = {
 		/*Temporaire*/
 		if (Player.sprite.children.length > 1) {
 			alert("STOP");
+		}
+
+		if (this.input.mouse.wheelDelta != 0 && this.rulesMask.input.checkPointerOver(this.input.mousePointer) == true) {
+			this.rulesWheel(this.input.mouse.wheelDelta);
+		}
+		this.input.mouse.wheelDelta = 0;
+	},
+	rulesWheel:function(direction) {
+		if(direction == -1 && this.rulesText.y != 10) {
+			this.rulesText.y += 10;
+		}
+		if(direction == 1 && this.rulesText.y > 10 - this.rulesText.height + 100 ) {
+			this.rulesText.y -= 10;
 		}
 	},
 	render: function() {

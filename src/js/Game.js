@@ -4,45 +4,18 @@ g.Game.prototype = {
 	simulationNumber : 100,
 	localSimulationNumber : 0,
 	create: function() {
-		this.add.sprite(0, 0, 'screen-bg');
-		this.add.sprite(g._WIDTH-134-7,7, 'panel-left');
-		this.add.sprite(g._WIDTH-134-7-96,95,'panel-box');
 
-		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
-		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-24 -5, 'button-pause', this.managePause, this, 1, 0 ,2);
-		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
-		this.playButton = this.add.button(g._WIDTH/2-200+3*24+15, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
-		this.speedx2 = this.add.button(g._WIDTH/2-200+4*24+20, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeedx2, this, 4, 3, 5);
-		this.speedx4 = this.add.button(g._WIDTH/2-200+5*24+25, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeedx4, this, 7, 6, 8);
-		this.pauseButton.anchor.set(1,0);
-		this.pauseButton.input.useHandCursor = true;
-		this.audioButton = this.add.button(g._WIDTH-this.pauseButton.width-8*2, 8, 'button-audio', this.manageAudio, this);
-		this.audioButton.anchor.set(1,0);
-		this.audioButton.input.useHandCursor = true;
-		this.audioButton.animations.add('true', [0], 10, true);
-		this.audioButton.animations.add('false', [1], 10, true);
-		this.audioButton.animations.play(this.audioStatus);
 
-		this.rulesMask = this.add.graphics(0, 0);
-		this.rulesMask.inputEnabled = true;
-		this.rulesMask.beginFill(0xffffff);
-		this.rulesMask.drawRect(g._WIDTH-134, 30, 120, 50);
-
-		this.commandsMask = this.add.graphics(0, 0);
-		this.commandsMask.inputEnabled = true;
-		this.commandsMask.beginFill(0xffffff);
-		this.commandsMask.alpha=0;
-		this.commandsMask.drawRect(g._WIDTH-134-7, 90, 134, 260);
-
-		/*Groups initialisation*/
-		this.itemsGroup = this.add.group();
-		this.playerGroup = this.add.group();
+		/*Setting Up*/
+		this.settingUpScene();
+		this.settingUpAudio();
+		this.settingUpControl();
+		this.settingUpRules();
+		this.settingUpCommands();
 
 		/*Initialisation Player*/
 		Player.init(this);
 
-		var style = { font: "20px Arial", fill: "#ff0044", align: "center"};
-		this.currentCommand = this.add.text(40,25,"Command : ",style);
 
 		this.startLevel();
 
@@ -57,6 +30,51 @@ g.Game.prototype = {
 			box.events.onDragStop.add(this.onDragStop, this,0);
 		}
 
+	},
+	settingUpScene: function() {
+		this.add.sprite(0, 0, 'screen-bg');
+		this.add.sprite(g._WIDTH-134-7,7, 'panel-left');
+		this.add.sprite(g._WIDTH-134-7-96,95,'panel-box');
+	},
+	settingUpAudio: function() {
+		// No Sound for Now
+		/*
+		this.audioButton = this.add.button(0, 0, 'button-audio', this.manageAudio, this);
+		this.audioButton.input.useHandCursor = true;
+		this.audioButton.animations.add('true', [0], 10, true);
+		this.audioButton.animations.add('false', [1], 10, true);
+		this.audioButton.animations.play(this.audioStatus);
+		*/
+	},
+	settingUpControl: function() {
+		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
+		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-24 -5, 'button-pause', this.managePause, this, 1, 0 ,2);
+		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
+		this.playButton = this.add.button(g._WIDTH/2-200+3*24+15, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
+		this.speedx2 = this.add.button(g._WIDTH/2-200+4*24+20, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeedx2, this, 4, 3, 5);
+		this.speedx4 = this.add.button(g._WIDTH/2-200+5*24+25, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeedx4, this, 7, 6, 8);
+		this.pauseButton.anchor.set(1,0);
+		this.pauseButton.input.useHandCursor = true;
+	},
+	settingUpRules:function() {
+		var style = { font: "10px Arial", fill: "#000000", align: "left"};
+
+		this.rulesMask = this.add.graphics(0, 0);
+		this.rulesMask.inputEnabled = true;
+		this.rulesMask.beginFill(0xffffff);
+		this.rulesMask.drawRect(g._WIDTH-134, 30, 120, 50);
+		this.rulesText = this.add.text(g._WIDTH-134,30,data.levels[this._currentLevel-1].wording,style);
+		this.rulesText.mask = this.rulesMask;
+		this.rulesText.wordWrapWidth = 120;
+		this.rulesText.wordWrap = true;
+	},
+	settingUpCommands: function() {
+		this.commandsMask = this.add.graphics(0, 0);
+		this.commandsMask.inputEnabled = true;
+		this.commandsMask.beginFill(0xffffff);
+		this.commandsMask.alpha=0;
+		this.commandsMask.drawRect(g._WIDTH-134-7, 90, 134, 260);
+		this.commands = data.levels[this._currentLevel-1].commands;
 	},
 	onDragStartRight: function(box) {
 		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
@@ -124,12 +142,7 @@ g.Game.prototype = {
 	},
 	startLevel: function() {
 		levelNumber = this._currentLevel;
-		var style = { font: "10px Arial", fill: "#000000", align: "left"};
-		this.rulesText = this.add.text(g._WIDTH-134,30,data.levels[levelNumber-1].wording,style);
-		this.rulesText.mask = this.rulesMask;
-		this.rulesText.wordWrapWidth = 120;
-		this.rulesText.wordWrap = true;
-		this.commands = data.levels[levelNumber-1].commands;
+		
 		verfifNumber = 1000;
 		data.levels[levelNumber-1].inputsGenerator();
 		var inputs = [];

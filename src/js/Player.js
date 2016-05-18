@@ -18,7 +18,6 @@ var Player = {
 	init: function(game) {
 		this.game = game;
 		this.sprite = this.game.add.sprite(100,100,'player');
-		this.game.playerGroup.add(this.sprite);
 		this.game.physics.arcade.enable(this.sprite);
 		this.spriteTween = null;
 		this.action = null;

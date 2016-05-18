@@ -13,7 +13,6 @@ var Item = {
 		if(visual) {
 			this.sprite = this.game.add.sprite(x, y, 'item');
 			this.sprite.addChild(this.game.add.text(5, 5, this.value.toString(),this.style));
-			this.game.itemsGroup.add(this.sprite);
 		}
 	},
 

@@ -135,9 +135,6 @@ var Interpreter = {
     }
     if(Interpreter.i >= Interpreter.codes.length) return;
     if(Interpreter.dictionary.indexOf(Interpreter.codes[Interpreter.i]) != -1) {
-      if(this.visual) {
-        this.game.currentCommand.setText("Command : "+Interpreter.codes[Interpreter.i]);
-      }
       Interpreter.call(Interpreter.codes[Interpreter.i]);
     } else {
       error('Commande ' + Interpreter.codes[Interpreter.i] + ' inconnue.');

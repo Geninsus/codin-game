@@ -51,7 +51,7 @@ g.Preloader.prototype = {
 		this.load.spritesheet('explosion', 'assets/img/explosion.png', 50, 50);
 
 		// LEVEL SHEET
-		this.load.spritesheet('levelSelection', 'assets/img/levelSelection.png', 96, 96);
+		this.load.spritesheet('levelSelection', 'assets/img/level-selection.png', 30, 28);
 		this.load.bitmapFont('font72', 'assets/font/font72.png', 'assets/font/font72.xml');
 
 	},

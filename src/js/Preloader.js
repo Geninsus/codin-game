@@ -5,7 +5,7 @@ g.Preloader.prototype = {
 		this.preloadBar = this.add.sprite((g._WIDTH-158)*0.5, (g._HEIGHT-50)*0.5, 'preloaderBar');
 		this.load.setPreloadSprite(this.preloadBar);
 
-		this.load.image('starfield', 'assets/img/deep-space.jpg');
+		this.load.image('starfield', 'assets/img/deep-space.png');
 
 		this.load.image('ball', 'assets/img/ball.png');
 		this.load.image('item', 'assets/img/item.png');

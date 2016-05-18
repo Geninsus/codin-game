@@ -5,11 +5,9 @@ g.Game.prototype = {
 	localSimulationNumber : 0,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
-<<<<<<< HEAD
-=======
 		this.add.sprite(g._WIDTH-134-7,7, 'panel-left');
 		this.add.sprite(g._WIDTH-134-7-96,95,'panel-box');
->>>>>>> 8109124b38e7acd9c7f1496ff16416d092630941
+
 		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
 		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-24 -5, 'button-pause', this.managePause, this, 1, 0 ,2);
 		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
@@ -30,8 +28,11 @@ g.Game.prototype = {
 		this.rulesMask.beginFill(0xffffff);
 		this.rulesMask.drawRect(g._WIDTH-320, 0, 160, 100);
 
-
-
+		this.commandsMask = this.add.graphics(0, 0);
+		this.commandsMask.inputEnabled = true;
+		this.commandsMask.beginFill(0xffffff);
+		this.commandsMask.alpha=0;
+		this.commandsMask.drawRect(g._WIDTH-134-7, 90, 134, 260);
 
 		/*Groups initialisation*/
 		this.itemsGroup = this.add.group();
@@ -48,18 +49,23 @@ g.Game.prototype = {
 		/* Coding Blocks */
 		this.commandsSprite = [];
 		for (var i = 0 ; i < this.commands.length ; i++) {
-			box = this.add.sprite(50,(i+1)*25,this.commands[i]);
+			var box = this.add.sprite(g._WIDTH-134-96,i*25+110,this.commands[i]);
 			box.inputEnabled = true;
 			box.input.enableDrag();
 			box.events.onDragStart.add(this.onDragStart, this,0);
 			box.events.onDragStop.add(this.onDragStop, this,0);
 		}
 
+	},
+	onDragStartRight: function(box) {
 
 	},
+	onDragStopRight: function(box) {
 
+	},
 	onDragStart: function(box) {
 		newBox = this.add.sprite(box.x,box.y,box.key);
+		box.z += 100; 
 		newBox.inputEnabled = true;
 		newBox.input.enableDrag();
 		newBox.events.onDragStart.add(this.onDragStart, this,0);
@@ -67,11 +73,25 @@ g.Game.prototype = {
 	},
 
 	onDragStop: function(box) {
-		if(this.input.x > 400 && this.input.x < 500) {
-			this.commandsSprite.push(box);
-			box.events.onDragStop.removeAll();
+		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
+			if (this.commandsSprite[i].y > this.input.y) {
+				break;
+			}
+		}
+		var index = i;
+		console.log(index);
+		if(this.input.x > g._WIDTH-134-7) {
+			this.commandsSprite.splice(index,0,box);
+			for (var i = index+1 ; i < this.commandsSprite.length ; i++) {
+				this.add.tween(this.commandsSprite[i]).to({y:'+25'}, 500, "Back.easeOut", true);
+			}
 			box.events.onDragStart.removeAll();
-			this.add.tween(box).to({x:410,y:this.commandsSprite.length*25}, 500, "Back.easeOut", true);
+			box.events.onDragStop.removeAll();
+
+			box.events.onDragStart.add(this.onDragStartRight, this,0);
+			box.events.onDragStop.add(this.onDragStartRight, this,0);
+			box.mask = this.commandsMask;
+			this.add.tween(box).to({x:g._WIDTH-134,y:(this.commandsSprite.length>1)?this.commandsSprite[index-1].y+25:100}, 500, "Back.easeOut", true);
 		}
 		else {
 			box.destroy();
@@ -158,13 +178,12 @@ g.Game.prototype = {
 		if (Interpreter.isRunning === true) {
 			this.manageNext();
 		}
-		/*Temporaire*/
-		if (Player.sprite.children.length > 1) {
-			alert("STOP");
-		}
 
 		if (this.input.mouse.wheelDelta != 0 && this.rulesMask.input.checkPointerOver(this.input.mousePointer) == true) {
 			this.rulesWheel(this.input.mouse.wheelDelta);
+		}
+		if (this.input.mouse.wheelDelta != 0 && this.commandsMask.input.checkPointerOver(this.input.mousePointer) == true) {
+			this.commandsWheel(this.input.mouse.wheelDelta);
 		}
 		this.input.mouse.wheelDelta = 0;
 	},
@@ -174,6 +193,16 @@ g.Game.prototype = {
 		}
 		if(direction == 1 && this.rulesText.y > 10 - this.rulesText.height + 100 ) {
 			this.rulesText.y -= 10;
+		}
+	},
+	commandsWheel:function(direction) {
+		if (this.commandsSprite.length > 0) {		
+			if(direction == -1 && this.commandsSprite[this.commandsSprite.length-1].y > 325) {
+				this.commandsSprite.forEach(function(elt){elt.y-=10});
+			}
+			if(direction == 1 && this.commandsSprite[0].y < 90) {
+				this.commandsSprite.forEach(function(elt){elt.y+=10});
+			}
 		}
 	},
 	render: function() {

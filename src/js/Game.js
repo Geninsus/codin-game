@@ -47,6 +47,7 @@ g.Game.prototype = {
 		this.startLevel();
 
 		/* Coding Blocks */
+		this.scroolBar = 0;
 		this.commandsSprite = [];
 		for (var i = 0 ; i < this.commands.length ; i++) {
 			var box = this.add.sprite(g._WIDTH-134-96,i*25+110,this.commands[i]);
@@ -58,10 +59,35 @@ g.Game.prototype = {
 
 	},
 	onDragStartRight: function(box) {
-
+		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
+			if (this.commandsSprite[i] === box) {
+				break;
+			}
+		}
+		var index = i;
+		this.commandsSprite.splice(i,1);
+		for (var i = index ; i < this.commandsSprite.length ; i++) {
+			this.add.tween(this.commandsSprite[i]).to({y:'-25'}, 500, "Back.easeOut", true);
+		}
 	},
 	onDragStopRight: function(box) {
-
+		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
+			if (this.commandsSprite[i].y > this.input.y) {
+				break;
+			}
+		}
+		var index = i;
+		if(this.input.x > g._WIDTH-134-7) {
+			this.commandsSprite.splice(index,0,box);
+			for (var i = index+1 ; i < this.commandsSprite.length ; i++) {
+				this.add.tween(this.commandsSprite[i]).to({y:'+25'}, 500, "Back.easeOut", true);
+			}
+			box.mask = this.commandsMask;
+			this.add.tween(box).to({x:g._WIDTH-134,y:(this.commandsSprite.length>1)?this.commandsSprite[index-1].y+25:100}, 500, "Back.easeOut", true);
+		}
+		else {
+			box.destroy();
+		}
 	},
 	onDragStart: function(box) {
 		newBox = this.add.sprite(box.x,box.y,box.key);
@@ -79,7 +105,6 @@ g.Game.prototype = {
 			}
 		}
 		var index = i;
-		console.log(index);
 		if(this.input.x > g._WIDTH-134-7) {
 			this.commandsSprite.splice(index,0,box);
 			for (var i = index+1 ; i < this.commandsSprite.length ; i++) {
@@ -89,7 +114,7 @@ g.Game.prototype = {
 			box.events.onDragStop.removeAll();
 
 			box.events.onDragStart.add(this.onDragStartRight, this,0);
-			box.events.onDragStop.add(this.onDragStartRight, this,0);
+			box.events.onDragStop.add(this.onDragStopRight, this,0);
 			box.mask = this.commandsMask;
 			this.add.tween(box).to({x:g._WIDTH-134,y:(this.commandsSprite.length>1)?this.commandsSprite[index-1].y+25:100}, 500, "Back.easeOut", true);
 		}
@@ -185,6 +210,7 @@ g.Game.prototype = {
 		if (this.input.mouse.wheelDelta != 0 && this.commandsMask.input.checkPointerOver(this.input.mousePointer) == true) {
 			this.commandsWheel(this.input.mouse.wheelDelta);
 		}
+
 		this.input.mouse.wheelDelta = 0;
 	},
 	rulesWheel:function(direction) {
@@ -197,11 +223,19 @@ g.Game.prototype = {
 	},
 	commandsWheel:function(direction) {
 		if (this.commandsSprite.length > 0) {		
+			
 			if(direction == -1 && this.commandsSprite[this.commandsSprite.length-1].y > 325) {
-				this.commandsSprite.forEach(function(elt){elt.y-=10});
+				this.commandsSprite.forEach(function(elt){elt.y-=20;});
+				this.scroolBar -= 20; 
 			}
+			
 			if(direction == 1 && this.commandsSprite[0].y < 90) {
-				this.commandsSprite.forEach(function(elt){elt.y+=10});
+				this.commandsSprite.forEach(function(elt){elt.y+=20;});
+				this.scroolBar += 20;
+			}
+
+			for (var i = 0 ; i < this.commandsSprite.length ; i++) {
+				this.add.tween(this.commandsSprite[i]).to({y : i*25+90+this.scroolBar}, 500, "Back.easeOut", true)
 			}
 		}
 	},

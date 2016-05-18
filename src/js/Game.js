@@ -5,7 +5,6 @@ g.Game.prototype = {
 	localSimulationNumber : 0,
 	create: function() {
 		this.add.sprite(0, 0, 'screen-bg');
-		this.add.sprite(g._WIDTH-160,0, 'panel-left');
 		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
 		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-24 -5, 'button-pause', this.managePause, this, 1, 0 ,2);
 		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
@@ -27,6 +26,8 @@ g.Game.prototype = {
 		this.rulesMask.drawRect(g._WIDTH-320, 0, 160, 100);
 
 
+
+
 		/*Groups initialisation*/
 		this.itemsGroup = this.add.group();
 		this.playerGroup = this.add.group();
@@ -39,11 +40,37 @@ g.Game.prototype = {
 
 		this.startLevel();
 
-		for(var i = 0; i < data.levels[this._currentLevel-1].commands.length; i++) {
-			this.add.sprite(680-180-115, 104+21*i, data.levels[this._currentLevel-1].commands[i]);
+		/* Coding Blocks */
+		this.commandsSprite = [];
+		for (var i = 0 ; i < this.commands.length ; i++) {
+			box = this.add.sprite(50,(i+1)*25,this.commands[i]);
+			box.inputEnabled = true;
+			box.input.enableDrag();
+			box.events.onDragStart.add(this.onDragStart, this,0);
+			box.events.onDragStop.add(this.onDragStop, this,0);
 		}
 
 
+	},
+
+	onDragStart: function(box) {
+		newBox = this.add.sprite(box.x,box.y,box.key);
+		newBox.inputEnabled = true;
+		newBox.input.enableDrag();
+		newBox.events.onDragStart.add(this.onDragStart, this,0);
+		newBox.events.onDragStop.add(this.onDragStop, this,0);
+	},
+
+	onDragStop: function(box) {
+		if(this.input.x > 400 && this.input.x < 500) {
+			this.commandsSprite.push(box);
+			box.events.onDragStop.removeAll();
+			box.events.onDragStart.removeAll();
+			this.add.tween(box).to({x:410,y:this.commandsSprite.length*25}, 500, "Back.easeOut", true);
+		}
+		else {
+			box.destroy();
+		}
 	},
 	startLevel: function() {
 		levelNumber = this._currentLevel;
@@ -53,6 +80,7 @@ g.Game.prototype = {
 		this.rulesText.align = "left";
 		this.rulesText.wordWrapWidth = 140;
 		this.rulesText.wordWrap = true;
+		this.commands = data.levels[levelNumber-1].commands;
 		verfifNumber = 1000;
 		data.levels[levelNumber-1].inputsGenerator();
 		var inputs = [];

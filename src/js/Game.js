@@ -26,7 +26,7 @@ g.Game.prototype = {
 		this.rulesMask = this.add.graphics(0, 0);
 		this.rulesMask.inputEnabled = true;
 		this.rulesMask.beginFill(0xffffff);
-		this.rulesMask.drawRect(g._WIDTH-320, 0, 160, 100);
+		this.rulesMask.drawRect(g._WIDTH-134, 30, 120, 50);
 
 		this.commandsMask = this.add.graphics(0, 0);
 		this.commandsMask.inputEnabled = true;
@@ -124,11 +124,10 @@ g.Game.prototype = {
 	},
 	startLevel: function() {
 		levelNumber = this._currentLevel;
-		var style = { font: "14px Arial", fill: "#000000", align: "center"};
-		this.rulesText = this.add.text(g._WIDTH-320+10,10,data.levels[levelNumber-1].wording,style);
+		var style = { font: "10px Arial", fill: "#000000", align: "left"};
+		this.rulesText = this.add.text(g._WIDTH-134,30,data.levels[levelNumber-1].wording,style);
 		this.rulesText.mask = this.rulesMask;
-		this.rulesText.align = "left";
-		this.rulesText.wordWrapWidth = 140;
+		this.rulesText.wordWrapWidth = 120;
 		this.rulesText.wordWrap = true;
 		this.commands = data.levels[levelNumber-1].commands;
 		verfifNumber = 1000;
@@ -214,11 +213,11 @@ g.Game.prototype = {
 		this.input.mouse.wheelDelta = 0;
 	},
 	rulesWheel:function(direction) {
-		if(direction == -1 && this.rulesText.y != 10) {
-			this.rulesText.y += 10;
-		}
-		if(direction == 1 && this.rulesText.y > 10 - this.rulesText.height + 100 ) {
+		if(direction == -1 && this.rulesText.y > 30 - this.rulesText.height + 50) {
 			this.rulesText.y -= 10;
+		}
+		if(direction == 1 && this.rulesText.y != 30) {
+			this.rulesText.y += 10;
 		}
 	},
 	commandsWheel:function(direction) {

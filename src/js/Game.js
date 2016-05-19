@@ -19,16 +19,7 @@ g.Game.prototype = {
 
 		this.startLevel();
 
-		/* Coding Blocks */
-		this.scroolBar = 0;
-		this.commandsSprite = [];
-		for (var i = 0 ; i < this.commands.length ; i++) {
-			var box = this.add.sprite(g._WIDTH-134-96,i*25+110,this.commands[i]);
-			box.inputEnabled = true;
-			box.input.enableDrag();
-			box.events.onDragStart.add(this.onDragStart, this,0);
-			box.events.onDragStop.add(this.onDragStop, this,0);
-		}
+
 
 	},
 	settingUpScene: function() {
@@ -75,6 +66,17 @@ g.Game.prototype = {
 		this.commandsMask.alpha=0;
 		this.commandsMask.drawRect(g._WIDTH-134-7, 90, 134, 260);
 		this.commands = data.levels[this._currentLevel-1].commands;
+
+		/*Blocks*/
+		this.scroolBar = 0;
+		this.commandsSprite = [];
+		for (var i = 0 ; i < this.commands.length ; i++) {
+			var box = this.add.sprite(g._WIDTH-134-96,i*25+110,this.commands[i]);
+			box.inputEnabled = true;
+			box.input.enableDrag();
+			box.events.onDragStart.add(this.onDragStart, this,0);
+			box.events.onDragStop.add(this.onDragStop, this,0);
+		}
 	},
 	onDragStartRight: function(box) {
 		for (var i = 0 ; i < this.commandsSprite.length ; i++) {

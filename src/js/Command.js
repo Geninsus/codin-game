@@ -2,10 +2,11 @@
 
 var Command = {
 
-	init: function(game,key,position,side = 'left') {
+	init: function(game,key,position,side = 'left',letter = null) {
 		this.game = game;
 		this.sprite = this.game.add.sprite(position.x,position.y,key);
 		this.key = key;
+		if(letter != null) this.key += " "+ letter;
 		this.side = side;
 		this.sprite.inputEnabled = true;
 		this.sprite.input.enableDrag();
@@ -27,7 +28,7 @@ var Command = {
 			var index = i;
 			this.game.commands.splice(i,1);
 			for (var i = index ; i < this.game.commands.length ; i++) {
-				this.add.tween(this.game.commands[i].sprite).to({y:'-25'}, 500, "Back.easeOut", true);
+				this.game.add.tween(this.game.commands[i].sprite).to({y:'-25'}, 500, "Back.easeOut", true);
 			}
 
 		}
@@ -44,13 +45,35 @@ var Command = {
 			var index = i;
 			this.game.commands.splice(index,0,this);
 			for (var i = index+1 ; i < this.game.commands.length ; i++) {
-				this.game.add.tween(this.game.commands[i].sprite).to({y:'+25'}, 500, "Back.easeOut", true);
+				this.game.add.tween(this.game.commands[i].sprite).to({y:(this.key == 'jump')?'+50':'+25'}, 500, "Back.easeOut", true);
 			}
-			this.game.add.tween(this.sprite).to({x:g._WIDTH-134,y:(this.game.commands.length>1)?this.game.commands[index-1].sprite.y+25:100}, 500, "Back.easeOut", true);
+			var myTween = this.game.add.tween(this.sprite).to({x:g._WIDTH-134,y:(this.game.commands.length>1)?this.game.commands[index-1].sprite.y+25:100}, 500, "Back.easeOut", true);
+			if(this.key == 'jump') {
+				this.key = "goto "+ String.fromCharCode(65+this.game.nbCommandsGoTo);
+				myTween.onComplete.add(function(){
+					var newLabel = Object.create(Command);
+					newLabel.init(this.game,'label',new Phaser.Point(this.sprite.x,this.sprite.y+25),this.side,String.fromCharCode(65+this.game.nbCommandsGoTo));
+					this.game.nbCommandsGoTo++;
+					for (var i = 0 ; i < this.game.commands.length ; i++) {
+						if (this.game.commands[i] === this) {
+							break;
+						}
+					}
+					this.game.commands.splice(i+1,0,newLabel);
+
+					/* BEZIER */
+
+
+					// END BEZIER
+
+				},this);
+			}
 		}
 		else {
 			this.sprite.destroy();
 		}
+
+		console.log(this.game.commands);
 	}
 
 };

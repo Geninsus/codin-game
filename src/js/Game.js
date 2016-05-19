@@ -70,6 +70,7 @@ g.Game.prototype = {
 		/*Blocks*/
 		this.scroolBar = 0;
 		this.commands = [];
+		this.nbCommandsGoTo = 0;
 		for (var i = 0 ; i < this.commandsAvailable.length ; i++) {
 			var command = Object.create(Command);
 			command.init(this,this.commandsAvailable[i], new Phaser.Point(g._WIDTH-134-96,i*25+110));

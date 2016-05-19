@@ -144,7 +144,6 @@ g.Game.prototype = {
 	},
 	startLevel: function() {
 		levelNumber = this._currentLevel;
-		
 		verfifNumber = 1000;
 		data.levels[levelNumber-1].inputsGenerator();
 		var inputs = [];
@@ -154,7 +153,7 @@ g.Game.prototype = {
 			inputs.push(item);
 		}
 		Interpreter.init(true, this);
-		Inputs.init(inputs);
+		Inputs.init(inputs,this);
 		Outputs.init();
 		Memory.init(data.levels[levelNumber-1].memory);
 		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
@@ -214,6 +213,8 @@ g.Game.prototype = {
 		this.audioButton.animations.play(this.audioStatus);
 	},
 	update: function() {
+		Inputs.update();
+		Player.update();
 		if (Interpreter.isRunning === true) {
 			this.manageNext();
 		}

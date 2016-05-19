@@ -5,7 +5,6 @@ var Inputs = {
     this.inputs = [];
     this.inputs = inputs;
     this.inputMask = this.game.add.graphics(0, 0);
-    this.inputMask.inputEnabled = true;
     this.inputMask.beginFill(0xffffff);
     this.inputMask.alpha=0;
     this.inputMask.drawRect(49, 170, 32, 157);
@@ -28,9 +27,9 @@ var Inputs = {
     return new Phaser.Point(64.5,189+32*index);
   },
 
-  takeItem : function () {
-    for (var i = 0 ; i < this.inputs.length ; i++) {
-        this.inputs[i].sprite.game.add.tween(this.inputs[i].sprite).to( Inputs.position(i), 300, Phaser.Easing.Linear.None, true);
+  replace : function () {
+    for (var i = 0 ; i < Inputs.inputs.length ; i++) {
+      Inputs.game.add.tween(Inputs.inputs[i].text).to(Inputs.position(i),500,Phaser.Easing.Linear.None,true);
     }
   },
 
@@ -38,5 +37,12 @@ var Inputs = {
     for (var i = 0 ; i < this.inputs.length ; i++) {
       this.inputs[i].update();
     }
+  },
+
+  take: function() {
+    var item = Inputs.inputs.shift();
+    item.destroy(true);
+    item.tween.onComplete.add(Inputs.replace);
+    return item;
   }
 };

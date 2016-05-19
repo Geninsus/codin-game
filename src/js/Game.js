@@ -88,7 +88,7 @@ g.Game.prototype = {
 		}
 		Interpreter.init(true, this);
 		Inputs.init(inputs,this);
-		Outputs.init();
+		Outputs.init(this);
 		Memory.init(data.levels[levelNumber-1].memory);
 		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 	},
@@ -105,15 +105,13 @@ g.Game.prototype = {
 
 	},
 	manageNext: function() {
-		if (Player.spriteTween === null) {
+		if (Player.sprite.animations.currentAnim.name == 'idleLeft') {
 			Interpreter.next();
 		}
 	},
 	manageRun: function() {
-		if (Player.spriteTween === null) {
 				Interpreter.run();
 				this.manageSpeed(1);
-		}
 	},
 	manageStop: function(){
 

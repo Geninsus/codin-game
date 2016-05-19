@@ -18,11 +18,6 @@ var Player = {
 	init: function(game) {
 		this.game = game;
 		this.sprite = this.game.add.sprite(100,100,'player');
-		this.scann = this.game.add.sprite(0,0,'scanning');
-		this.scann.anchor = {x: 0.5, y :1};
-		this.scann.alpha = 0;
-		this.sprite.addChild(this.scann);
-
 		this.sprite.anchor = {x: 0.5, y :1};
 		this.game.physics.arcade.enable(this.sprite);
 		this.tween = null;
@@ -37,22 +32,38 @@ var Player = {
 		this.drone.tweenRight.chain(this.drone.tweenLeft);
 		this.drone.tweenRight.start();
 		// Animations
-		this.up = this.sprite.animations.add('up', [0,3], 10, true);
-		this.left = this.sprite.animations.add('left', [4,7], 10, true);
-		this.right = this.sprite.animations.add('right', [8,11], 10, true);
-		this.down = this.sprite.animations.add('down', [12,15], 10, true);
-		this.scanning = this.scann.animations.add('scanning',null,2);
-		this.scanning.onStart.add(function(){this.scann.alpha = 1;},this);
-		this.scanning.onComplete.add(function(){this.scann.alpha = 0;},this);
+		this.idleLeft = this.sprite.animations.add('idleLeft', this.range(0,8) , 4, true);
+		this.idleRight = this.sprite.animations.add('idleRight', this.range(9,17), 4, true);
+		this.walkLeft = this.sprite.animations.add('walkLeft', this.range(18,26), 4, true);
+		this.walkRight = this.sprite.animations.add('walkRight', this.range(27,35), 4, true);
+		this.scanning = this.sprite.animations.add('scanning', this.range(36,48), 4, true);
+		this.scanning.onLoop.add(function(){this.sprite.play('idleLeft');},this);
+		this.sprite.play('idleLeft');
 	},
-	scan: function(item) {
+	setItem: function(item) {
+		if (this.drone.item != null) this.drone.item.destroy();
+		this.drone.item = item;
+		this.drone.sprite.addChild(item.text);
+	},
+	removeItem: function() {
+		if (this.drone.item != null) this.drone.item.destroy();
+	},
+	scanTake: function(item) {
 		this.moveTo({x:item.text.x+32, y:item.text.y});
 		this.tween.onComplete.add(function(){
-			this.scann.play('scanning');
-			this.scanning.onComplete.add(function(){Input.replace();},this);
-			item.destroy();
+			this.sprite.play('scanning');
+			var newItem = Object.create(Item);
+			newItem.init(this.game,item.value,true,15,15);
+			this.setItem(newItem);
 		},this);
 
+	},
+	scanDrop: function() {
+		this.moveTo(new Phaser.Point(Outputs.position(0).x-32,Outputs.position(0).y));
+		this.tween.onComplete.add(function(){
+			this.sprite.play('scanning');
+			this.removeItem();
+		},this);
 	},
 	moveTo: function(position) {
 		this.tween = this.game.add.tween(this.sprite).to( position, 500, Phaser.Easing.Linear.None, true);
@@ -67,5 +78,9 @@ var Player = {
 			this.drone.tweenRight.resume();
 			this.drone.tweenLeft.resume();
 		}
+	},
+	range: function(start,end) {
+		return Array(end-start+1).fill().map((i, idx) => start+idx)
 	}
+
 };

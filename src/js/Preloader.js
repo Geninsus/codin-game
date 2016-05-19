@@ -49,10 +49,9 @@ g.Preloader.prototype = {
 		this.load.spritesheet('button-nextStep','assets/buttons/button-nextStep.png',24,25);
 
 		//		PLAYER SHEET
-		this.load.spritesheet('player', 'assets/img/player.png', 32, 50);
+		this.load.spritesheet('player', 'assets/img/player.png', 100, 100);
 		this.load.spritesheet('drone', 'assets/img/drone.png', 24, 24);
 		this.load.spritesheet('explosion', 'assets/img/explosion.png', 50, 50);
-		this.load.spritesheet('scanning', 'assets/img/scanning.png', 32, 50);
 
 		// LEVEL SHEET
 		this.load.spritesheet('levelSelection', 'assets/img/level-selection.png', 30, 28);

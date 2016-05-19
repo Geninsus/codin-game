@@ -39,6 +39,7 @@ g.Preloader.prototype = {
 		this.load.image('outbox', 'assets/buttons/button-outbox.png');
 		this.load.image('sub', 'assets/buttons/button-sub.png');
 		this.load.image('label', 'assets/buttons/button-label.png');
+		this.load.image('mark', 'assets/buttons/mark.png');
 
 
 		//		STATE BUTTON

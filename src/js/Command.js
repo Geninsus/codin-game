@@ -49,7 +49,7 @@ var Command = {
 			}
 			var myTween = this.game.add.tween(this.sprite).to({x:g._WIDTH-134,y:(this.game.commands.length>1)?this.game.commands[index-1].sprite.y+25:100}, 500, "Back.easeOut", true);
 			if(this.key == 'jump') {
-				this.key = "goto "+ String.fromCharCode(65+this.game.nbCommandsGoTo);
+				this.key = "jump "+ String.fromCharCode(65+this.game.nbCommandsGoTo);
 				myTween.onComplete.add(function(){
 					var newLabel = Object.create(Command);
 					newLabel.init(this.game,'label',new Phaser.Point(this.sprite.x,this.sprite.y+25),this.side,String.fromCharCode(65+this.game.nbCommandsGoTo));

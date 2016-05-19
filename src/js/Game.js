@@ -66,9 +66,12 @@ g.Game.prototype = {
 		this.commandsMask.alpha=0;
 		this.commandsMask.drawRect(g._WIDTH-134-7, 90, 134, 260);
 		this.commandsAvailable = data.levels[this._currentLevel-1].commands;
+		this.commandsMark = this.add.sprite(g._WIDTH-140,0,'mark');
+		this.commandsMark.mask = this.commandsMask;
 
 		/*Blocks*/
 		this.scroolBar = 0;
+		this.previousCommands = "";
 		this.commands = [];
 		this.nbCommandsGoTo = 0;
 		for (var i = 0 ; i < this.commandsAvailable.length ; i++) {
@@ -90,7 +93,6 @@ g.Game.prototype = {
 		Inputs.init(inputs,this);
 		Outputs.init(this);
 		Memory.init(data.levels[levelNumber-1].memory);
-		Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 	},
 	managePause: function() {
 		this.game.paused = true;
@@ -106,7 +108,17 @@ g.Game.prototype = {
 	},
 	manageNext: function() {
 		if (Player.sprite.animations.currentAnim.name == 'idleLeft') {
+			var codes = ""
+			for (var i = 0 ; i < this.commands.length ; i++) {
+				codes += this.commands[i].key.toUpperCase()+" ";
+			}
+			if (this.previousCommands != codes) {
+				Interpreter.init(true, this);
+				Interpreter.parser(codes);
+			}
 			Interpreter.next();
+			this.previousCommands = codes;
+			console.log(Interpreter.codes);
 		}
 	},
 	manageRun: function() {
@@ -156,6 +168,15 @@ g.Game.prototype = {
 		}
 		if (this.input.mouse.wheelDelta != 0 && this.commandsMask.input.checkPointerOver(this.input.mousePointer) == true) {
 			this.commandsWheel(this.input.mouse.wheelDelta);
+		}
+
+		// Command Mark
+		if (this.commands.length > 0 ) {
+			this.commandsMark.alive = true;
+			this.commandsMark.y = this.commands[Interpreter.i].sprite.y;
+		}
+		else {
+			this.commandsMark.alive = false;
 		}
 
 		this.input.mouse.wheelDelta = 0;

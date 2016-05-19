@@ -65,81 +65,14 @@ g.Game.prototype = {
 		this.commandsMask.beginFill(0xffffff);
 		this.commandsMask.alpha=0;
 		this.commandsMask.drawRect(g._WIDTH-134-7, 90, 134, 260);
-		this.commands = data.levels[this._currentLevel-1].commands;
+		this.commandsAvailable = data.levels[this._currentLevel-1].commands;
 
 		/*Blocks*/
 		this.scroolBar = 0;
-		this.commandsSprite = [];
-		for (var i = 0 ; i < this.commands.length ; i++) {
-			var box = this.add.sprite(g._WIDTH-134-96,i*25+110,this.commands[i]);
-			box.inputEnabled = true;
-			box.input.enableDrag();
-			box.events.onDragStart.add(this.onDragStart, this,0);
-			box.events.onDragStop.add(this.onDragStop, this,0);
-		}
-	},
-	onDragStartRight: function(box) {
-		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
-			if (this.commandsSprite[i] === box) {
-				break;
-			}
-		}
-		var index = i;
-		this.commandsSprite.splice(i,1);
-		for (var i = index ; i < this.commandsSprite.length ; i++) {
-			this.add.tween(this.commandsSprite[i]).to({y:'-25'}, 500, "Back.easeOut", true);
-		}
-	},
-	onDragStopRight: function(box) {
-		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
-			if (this.commandsSprite[i].y > this.input.y) {
-				break;
-			}
-		}
-		var index = i;
-		if(this.input.x > g._WIDTH-134-7) {
-			this.commandsSprite.splice(index,0,box);
-			for (var i = index+1 ; i < this.commandsSprite.length ; i++) {
-				this.add.tween(this.commandsSprite[i]).to({y:'+25'}, 500, "Back.easeOut", true);
-			}
-			box.mask = this.commandsMask;
-			this.add.tween(box).to({x:g._WIDTH-134,y:(this.commandsSprite.length>1)?this.commandsSprite[index-1].y+25:100}, 500, "Back.easeOut", true);
-		}
-		else {
-			box.destroy();
-		}
-	},
-	onDragStart: function(box) {
-		newBox = this.add.sprite(box.x,box.y,box.key);
-		box.z += 100; 
-		newBox.inputEnabled = true;
-		newBox.input.enableDrag();
-		newBox.events.onDragStart.add(this.onDragStart, this,0);
-		newBox.events.onDragStop.add(this.onDragStop, this,0);
-	},
-
-	onDragStop: function(box) {
-		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
-			if (this.commandsSprite[i].y > this.input.y) {
-				break;
-			}
-		}
-		var index = i;
-		if(this.input.x > g._WIDTH-134-7) {
-			this.commandsSprite.splice(index,0,box);
-			for (var i = index+1 ; i < this.commandsSprite.length ; i++) {
-				this.add.tween(this.commandsSprite[i]).to({y:'+25'}, 500, "Back.easeOut", true);
-			}
-			box.events.onDragStart.removeAll();
-			box.events.onDragStop.removeAll();
-
-			box.events.onDragStart.add(this.onDragStartRight, this,0);
-			box.events.onDragStop.add(this.onDragStopRight, this,0);
-			box.mask = this.commandsMask;
-			this.add.tween(box).to({x:g._WIDTH-134,y:(this.commandsSprite.length>1)?this.commandsSprite[index-1].y+25:100}, 500, "Back.easeOut", true);
-		}
-		else {
-			box.destroy();
+		this.commands = [];
+		for (var i = 0 ; i < this.commandsAvailable.length ; i++) {
+			var command = Object.create(Command);
+			command.init(this,this.commandsAvailable[i], new Phaser.Point(g._WIDTH-134-96,i*25+110));
 		}
 	},
 	startLevel: function() {
@@ -237,20 +170,20 @@ g.Game.prototype = {
 		}
 	},
 	commandsWheel:function(direction) {
-		if (this.commandsSprite.length > 0) {		
+		if (this.commands.length > 0) {		
 			
-			if(direction == -1 && this.commandsSprite[this.commandsSprite.length-1].y > 325) {
-				this.commandsSprite.forEach(function(elt){elt.y-=20;});
+			if(direction == -1 && this.commands[this.commands.length-1].sprite.y > 325) {
+				this.commands.forEach(function(elt){elt.sprite.y-=20;});
 				this.scroolBar -= 20; 
 			}
 			
-			if(direction == 1 && this.commandsSprite[0].y < 90) {
-				this.commandsSprite.forEach(function(elt){elt.y+=20;});
+			if(direction == 1 && this.commands[0].sprite.y < 90) {
+				this.commands.forEach(function(elt){elt.sprite.y+=20; console.log(elt.key);});
 				this.scroolBar += 20;
 			}
 
-			for (var i = 0 ; i < this.commandsSprite.length ; i++) {
-				this.add.tween(this.commandsSprite[i]).to({y : i*25+90+this.scroolBar}, 500, "Back.easeOut", true)
+			for (var i = 0 ; i < this.commands.length ; i++) {
+				this.add.tween(this.commands[i].sprite).to({y : i*25+90+this.scroolBar}, 500, "Back.easeOut", true)
 			}
 		}
 	},

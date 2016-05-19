@@ -47,7 +47,12 @@ var Player = {
 	},
 	scan: function(item) {
 		this.moveTo({x:item.text.x+32, y:item.text.y});
-		this.tween.onComplete.add(function(){this.scann.play('scanning')},this)
+		this.tween.onComplete.add(function(){
+			this.scann.play('scanning');
+			this.scanning.onComplete.add(function(){Input.replace();},this);
+			item.destroy();
+		},this);
+
 	},
 	moveTo: function(position) {
 		this.tween = this.game.add.tween(this.sprite).to( position, 500, Phaser.Easing.Linear.None, true);

@@ -38,6 +38,8 @@ g.Preloader.prototype = {
 		this.load.image('jumpz', 'assets/buttons/button-jumpz.png');
 		this.load.image('outbox', 'assets/buttons/button-outbox.png');
 		this.load.image('sub', 'assets/buttons/button-sub.png');
+		this.load.image('label', 'assets/buttons/button-label.png');
+
 
 		//		STATE BUTTON
 		this.load.spritesheet('button-audio', 'assets/img/button-audio.png', 35, 35);

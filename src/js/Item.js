@@ -16,6 +16,7 @@ var Item = {
 			this.text.alpha = 0;
 			this.text.anchor.x += 0.5;
 			this.text.anchor.y += 0.5;
+			this.game.add.tween(this.text).to({alpha:1},3000,Phaser.Easing.Linear.None,true);
 		}
 	},
 
@@ -28,8 +29,9 @@ var Item = {
     	this.text.y = position.y;
     },
 	update: function() {
-		if (this.text.alpha < 1) {
-			this.text.alpha+=0.005;
-		}
+	},
+	destroy: function() {
+		this.tween = this.game.add.tween(this.text).to({alpha:0},3000,Phaser.Easing.Linear.None,true);
+		this.tween.onComplete.add(function() {this.text.destroy();});
 	}
 };

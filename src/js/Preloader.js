@@ -20,6 +20,7 @@ g.Preloader.prototype = {
 		this.load.image('screen-howtoplay', 'assets/img/screen-howtoplay.png');
 		this.load.image('border-horizontal', 'assets/img/border-horizontal.png');
 		this.load.image('border-vertical', 'assets/img/border-vertical.png');
+		this.load.image('plane', 'assets/img/plane.png');
 
 		// START GAME IMAGE LOAD
 		this.load.spritesheet('button-start', 'assets/img/button-start2.png', 146, 51);

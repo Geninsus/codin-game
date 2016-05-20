@@ -20,11 +20,13 @@ g.Preloader.prototype = {
 		this.load.image('screen-howtoplay', 'assets/img/screen-howtoplay.png');
 		this.load.image('border-horizontal', 'assets/img/border-horizontal.png');
 		this.load.image('border-vertical', 'assets/img/border-vertical.png');
-		this.load.image('plane', 'assets/img/plane.png');
 
 		// START GAME IMAGE LOAD
 		this.load.spritesheet('button-start', 'assets/img/button-start2.png', 146, 51);
-		this.load.image('screen-mainmenu', 'assets/img/start-background.png');
+		this.load.image('building-mainmenu', 'assets/img/building-mainMenu.png');
+		this.load.image('sky-mainmenu', 'assets/img/sky-mainMenu.png');
+		this.load.image('clouds-mainmenu', 'assets/img/clouds-mainMenu.png');
+		this.load.image('plane', 'assets/img/plane.png');
 
 		// GAME IMAGE LOAD
 		//		BOX BUTTON

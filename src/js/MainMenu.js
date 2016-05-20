@@ -1,16 +1,34 @@
 g.MainMenu = function(game) {};
 g.MainMenu.prototype = {
 	create: function() {
-		this.add.sprite(0, 0, 'screen-mainmenu');
-		this.gameTitle = this.add.sprite(-250,153, 'title');
-		this.gameTitle.anchor.set(0.5,0);
+		this.time = 0;
+		this.add.sprite(0, 0, 'sky-mainmenu');
+		this.clouds = this.add.sprite(-100,10,'clouds-mainmenu');
+		this.add.sprite(0,0,'building-mainmenu');
 		this.plane = this.add.sprite(641,10,'plane');
-		tween1 = this.add.tween(this.plane).to( { x:-500}, 7000, Phaser.Easing.Linear.None, true);
-		tween = this.add.tween(this.gameTitle).to( { x:320,y: 93 }, 2500, Phaser.Easing.Linear.None, true);
-		this.startButton = this.add.button(g._WIDTH*0.5, 200, 'button-start', this.startGame, this, 2, 0, 1);
-		this.startButton.input.useHandCursor = true;
-
+		this.gameTitle = this.add.sprite(320,93, 'title');
+		this.gameTitle.anchor.set(0.5,0);
+		this.begin = this.add.text(g._WIDTH*0.5-100, 250, "Click anywhere to start !", this.fontMessage);
 		// button to "read the article"
+	},
+	update:    function(){
+		if(this.plane.x <=-400){
+			this.plane.x = 641;
+		}
+		this.plane.x--;
+		if (this.clouds.x>=641) {
+			this.clouds.x=-641;
+		}
+		this.time++;
+		if(this.time%5 == 0){
+			this.clouds.x++;
+		}
+		if(this.time%60 >= 30){
+			this.begin.visible = false;
+		}else{
+			this.begin.visible = true;
+		}
+		this.input.onDown.add(this.startGame,this);
 	},
 	startGame: function() {
 		this.game.state.start('LevelMenu');

@@ -6,23 +6,17 @@ g.Preloader.prototype = {
 		this.load.setPreloadSprite(this.preloadBar);
 
 		this.load.image('starfield', 'assets/img/deep-space.png');
-
-		this.load.image('ball', 'assets/img/ball.png');
 		this.load.image('item', 'assets/img/item.png');
-		this.load.image('hole', 'assets/img/hole.png');
-		this.load.image('element-w', 'assets/img/element-w.png');
-		this.load.image('element-h', 'assets/img/element-h.png');
 		this.load.image('panel', 'assets/img/panel.png');
 		this.load.image('panel-box', 'assets/img/panel-box.png');
 		this.load.image('panel-left', 'assets/img/panel-left.png');
 		this.load.image('title', 'assets/img/title.png');
 		this.load.image('screen-bg', 'assets/img/game-plate.png');
-		this.load.image('screen-howtoplay', 'assets/img/screen-howtoplay.png');
+
 		this.load.image('border-horizontal', 'assets/img/border-horizontal.png');
 		this.load.image('border-vertical', 'assets/img/border-vertical.png');
 
 		// START GAME IMAGE LOAD
-		this.load.spritesheet('button-start', 'assets/img/button-start2.png', 146, 51);
 		this.load.image('building-mainmenu', 'assets/img/building-mainMenu.png');
 		this.load.image('sky-mainmenu', 'assets/img/sky-mainMenu.png');
 		this.load.image('clouds-mainmenu', 'assets/img/clouds-mainMenu.png');
@@ -46,7 +40,6 @@ g.Preloader.prototype = {
 
 
 		//		STATE BUTTON
-		this.load.spritesheet('button-audio', 'assets/img/button-audio.png', 35, 35);
 		this.load.spritesheet('button-play-speed', 'assets/buttons/button-play.png', 24, 25);
 		this.load.spritesheet('button-pause', 'assets/buttons/button-pause.png',24,25);
 		this.load.spritesheet('button-stop', 'assets/buttons/button-stop.png',24,25);
@@ -55,7 +48,6 @@ g.Preloader.prototype = {
 		//		PLAYER SHEET
 		this.load.spritesheet('player', 'assets/img/player.png', 100, 100);
 		this.load.spritesheet('drone', 'assets/img/drone.png', 24, 24);
-		this.load.spritesheet('explosion', 'assets/img/explosion.png', 50, 50);
 
 		// LEVEL SHEET
 		this.load.spritesheet('levelSelection', 'assets/img/level-selection.png', 30, 28);

@@ -114,7 +114,7 @@ var Command = {
 		this.sprite.destroy();
 		if (this.arrow != undefined) {
 			this.arrow.destroy();
-			this.arrow = undefined;
+			delete this.arrow;
 		}
 	}
 

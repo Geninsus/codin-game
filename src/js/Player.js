@@ -67,7 +67,12 @@ var Player = {
 	},
 	moveTo: function(position) {
 		this.tween = this.game.add.tween(this.sprite).to( position, 500, Phaser.Easing.Linear.None, true);
-		this.tween.onComplete.add(function(){this.tween = null;},this,1);
+		this.tween.onComplete.add(function(){
+			this.tween = null;
+			this.sprite.animations.stop();
+			this.sprite.play('idleLeft');
+		},this,1);
+		this.sprite.play('walkLeft');
 	},
 	update: function() {
 		if(this.tween != null) {

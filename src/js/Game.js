@@ -66,8 +66,6 @@ g.Game.prototype = {
 		this.commandsMask.alpha=0;
 		this.commandsMask.drawRect(g._WIDTH-134-7, 90, 134, 260);
 		this.commandsAvailable = data.levels[this._currentLevel-1].commands;
-		this.commandsMark = this.add.sprite(g._WIDTH-140,0,'mark');
-		this.commandsMark.mask = this.commandsMask;
 
 		/*Blocks*/
 		this.scroolBar = 0;
@@ -169,15 +167,6 @@ g.Game.prototype = {
 		}
 		if (this.input.mouse.wheelDelta != 0 && this.commandsMask.input.checkPointerOver(this.input.mousePointer) == true) {
 			this.commandsWheel(this.input.mouse.wheelDelta);
-		}
-
-		// Command Mark
-		if (this.commands.length > 0 ) {
-			this.commandsMark.alive = true;
-			this.commandsMark.y = this.commands[Interpreter.i].sprite.y;
-		}
-		else {
-			this.commandsMark.alive = false;
 		}
 
 		this.input.mouse.wheelDelta = 0;

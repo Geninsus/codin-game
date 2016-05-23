@@ -34,7 +34,7 @@ var Command = {
 		}
 	},
 	onDragStop: function() {
-		if(this.game.input.x > g._WIDTH-134-7) {
+		if(this.game.input.x > g._WIDTH-134-7 && this.game.input.y > 95) {
 			this.sprite.mask = this.game.commandsMask;
 			this.side = 'right';
 			for (var i = 0 ; i < this.game.commands.length ; i++) {
@@ -63,7 +63,12 @@ var Command = {
 
 					/* BEZIER */
 
-
+					this.arrow = this.game.add.graphics(this.sprite.x+this.sprite.width,this.sprite.y+this.sprite.height/2);
+				    this.arrow.lineStyle(2, 0xFF0000, 0.8);
+				    this.arrow.lineTo(20*this.game.nbCommandsGoTo, 0);
+				    this.arrow.lineTo(20*this.game.nbCommandsGoTo, (newLabel.sprite.y+newLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+				    this.arrow.lineTo(0,(newLabel.sprite.y+newLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+				    this.likedLabel = newLabel;
 					// END BEZIER
 
 				},this);
@@ -74,83 +79,17 @@ var Command = {
 		}
 
 		console.log(this.game.commands);
+	},
+
+	update: function() {
+		if (this.arrow) {
+			this.arrow.destroy();
+			this.arrow = this.game.add.graphics(this.sprite.x+this.sprite.width,this.sprite.y+this.sprite.height/2);
+		    this.arrow.lineStyle(2, 0xFF0000, 0.8);
+		    this.arrow.lineTo(20*this.game.nbCommandsGoTo, 0);
+		    this.arrow.lineTo(20*this.game.nbCommandsGoTo, (this.likedLabel.sprite.y+this.likedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+		    this.arrow.lineTo(0,(this.likedLabel.sprite.y+this.likedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+		}
 	}
 
 };
-
-/*
-
-onDragStartRight: function(box) {
-		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
-			if (this.commandsSprite[i] === box) {
-				break;
-			}
-		}
-		var index = i;
-		this.commandsSprite.splice(i,1);
-		for (var i = index ; i < this.commandsSprite.length ; i++) {
-			this.add.tween(this.commandsSprite[i]).to({y:'-25'}, 500, "Back.easeOut", true);
-		}
-	},
-	onDragStopRight: function(box) {
-		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
-			if (this.commandsSprite[i].y > this.input.y) {
-				break;
-			}
-		}
-		var index = i;
-		if(this.input.x > g._WIDTH-134-7) {
-			this.commandsSprite.splice(index,0,box);
-			for (var i = index+1 ; i < this.commandsSprite.length ; i++) {
-				this.add.tween(this.commandsSprite[i]).to({y:'+25'}, 500, "Back.easeOut", true);
-			}
-			box.mask = this.commandsMask;
-			this.add.tween(box).to({x:g._WIDTH-134,y:(this.commandsSprite.length>1)?this.commandsSprite[index-1].y+25:100}, 500, "Back.easeOut", true);
-		}
-		else {
-			box.destroy();
-		}
-	},
-	onDragStart: function(box) {
-		newBox = this.add.sprite(box.x,box.y,box.key);
-		box.z += 100; 
-		newBox.inputEnabled = true;
-		newBox.input.enableDrag();
-		newBox.events.onDragStart.add(this.onDragStart, this,0);
-		newBox.events.onDragStop.add(this.onDragStop, this,0);
-	},
-
-	onDragStop: function(box) {
-		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
-			if (this.commandsSprite[i].y > this.input.y) {
-				break;
-			}
-		}
-		var index = i;
-		if(this.input.x > g._WIDTH-134-7) {
-			this.commandsSprite.splice(index,0,box);
-			for (var i = index+1 ; i < this.commandsSprite.length ; i++) {
-				this.add.tween(this.commandsSprite[i]).to({y:(this.commands[i] != "jump")?'+25':'50'}, 500, "Back.easeOut", true);
-			}
-			box.events.onDragStart.removeAll();
-			box.events.onDragStop.removeAll();
-			if(this.commands[i] == "jump") {
-				box.events.onDragStop.add(this.onDragStopJump, this,-1);
-			}
-
-			box.events.onDragStart.add(this.onDragStartRight, this,0);
-			box.events.onDragStop.add(this.onDragStopRight, this,0);
-			box.mask = this.commandsMask;
-			var myTween = this.add.tween(box).to({x:g._WIDTH-134,y:(this.commandsSprite.length>1)?this.commandsSprite[index-1].y+25:100}, 500, "Back.easeOut", true);
-			if (box.key == "jump" ){
-				myTween.onComplete.add(function(tween){
-					console.log(tween);
-					this.add.sprite(tween.x,tween.y + 25,'label');
-				},this);
-			}
-		}
-		else {
-			box.destroy();
-		}
-	},
-	*/

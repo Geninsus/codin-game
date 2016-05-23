@@ -24,7 +24,7 @@ var Player = {
 		this.action = null;
 		
 		// Drone Initialisation
-		this.drone = {item : null, sprite : this.game.add.sprite(+20,-70,'drone')};
+		this.drone = {item : null, sprite : this.game.add.sprite(+20,-130,'drone')};
 		this.sprite.addChild(this.drone.sprite);
 		this.drone.tweenRight = this.game.add.tween(this.drone.sprite).to({x : "+5"}, 2000,"Quart.easeOut");
 		this.drone.tweenLeft = this.game.add.tween(this.drone.sprite).to({x : "-5"}, 2000,"Quart.easeOut");

@@ -159,6 +159,7 @@ g.Game.prototype = {
 	update: function() {
 		Inputs.update();
 		Player.update();
+		this.commands.forEach(function(elt) {elt.update()});
 		if (Interpreter.isRunning === true) {
 			this.manageNext();
 		}

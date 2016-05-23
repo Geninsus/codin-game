@@ -147,11 +147,7 @@ var Interpreter = {
         return;
       }
     }
-    Memory.set(add, Player.hand);
-    position = Memory.position(add);
-    position.x += -35;
-    position.y += -20;
-    Player.moveTo(position,"copyto",add);
+    Player.copyto(add);
   },
 
   /**

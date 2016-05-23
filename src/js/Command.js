@@ -35,6 +35,14 @@ var Command = {
 	},
 	onDragStop: function() {
 		if(this.game.input.x > g._WIDTH-134-7 && this.game.input.y > 95) {
+
+
+			if ( this.key == "copyfrom" || this.key == "copyto" ) {
+				var style = { font: "15px Arial", fill: "#ffffff", align: "center" };
+				var indexCommand = this.game.add.text(this.sprite.width-17,0,(this.game.input.keyboard.lastKey.keyCode.toString())-96,style);
+				this.sprite.addChild(indexCommand);
+			}
+
 			this.sprite.mask = this.game.commandsMask;
 			this.side = 'right';
 			for (var i = 0 ; i < this.game.commands.length ; i++) {
@@ -48,12 +56,15 @@ var Command = {
 				this.game.add.tween(this.game.commands[i].sprite).to({y:(this.key == 'jump')?'+50':'+25'}, 500, "Back.easeOut", true);
 			}
 			var myTween = this.game.add.tween(this.sprite).to({x:g._WIDTH-134,y:(this.game.commands.length>1)?this.game.commands[index-1].sprite.y+25:100}, 500, "Back.easeOut", true);
+			if (this.key == 'copyto' || this.key == 'copyfrom') {
+				this.key += " " + this.sprite.getChildAt(0).text;
+			}
 			if(this.key == 'jump') {
-				this.key = "jump "+ String.fromCharCode(65+this.game.nbCommandsGoTo);
+				this.key = "jump "+ String.fromCharCode(65+this.game.nbLoop);
 				myTween.onComplete.add(function(){
 					var newLabel = Object.create(Command);
-					newLabel.init(this.game,'label',new Phaser.Point(this.sprite.x,this.sprite.y+25),this.side,String.fromCharCode(65+this.game.nbCommandsGoTo));
-					this.game.nbCommandsGoTo++;
+					newLabel.init(this.game,'label',new Phaser.Point(this.sprite.x,this.sprite.y+25),this.side,String.fromCharCode(65+this.game.nbLoop));
+					this.game.nbLoop++;
 					for (var i = 0 ; i < this.game.commands.length ; i++) {
 						if (this.game.commands[i] === this) {
 							break;
@@ -64,10 +75,7 @@ var Command = {
 					/* BEZIER */
 
 					this.arrow = this.game.add.graphics(this.sprite.x+this.sprite.width,this.sprite.y+this.sprite.height/2);
-				    this.arrow.lineStyle(2, 0xFF0000, 0.8);
-				    this.arrow.lineTo(20*this.game.nbCommandsGoTo, 0);
-				    this.arrow.lineTo(20*this.game.nbCommandsGoTo, (newLabel.sprite.y+newLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
-				    this.arrow.lineTo(0,(newLabel.sprite.y+newLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+				    this.loop = this.game.nbLoop;
 				    this.linkedLabel = newLabel;
 				    newLabel.linkedJump = this;
 					// END BEZIER
@@ -84,6 +92,7 @@ var Command = {
 				}
 				this.game.commands.splice(i,1);
 				this.linkedLabel.destroy();
+				this.game.nbLoop--;
 			}
 			if (this.linkedJump) {
 				for (var i = 0 ; i < this.game.commands.length ; i++) {
@@ -93,6 +102,8 @@ var Command = {
 				}
 				this.game.commands.splice(i,1);
 				this.linkedJump.destroy();
+				this.game.nbLoop--;
+				this.game.commands.forEach(function(elt) {elt.loop--;});
 			}
 			this.destroy();
 		}
@@ -104,8 +115,8 @@ var Command = {
 			this.arrow.clear();
 			this.arrow = this.game.add.graphics(this.sprite.x+this.sprite.width,this.sprite.y+this.sprite.height/2);
 		    this.arrow.lineStyle(2, 0xFF0000, 0.8);
-		    this.arrow.lineTo(20*this.game.nbCommandsGoTo, 0);
-		    this.arrow.lineTo(20*this.game.nbCommandsGoTo, (this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+		    this.arrow.lineTo(20+5*(this.loop-1), 0);
+		    this.arrow.lineTo(20+5*(this.loop-1), (this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
 		    this.arrow.lineTo(0,(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
 		}
 	},

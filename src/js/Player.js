@@ -86,6 +86,15 @@ var Player = {
 	},
 	range: function(start,end) {
 		return Array(end-start+1).fill().map((i, idx) => start+idx)
+	},
+	copyto: function(index) {
+		this.moveTo( new Phaser.Point(Memory.position(index).x+40,Memory.position(index).y));
+		this.tween.onComplete.add(function(){
+			this.sprite.play('scanning');
+			var newItem = Object.create(Item);
+			newItem.init(this.game,this.drone.item.value,true,Memory.position(index).x,Memory.position(index).y);
+			Memory.set(index,this.drone.item);
+		},this);
 	}
 
 };

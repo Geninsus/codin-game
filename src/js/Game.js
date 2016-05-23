@@ -67,11 +67,12 @@ g.Game.prototype = {
 		this.commandsMask.drawRect(g._WIDTH-134-7, 90, 134, 260);
 		this.commandsAvailable = data.levels[this._currentLevel-1].commands;
 
+
 		/*Blocks*/
 		this.scroolBar = 0;
 		this.previousCommands = "";
 		this.commands = [];
-		this.nbCommandsGoTo = 0;
+		this.nbLoop = 0;
 		for (var i = 0 ; i < this.commandsAvailable.length ; i++) {
 			var command = Object.create(Command);
 			command.init(this,this.commandsAvailable[i], new Phaser.Point(g._WIDTH-134-96,i*25+110));

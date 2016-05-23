@@ -68,27 +68,53 @@ var Command = {
 				    this.arrow.lineTo(20*this.game.nbCommandsGoTo, 0);
 				    this.arrow.lineTo(20*this.game.nbCommandsGoTo, (newLabel.sprite.y+newLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
 				    this.arrow.lineTo(0,(newLabel.sprite.y+newLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
-				    this.likedLabel = newLabel;
+				    this.linkedLabel = newLabel;
+				    newLabel.linkedJump = this;
 					// END BEZIER
 
 				},this);
 			}
 		}
 		else {
-			this.sprite.destroy();
+			if (this.linkedLabel) {
+				for (var i = 0 ; i < this.game.commands.length ; i++) {
+					if (this.game.commands[i] === this.linkedLabel) {
+						break;
+					}
+				}
+				this.game.commands.splice(i,1);
+				this.linkedLabel.destroy();
+			}
+			if (this.linkedJump) {
+				for (var i = 0 ; i < this.game.commands.length ; i++) {
+					if (this.game.commands[i] === this.linkedJump) {
+						break;
+					}
+				}
+				this.game.commands.splice(i,1);
+				this.linkedJump.destroy();
+			}
+			this.destroy();
 		}
-
 		console.log(this.game.commands);
 	},
 
 	update: function() {
 		if (this.arrow) {
-			this.arrow.destroy();
+			this.arrow.clear();
 			this.arrow = this.game.add.graphics(this.sprite.x+this.sprite.width,this.sprite.y+this.sprite.height/2);
 		    this.arrow.lineStyle(2, 0xFF0000, 0.8);
 		    this.arrow.lineTo(20*this.game.nbCommandsGoTo, 0);
-		    this.arrow.lineTo(20*this.game.nbCommandsGoTo, (this.likedLabel.sprite.y+this.likedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
-		    this.arrow.lineTo(0,(this.likedLabel.sprite.y+this.likedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+		    this.arrow.lineTo(20*this.game.nbCommandsGoTo, (this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+		    this.arrow.lineTo(0,(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+		}
+	},
+	
+	destroy: function() {
+		this.sprite.destroy();
+		if (this.arrow != undefined) {
+			this.arrow.destroy();
+			this.arrow = undefined;
 		}
 	}
 

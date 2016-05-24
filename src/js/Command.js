@@ -34,7 +34,7 @@ var Command = {
 		}
 	},
 	onDragStop: function() {
-		if(this.game.input.x > g._WIDTH-134-7) {
+		if(this.game.input.x > g._WIDTH-113-7) {
 			this.sprite.mask = this.game.commandsMask;
 			this.side = 'right';
 			for (var i = 0 ; i < this.game.commands.length ; i++) {
@@ -47,7 +47,7 @@ var Command = {
 			for (var i = index+1 ; i < this.game.commands.length ; i++) {
 				this.game.add.tween(this.game.commands[i].sprite).to({y:(this.key == 'jump')?'+50':'+25'}, 500, "Back.easeOut", true);
 			}
-			var myTween = this.game.add.tween(this.sprite).to({x:g._WIDTH-134,y:(this.game.commands.length>1)?this.game.commands[index-1].sprite.y+25:100}, 500, "Back.easeOut", true);
+			var myTween = this.game.add.tween(this.sprite).to({x:g._WIDTH-113,y:(this.game.commands.length>1)?this.game.commands[index-1].sprite.y+25:100}, 500, "Back.easeOut", true);
 			if(this.key == 'jump') {
 				this.key = "jump "+ String.fromCharCode(65+this.game.nbCommandsGoTo);
 				myTween.onComplete.add(function(){

@@ -4,7 +4,7 @@ var data = {
   levels  : [
     {
       wording : 'Le but de cet exercice est de sortir directement les entrées. Utilisez INPUT pour récupérer une case en entrée et OUTPUT pour la sortir.',
-      commands : ['inbox', 'outbox', 'jump'],
+      commands : ['inbox', 'outbox', 'jump','copyfrom'],
       memory : [],
       inputsGenerator : function () {
         data.inputs = [];

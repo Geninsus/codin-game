@@ -16,7 +16,9 @@ var Memory = {
     if(this.memory[indice] === undefined) {
       error("L'indice " + indice + " n'existe pas en mémoire.");
     }
-    if (this.memory[indice] != null) this.memory[indice].destroy();
+    if (this.memory[indice] != null) {
+      this.memory[indice].destroy();
+    }
     this.memory[indice] = value;
   },
 

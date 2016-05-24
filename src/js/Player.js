@@ -93,7 +93,7 @@ var Player = {
 			this.sprite.play('scanning');
 			var newItem = Object.create(Item);
 			newItem.init(this.game,this.drone.item.value,true,Memory.position(index).x,Memory.position(index).y);
-			Memory.set(index,this.drone.item);
+			Memory.set(index,newItem);
 		},this);
 	}
 

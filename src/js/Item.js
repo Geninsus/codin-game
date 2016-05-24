@@ -32,6 +32,6 @@ var Item = {
 	},
 	destroy: function() {
 		this.tween = this.game.add.tween(this.text).to({alpha:0},3000,Phaser.Easing.Linear.None,true);
-		this.tween.onComplete.add(function() {this.text.destroy();},this);
+		this.tween.onComplete.add(function() {this.text.destroy();this.tween = null;},this);
 	}
 };

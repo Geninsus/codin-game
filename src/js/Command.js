@@ -34,7 +34,14 @@ var Command = {
 		}
 	},
 	onDragStop: function() {
-		if(this.game.input.x > g._WIDTH-113-7) {
+		if(this.game.input.x > g._WIDTH-113-7 && this.game.input.y > 95) {
+
+
+			if ( this.key == "copyfrom" || this.key == "copyto" ) {
+				var style = { font: "15px Arial", fill: "#ffffff", align: "center" };
+				var indexCommand = this.game.add.text(this.sprite.width-17,0,(this.game.input.keyboard.lastKey.keyCode.toString())-96,style);
+				this.sprite.addChild(indexCommand);
+			}
 			this.sprite.mask = this.game.commandsMask;
 			this.side = 'right';
 			for (var i = 0 ; i < this.game.commands.length ; i++) {
@@ -48,12 +55,15 @@ var Command = {
 				this.game.add.tween(this.game.commands[i].sprite).to({y:(this.key == 'jump')?'+50':'+25'}, 500, "Back.easeOut", true);
 			}
 			var myTween = this.game.add.tween(this.sprite).to({x:g._WIDTH-113,y:(this.game.commands.length>1)?this.game.commands[index-1].sprite.y+25:100}, 500, "Back.easeOut", true);
+			if (this.key == 'copyto' || this.key == 'copyfrom') {
+				this.key += " " + this.sprite.getChildAt(0).text;
+			}
 			if(this.key == 'jump') {
-				this.key = "jump "+ String.fromCharCode(65+this.game.nbCommandsGoTo);
+				this.key = "jump "+ String.fromCharCode(65+this.game.nbLoop);
 				myTween.onComplete.add(function(){
 					var newLabel = Object.create(Command);
-					newLabel.init(this.game,'label',new Phaser.Point(this.sprite.x,this.sprite.y+25),this.side,String.fromCharCode(65+this.game.nbCommandsGoTo));
-					this.game.nbCommandsGoTo++;
+					newLabel.init(this.game,'label',new Phaser.Point(this.sprite.x,this.sprite.y+25),this.side,String.fromCharCode(65+this.game.nbLoop));
+					this.game.nbLoop++;
 					for (var i = 0 ; i < this.game.commands.length ; i++) {
 						if (this.game.commands[i] === this) {
 							break;
@@ -63,94 +73,63 @@ var Command = {
 
 					/* BEZIER */
 
-
+					this.arrow = this.game.add.graphics(this.sprite.x+this.sprite.width,this.sprite.y+this.sprite.height/2);
+				    this.loop = this.game.nbLoop;
+				    this.linkedLabel = newLabel;
+				    newLabel.linkedJump = this;
 					// END BEZIER
 
 				},this);
 			}
 		}
 		else {
-			this.sprite.destroy();
+			if (this.linkedLabel) {
+				for (var i = 0 ; i < this.game.commands.length ; i++) {
+					if (this.game.commands[i] === this.linkedLabel) {
+						break;
+					}
+				}
+				this.game.commands.splice(i,1);
+				this.linkedLabel.destroy();
+				this.game.nbLoop--;
+			}
+			if (this.linkedJump) {
+				for (var i = 0 ; i < this.game.commands.length ; i++) {
+					if (this.game.commands[i] === this.linkedJump) {
+						break;
+					}
+				}
+				this.game.commands.splice(i,1);
+				this.linkedJump.destroy();
+				this.game.nbLoop--;
+				this.game.commands.forEach(function(elt) {elt.loop--;});
+			}
+			this.destroy();
 		}
-
 		console.log(this.game.commands);
+	},
+
+	update: function() {
+		if (this.arrow) {
+			this.arrow.clear();
+			this.arrow = this.game.add.graphics(this.sprite.x+this.sprite.width,this.sprite.y+this.sprite.height/2);
+		    this.arrow.lineStyle(2, 0xFF0000, 0.8);
+		    this.arrow.lineTo(20+5*(this.loop-1), 0);
+		    this.arrow.lineTo(20+5*(this.loop-1), (this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+		    this.arrow.lineTo(0,(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+			var myShape = new PIXI.Polygon(5,-5+(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2),5,5+(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2),0,(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2),5,-5+(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
+			this.arrow.beginFill(0xFF0000,0.8);
+			this.arrow.drawShape(myShape);
+			this.arrow.endFill();
+		}
+	},
+	
+	destroy: function() {
+		this.sprite.destroy();
+		if (this.arrow != undefined) {
+			this.arrow.destroy();
+			delete this.arrow;
+		}
 	}
 
 };
-
-/*
-
-onDragStartRight: function(box) {
-		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
-			if (this.commandsSprite[i] === box) {
-				break;
-			}
-		}
-		var index = i;
-		this.commandsSprite.splice(i,1);
-		for (var i = index ; i < this.commandsSprite.length ; i++) {
-			this.add.tween(this.commandsSprite[i]).to({y:'-25'}, 500, "Back.easeOut", true);
-		}
-	},
-	onDragStopRight: function(box) {
-		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
-			if (this.commandsSprite[i].y > this.input.y) {
-				break;
-			}
-		}
-		var index = i;
-		if(this.input.x > g._WIDTH-134-7) {
-			this.commandsSprite.splice(index,0,box);
-			for (var i = index+1 ; i < this.commandsSprite.length ; i++) {
-				this.add.tween(this.commandsSprite[i]).to({y:'+25'}, 500, "Back.easeOut", true);
-			}
-			box.mask = this.commandsMask;
-			this.add.tween(box).to({x:g._WIDTH-134,y:(this.commandsSprite.length>1)?this.commandsSprite[index-1].y+25:100}, 500, "Back.easeOut", true);
-		}
-		else {
-			box.destroy();
-		}
-	},
-	onDragStart: function(box) {
-		newBox = this.add.sprite(box.x,box.y,box.key);
-		box.z += 100; 
-		newBox.inputEnabled = true;
-		newBox.input.enableDrag();
-		newBox.events.onDragStart.add(this.onDragStart, this,0);
-		newBox.events.onDragStop.add(this.onDragStop, this,0);
-	},
-
-	onDragStop: function(box) {
-		for (var i = 0 ; i < this.commandsSprite.length ; i++) {
-			if (this.commandsSprite[i].y > this.input.y) {
-				break;
-			}
-		}
-		var index = i;
-		if(this.input.x > g._WIDTH-134-7) {
-			this.commandsSprite.splice(index,0,box);
-			for (var i = index+1 ; i < this.commandsSprite.length ; i++) {
-				this.add.tween(this.commandsSprite[i]).to({y:(this.commands[i] != "jump")?'+25':'50'}, 500, "Back.easeOut", true);
-			}
-			box.events.onDragStart.removeAll();
-			box.events.onDragStop.removeAll();
-			if(this.commands[i] == "jump") {
-				box.events.onDragStop.add(this.onDragStopJump, this,-1);
-			}
-
-			box.events.onDragStart.add(this.onDragStartRight, this,0);
-			box.events.onDragStop.add(this.onDragStopRight, this,0);
-			box.mask = this.commandsMask;
-			var myTween = this.add.tween(box).to({x:g._WIDTH-134,y:(this.commandsSprite.length>1)?this.commandsSprite[index-1].y+25:100}, 500, "Back.easeOut", true);
-			if (box.key == "jump" ){
-				myTween.onComplete.add(function(tween){
-					console.log(tween);
-					this.add.sprite(tween.x,tween.y + 25,'label');
-				},this);
-			}
-		}
-		else {
-			box.destroy();
-		}
-	},
-	*/

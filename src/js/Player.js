@@ -24,7 +24,7 @@ var Player = {
 		this.action = null;
 		
 		// Drone Initialisation
-		this.drone = {item : null, sprite : this.game.add.sprite(+20,-70,'drone')};
+		this.drone = {item : null, sprite : this.game.add.sprite(+20,-130,'drone')};
 		this.sprite.addChild(this.drone.sprite);
 		this.drone.tweenRight = this.game.add.tween(this.drone.sprite).to({x : "+5"}, 2000,"Quart.easeOut");
 		this.drone.tweenLeft = this.game.add.tween(this.drone.sprite).to({x : "-5"}, 2000,"Quart.easeOut");
@@ -67,7 +67,12 @@ var Player = {
 	},
 	moveTo: function(position) {
 		this.tween = this.game.add.tween(this.sprite).to( position, 500, Phaser.Easing.Linear.None, true);
-		this.tween.onComplete.add(function(){this.tween = null;},this,1);
+		this.tween.onComplete.add(function(){
+			this.tween = null;
+			this.sprite.animations.stop();
+			this.sprite.play('idleLeft');
+		},this,1);
+		this.sprite.play('walkLeft');
 	},
 	update: function() {
 		if(this.tween != null) {
@@ -81,6 +86,19 @@ var Player = {
 	},
 	range: function(start,end) {
 		return Array(end-start+1).fill().map((i, idx) => start+idx)
+	},
+	copyto: function(index) {
+		this.moveTo( new Phaser.Point(Memory.position(index).x+40,Memory.position(index).y));
+		this.tween.onComplete.add(function(){
+			this.sprite.play('scanning');
+			var newItem = Object.create(Item);
+			newItem.init(this.game,this.drone.item.value,true,Memory.position(index).x,Memory.position(index).y);
+			Memory.set(index,newItem);
+		},this);
+	},
+	copyfrom : function (item) {
+		this.scanTake(item);
+
 	}
 
 };

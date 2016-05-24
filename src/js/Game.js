@@ -67,14 +67,14 @@ g.Game.prototype = {
 		this.commandsMask.alpha=0;
 		this.commandsMask.drawRect(g._WIDTH-115-7, 90, 115, 260);
 		this.commandsAvailable = data.levels[this._currentLevel-1].commands;
-		this.commandsMark = this.add.sprite(g._WIDTH-120,0,'mark');
+		this.commandsMark = this.add.sprite(g._WIDTH-115,0,'mark');
 		this.commandsMark.mask = this.commandsMask;
 
 		/*Blocks*/
 		this.scroolBar = 0;
 		this.previousCommands = "";
 		this.commands = [];
-		this.nbCommandsGoTo = 0;
+		this.nbLoop = 0;
 		for (var i = 0 ; i < this.commandsAvailable.length ; i++) {
 			var command = Object.create(Command);
 			command.init(this,this.commandsAvailable[i], new Phaser.Point(g._WIDTH-115-115-2,i*24+100));
@@ -163,6 +163,7 @@ g.Game.prototype = {
 	update: function() {
 		Inputs.update();
 		Player.update();
+		this.commands.forEach(function(elt) {elt.update()});
 		if (Interpreter.isRunning === true) {
 			this.manageNext();
 		}
@@ -172,15 +173,6 @@ g.Game.prototype = {
 		}
 		if (this.input.mouse.wheelDelta != 0 && this.commandsMask.input.checkPointerOver(this.input.mousePointer) == true) {
 			this.commandsWheel(this.input.mouse.wheelDelta);
-		}
-
-		// Command Mark
-		if (this.commands.length > 0 ) {
-			this.commandsMark.alive = true;
-			this.commandsMark.y = this.commands[Interpreter.i].sprite.y;
-		}
-		else {
-			this.commandsMark.alive = false;
 		}
 
 		this.input.mouse.wheelDelta = 0;

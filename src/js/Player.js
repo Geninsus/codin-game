@@ -95,6 +95,10 @@ var Player = {
 			newItem.init(this.game,this.drone.item.value,true,Memory.position(index).x,Memory.position(index).y);
 			Memory.set(index,newItem);
 		},this);
+	},
+	copyfrom : function (item) {
+		this.scanTake(item);
+
 	}
 
 };

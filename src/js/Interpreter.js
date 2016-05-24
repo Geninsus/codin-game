@@ -70,7 +70,7 @@ var Interpreter = {
         Interpreter.copyto();
         break;
       case 'COPYFROM':
-        Interpreter.copyfrom(true);
+        Interpreter.copyfrom();
         break;
       case 'LABEL':
         Interpreter.label();
@@ -153,27 +153,14 @@ var Interpreter = {
   /**
    * COPYFROM
    */
-  copyfrom : function(action = false) {
+  copyfrom : function() {
     Interpreter.i++;
     var add = Interpreter.codes[Interpreter.i];
-    var regCheck = /^\[([0-9]+)\]$/.exec(add);
-    if(regCheck !== null) {
-      add = Memory.get(regCheck[1]);
-    } else {
-      add = parseInt(add);
-      if(!(Number.isInteger(add) && add >= 0)) {
-        error("Addresse " + add + " non valide.");
-        return;
-      }
-    }
-    if (action = true) {
-      var item = Object.create(Item);
-      item.init(this.game, Memory.get(add).value, true,Memory.position(add).x,Memory.position(add).y);
-      Player.hand = item;
-      Player.moveTo({x:item.sprite.x-35,y:item.sprite.y-20},"copyfrom");
+    console.log(add);
+    var item = Memory.get(add);
 
-    }
-    return Memory.get(add);
+    Player.copyfrom(item);
+    //return Memory.get(add);
   },
 
   /**

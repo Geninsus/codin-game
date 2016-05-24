@@ -24,8 +24,8 @@ g.Game.prototype = {
 	},
 	settingUpScene: function() {
 		this.add.sprite(0, 0, 'screen-bg');
-		this.add.sprite(g._WIDTH-134-7,7, 'panel-left');
-		this.add.sprite(g._WIDTH-134-7-96,95,'panel-box');
+		this.add.sprite(g._WIDTH-115-7,7, 'panel-left');
+		this.add.sprite(g._WIDTH-115-7-114,95,'panel-box');
 	},
 	settingUpAudio: function() {
 		// No Sound for Now
@@ -38,12 +38,13 @@ g.Game.prototype = {
 		*/
 	},
 	settingUpControl: function() {
-		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-24 -5, 'button-stop',this.manageStop,this,2,1,3);
-		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-24 -5, 'button-pause', this.managePause, this, 1, 0 ,2);
-		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-24 -5, 'button-nextStep', this.manageNext, this, 2, 1, 3);
-		this.playButton = this.add.button(g._WIDTH/2-200+3*24+15, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
-		this.speedx2 = this.add.button(g._WIDTH/2-200+4*24+20, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeedx2, this, 4, 3, 5);
-		this.speedx4 = this.add.button(g._WIDTH/2-200+5*24+25, g._HEIGHT-24 -5, 'button-play-speed', this.manageSpeedx4, this, 7, 6, 8);
+		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-26, 'button-stop',this.manageStop,this,2,1,3);
+		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-26, 'button-pause', this.managePause, this, 1, 0 ,2);
+		this.homeButton = this.add.button(g._WIDTH/2-200-73,g._HEIGHT-29,'button-home',this.manageHome,this,0,0,1);
+		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-26, 'button-nextStep', this.manageNext, this, 2, 1, 3);
+		this.playButton = this.add.button(g._WIDTH/2-200+3*24+15, g._HEIGHT-26, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
+		this.speedx2 = this.add.button(g._WIDTH/2-200+4*24+20, g._HEIGHT-26, 'button-play-speed', this.manageSpeedx2, this, 4, 3, 5);
+		this.speedx4 = this.add.button(g._WIDTH/2-200+5*24+25, g._HEIGHT-26, 'button-play-speed', this.manageSpeedx4, this, 7, 6, 8);
 		this.pauseButton.anchor.set(1,0);
 		this.pauseButton.input.useHandCursor = true;
 	},
@@ -53,10 +54,10 @@ g.Game.prototype = {
 		this.rulesMask = this.add.graphics(0, 0);
 		this.rulesMask.inputEnabled = true;
 		this.rulesMask.beginFill(0xffffff);
-		this.rulesMask.drawRect(g._WIDTH-134, 30, 120, 50);
-		this.rulesText = this.add.text(g._WIDTH-134,30,data.levels[this._currentLevel-1].wording,style);
+		this.rulesMask.drawRect(g._WIDTH-116, 28, 104, 56);
+		this.rulesText = this.add.text(g._WIDTH-116,30,data.levels[this._currentLevel-1].wording,style);
 		this.rulesText.mask = this.rulesMask;
-		this.rulesText.wordWrapWidth = 120;
+		this.rulesText.wordWrapWidth = 105;
 		this.rulesText.wordWrap = true;
 	},
 	settingUpCommands: function() {
@@ -64,9 +65,10 @@ g.Game.prototype = {
 		this.commandsMask.inputEnabled = true;
 		this.commandsMask.beginFill(0xffffff);
 		this.commandsMask.alpha=0;
-		this.commandsMask.drawRect(g._WIDTH-134-7, 90, 134, 260);
+		this.commandsMask.drawRect(g._WIDTH-115-7, 90, 115, 260);
 		this.commandsAvailable = data.levels[this._currentLevel-1].commands;
-
+		this.commandsMark = this.add.sprite(g._WIDTH-115,0,'mark');
+		this.commandsMark.mask = this.commandsMask;
 
 		/*Blocks*/
 		this.scroolBar = 0;
@@ -75,7 +77,7 @@ g.Game.prototype = {
 		this.nbLoop = 0;
 		for (var i = 0 ; i < this.commandsAvailable.length ; i++) {
 			var command = Object.create(Command);
-			command.init(this,this.commandsAvailable[i], new Phaser.Point(g._WIDTH-134-96,i*25+110));
+			command.init(this,this.commandsAvailable[i], new Phaser.Point(g._WIDTH-115-115-2,i*24+100));
 		}
 	},
 	startLevel: function() {
@@ -126,6 +128,9 @@ g.Game.prototype = {
 	},
 	manageStop: function(){
 
+	},
+	manageHome: function(){
+		this.game.state.start('LevelMenu');
 	},
 	manageSpeed: function() {
 		if (Player.spriteTween == null) {

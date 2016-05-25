@@ -109,6 +109,14 @@ var Player = {
 	},
 	copyfrom : function (item) {
 		this.scanTake(item);
+	},
+	add : function(item) {
+		var newItem = Object.create(Item);
+		newItem.init(this.game,item.value+this.drone.item.value,true,15,15);
+		this.moveTo(new Phaser.Point(item.text.x+40,item.text.y));
+		this.tween.onComplete.add(function(){
+			this.setItem(newItem);
+		},this);
 	}
 
 };

@@ -153,14 +153,15 @@ var Interpreter = {
   /**
    * COPYFROM
    */
-  copyfrom : function() {
+  copyfrom : function(action = true) {
     Interpreter.i++;
     var add = Interpreter.codes[Interpreter.i];
     console.log(add);
     var item = Memory.get(add);
-
-    Player.copyfrom(item);
-    //return Memory.get(add);
+    if (action) {
+      Player.copyfrom(item);
+    }
+    return item;
   },
 
   /**
@@ -219,8 +220,14 @@ var Interpreter = {
    * ADD
    */
   add : function() {
-    var value = Interpreter.copyfrom();
-    value.visible = false;
+
+    if (Player.drone.item == null) {
+      error('Impossible de faire une addition sans valeur dans le drone');
+    }
+
+    var value = Interpreter.copyfrom(false);
+    Player.add(value)
+    /*value.visible = false;
     var addValue = parseInt(value.children[0].text);
     if(isNaN(addValue)) {
       error('La valeur ' + addValue + ' ne peut pas être additionné avec la main');
@@ -230,6 +237,7 @@ var Interpreter = {
       error('Impossible de faire une addition avec ' + hand);
     }
     Player.hand.children[0].text = parseInt(Player.hand.children[0].text)+addValue;
+    */
   },
 
   /**

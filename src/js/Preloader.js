@@ -20,6 +20,11 @@ g.Preloader.prototype = {
 		this.load.image('building-mainmenu', 'assets/img/building-mainMenu.png');
 		this.load.image('sky-mainmenu', 'assets/img/sky-mainMenu.png');
 		this.load.image('clouds-mainmenu', 'assets/img/clouds-mainMenu.png');
+		this.load.image('clouds-1', 'assets/img/clouds-1.png');
+		this.load.image('clouds-2', 'assets/img/clouds-2.png');
+		this.load.image('clouds-3', 'assets/img/clouds-3.png');
+		this.load.image('clouds-4', 'assets/img/clouds-4.png');
+
 		this.load.image('plane', 'assets/img/plane.png');
 
 		// GAME IMAGE LOAD
@@ -40,6 +45,7 @@ g.Preloader.prototype = {
 
 
 		//		STATE BUTTON
+		this.load.spritesheet('button-home', 'assets/buttons/button-home.png', 30, 30);
 		this.load.spritesheet('button-play-speed', 'assets/buttons/button-play.png', 24, 25);
 		this.load.spritesheet('button-pause', 'assets/buttons/button-pause.png',24,25);
 		this.load.spritesheet('button-stop', 'assets/buttons/button-stop.png',24,25);

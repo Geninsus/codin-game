@@ -58,6 +58,9 @@ g.Game.prototype = {
 		this.rulesText.wordWrap = true;
 	},
 	settingUpCommands: function() {
+
+		this.codeHaveChange = false;
+
 		this.commandsMask = this.add.graphics(0, 0);
 		this.commandsMask.inputEnabled = true;
 		this.commandsMask.beginFill(0xffffff);
@@ -96,10 +99,23 @@ g.Game.prototype = {
 			item.init(this, data.inputs[i], true);
 			inputs.push(item);
 		}
+
+		/*Interpreter Init*/
 		Interpreter.init(true, this);
+		this.setParser();
+
+		/* Inputs & Outputs & Memort Init*/
 		Inputs.init(inputs,this);
 		Outputs.init(this);
 		Memory.init(data.levels[levelNumber-1].memory);
+
+	},
+	setParser: function() {
+		var codes = ""
+		for (var i = 0 ; i < this.commands.length ; i++) {
+			codes += this.commands[i].key.toUpperCase()+" ";
+		}
+		Interpreter.parser(codes);
 	},
 	managePause: function() {
 		this.game.paused = true;
@@ -114,11 +130,22 @@ g.Game.prototype = {
 
 	},
 	manageNext: function() {
-		if (Player.sprite.animations.currentAnim.name == 'idleLeft') {
+		if (Player.sprite.animations.currentAnim.name == 'idleLeft' || Player.sprite.animations.currentAnim.name == 'idleRight') {
+			
+			if (this.codeHaveChange) {
+				this.manageStop();
+				this.setParser();
+				this.codeHaveChange = false;
+			}
+			Interpreter.next();
+
+			/*
 			var codes = ""
 			for (var i = 0 ; i < this.commands.length ; i++) {
 				codes += this.commands[i].key.toUpperCase()+" ";
 			}
+			Interpreter.parser(codes);
+
 			if (this.previousCommands != codes) {
 				Interpreter.init(true, this);
 				Interpreter.parser(codes);
@@ -126,12 +153,14 @@ g.Game.prototype = {
 			Interpreter.next();
 			this.previousCommands = codes;
 			console.log(Interpreter.codes);
+			*/
 		}
 	},
 	manageRun: function() {
 		Interpreter.run();
 	},
 	manageStop: function(){
+		this.codeHaveChange = false;
 		Player.restart(this);
 		Inputs.restart();
 		Outputs.restart();
@@ -179,7 +208,7 @@ g.Game.prototype = {
 		if (this.input.mouse.wheelDelta != 0 && this.commandsMask.input.checkPointerOver(this.input.mousePointer) == true) {
 			this.commandsWheel(this.input.mouse.wheelDelta);
 		}
-
+		console.log(Interpreter.isRunning);
 		this.input.mouse.wheelDelta = 0;
 	},
 	rulesWheel:function(direction) {

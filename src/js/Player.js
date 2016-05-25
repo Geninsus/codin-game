@@ -22,7 +22,7 @@ var Player = {
 		this.game.physics.arcade.enable(this.sprite);
 		this.tween = null;
 		this.action = null;
-		
+
 		// Drone Initialisation
 		this.drone = {item : null, sprite : this.game.add.sprite(+20,-130,'drone')};
 		this.sprite.addChild(this.drone.sprite);
@@ -124,7 +124,7 @@ var Player = {
 	restart: function() {
 		if (this.drone.item != null) this.drone.item.destroy();
 		this.sprite.destroy();
-		this.init();
+		this.init(this.game);
 	}
 
 };

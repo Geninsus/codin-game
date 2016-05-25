@@ -16,13 +16,21 @@ g.LevelMenu.prototype = {
 
 	create: function() {
     this.bg = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'starfield');
-
+    this.timer = 0;
 		this.createLevelIcons();
 		this.animateLevelIcons();
+		this.rect = this.add.graphics(0,0);
+		this.rect.beginFill(0x828282);
+		this.rect.drawRect(359,179,1,1)
 	},
 
 	update: function() {
-		// nothing to do but wait until player selects a level
+		this.timer++;
+		if(this.timer%20 >= 010){
+			this.rect.visible = false;
+		}else{
+			this.rect.visible = true;
+		}
 	},
 
 	render: function() {

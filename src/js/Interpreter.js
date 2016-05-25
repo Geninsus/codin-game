@@ -291,13 +291,9 @@ var Interpreter = {
 };
 
 function error(string) {
-  alert(string);
-  //document.querySelector('.errors').textContent = string;
-  var commands = document.querySelectorAll('.command--btn');
-  for (var i = 0; i < commands.length; i++) {
-    commands[i].className = "btn command--btn btn__disabled";
-    commands[i].disabled = true;
-  }
+  var style = { font: "13px Arial", fill: '#ffffff', backgroundColor: 'rgba(255,255,0,100)' }
+  var text = Interpreter.game.add.text(20, 20, string );
+
   Interpreter.i = Interpreter.codes.length;
 }
 

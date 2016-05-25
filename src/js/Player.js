@@ -49,6 +49,7 @@ var Player = {
 	},
 	removeItem: function() {
 		if (this.drone.item != null) this.drone.item.destroy();
+		this.drone.item = null;
 	},
 	scanTake: function(item) {
 		this.moveTo({x:item.text.x+32, y:item.text.y});

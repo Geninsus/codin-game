@@ -16,7 +16,7 @@ var Item = {
 			this.text.alpha = 0;
 			this.text.anchor.x += 0.5;
 			this.text.anchor.y += 0.5;
-			this.tween = this.game.add.tween(this.text).to({alpha:1},3000,Phaser.Easing.Linear.None,true);
+			this.tween = this.game.add.tween(this.text).to({alpha:1},30,Phaser.Easing.Linear.None,true);
 		}
 	},
 

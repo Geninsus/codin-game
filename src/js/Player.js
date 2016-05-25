@@ -70,9 +70,20 @@ var Player = {
 		this.tween.onComplete.add(function(){
 			this.tween = null;
 			this.sprite.animations.stop();
-			this.sprite.play('idleLeft');
+			if (position.x > this.sprite.x) {
+				this.sprite.play('idleRight');
+			}
+			else {
+				this.sprite.play('idleLeft');
+			}
+
 		},this,1);
-		this.sprite.play('walkLeft');
+		if (position.x > this.sprite.x) {
+			this.sprite.play('walkRight');
+		}
+		else {
+			this.sprite.play('walkLeft');
+		}
 	},
 	update: function() {
 		if(this.tween != null) {
@@ -98,7 +109,6 @@ var Player = {
 	},
 	copyfrom : function (item) {
 		this.scanTake(item);
-
 	}
 
 };

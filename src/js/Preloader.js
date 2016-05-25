@@ -45,10 +45,12 @@ g.Preloader.prototype = {
 
 
 		//		STATE BUTTON
+
 		this.load.spritesheet('button-home', 'assets/buttons/button-home.png', 30, 30);
 		this.load.spritesheet('button-play-speed', 'assets/buttons/button-play.png', 24, 25);
 		this.load.spritesheet('button-pause', 'assets/buttons/button-pause.png',24,25);
 		this.load.spritesheet('button-stop', 'assets/buttons/button-stop.png',24,25);
+		this.load.spritesheet('button-nextStep','assets/buttons/button-nextStep.png',24,25);
 		this.load.spritesheet('button-nextStep','assets/buttons/button-nextStep.png',24,25);
 
 		//		PLAYER SHEET

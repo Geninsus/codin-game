@@ -36,6 +36,7 @@ var Command = {
 	},
 	onDragStop: function() {
 		this.game.codeHaveChange = true;
+		Interpreter.isRunning = false;
 		if(this.game.input.x > g._WIDTH-113-7 && this.game.input.y > 95) {
 
 			if ( this.key == "copyfrom" || this.key == "copyto" || this.key == "add" ) {

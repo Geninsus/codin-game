@@ -30,7 +30,6 @@ var Interpreter = {
     Interpreter.iteration = 0;
     Interpreter.labels = {};
     Interpreter.i = 0;
-    Interpreter.isRunning = false;
     this.visual = visual;
     this.game = game;
   },
@@ -108,14 +107,16 @@ var Interpreter = {
     if(!input) {
       error("Inputs vide.");
     }
-    Player.scanTake(input);
+    else {
+      Player.scanTake(input);
+    }
   },
 
   /**
    * OUTBOX
    */
   outbox : function() {
-    if(!Player.drone.item) {
+    if(Player.drone.item == null) {
       error("Outbox avec main vide.");
       return;
     }
@@ -289,11 +290,13 @@ var Interpreter = {
 };
 
 function error(string) {
+  console.log(string);
+
   var style = { font: "13px Arial", fill: '#ffffff', backgroundColor: 'rgba(135,120,110,1)' }
   Interpreter.game.error = Interpreter.game.add.text(217, 330, string, style );
   Interpreter.game.error.anchor.x = 0.5;
   Interpreter.game.error.anchor.y = 1;
-
+  Interpreter.game.manageStop();
   Interpreter.i = Interpreter.codes.length;
 }
 

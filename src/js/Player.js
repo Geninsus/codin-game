@@ -16,6 +16,7 @@ var Player = {
 	outboxPosition : {x : 285, y : 360 - 8*28},
 
 	init: function(game) {
+
 		this.game = game;
 		this.sprite = this.game.add.sprite(100,250,'player');
 		this.sprite.anchor = {x: 0.5, y :1};
@@ -49,8 +50,8 @@ var Player = {
 			this.drone.sprite.play('opening',18);
 			this.drone.sprite.animations.currentAnim.onComplete.addOnce(function() {
 				newItem.init(params[0],params[1],params[2],params[3],params[4],params[5]);
-				this.drone.item = newItem;
 				this.drone.sprite.addChild(newItem.text);
+
 
 			},this);
 
@@ -58,9 +59,9 @@ var Player = {
 		else{
 			this.drone.item.destroy();	
 			newItem.init(params[0],params[1],params[2],params[3],params[4],params[5]);
-			this.drone.item = newItem;
 			this.drone.sprite.addChild(newItem.text);
 		}		
+		this.drone.item = newItem;
 	},
 	removeItem: function() {
 		if (this.drone.item != null) {

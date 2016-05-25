@@ -130,8 +130,9 @@ g.Game.prototype = {
 
 	},
 	manageNext: function() {
-		if (Player.sprite.animations.currentAnim.name == 'idleLeft' || Player.sprite.animations.currentAnim.name == 'idleRight') {
-			
+		if ((Player.sprite.animations.currentAnim.name == 'idleLeft' || Player.sprite.animations.currentAnim.name == 'idleRight') &&
+		 	(Player.drone.sprite.animations.frame == 0 || Player.drone.sprite.animations.frame == 18 || Player.drone.sprite.animations.frame == 19 || Player.drone.sprite.animations.frame == 37) &&
+		 	(Player.drone.item == null || Player.drone.item.game != undefined)) {
 			if (this.codeHaveChange) {
 				this.manageStop();
 				this.setParser();
@@ -161,7 +162,8 @@ g.Game.prototype = {
 	},
 	manageStop: function(){
 		this.codeHaveChange = false;
-		Player.restart(this);
+
+		Player.restart();
 		Inputs.restart();
 		Outputs.restart();
 		this.startLevel();
@@ -208,7 +210,6 @@ g.Game.prototype = {
 		if (this.input.mouse.wheelDelta != 0 && this.commandsMask.input.checkPointerOver(this.input.mousePointer) == true) {
 			this.commandsWheel(this.input.mouse.wheelDelta);
 		}
-		console.log(Interpreter.isRunning);
 		this.input.mouse.wheelDelta = 0;
 	},
 	rulesWheel:function(direction) {
@@ -241,7 +242,7 @@ g.Game.prototype = {
 	},
 	checkWin : function(i, that) {
 		if(Outputs.outputs[i].value != data.outputs[i]) {
-			alert('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
+			error('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
 		} else {
 			if(Outputs.outputs.length == data.outputs.length) {
 				console.log('C\'est bon ! Passons aux simulations.');

@@ -33,10 +33,8 @@ var Memory = {
     if (index<0 || index>19) {
       return "Error";
     }
-<<<<<<< HEAD
+
     return {x:158 + 31*(index%5),y:248 -31  + 31*(Math.floor(index/5))};
-=======
-    return {x:158 + 31*(index%5),y:237 + 31*(Math.floor(index/5))};
->>>>>>> e722ea721264c46673efea4381a2e32d5e658672
+
   }
 };

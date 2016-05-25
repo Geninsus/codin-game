@@ -31,6 +31,8 @@ var Player = {
 		this.drone.tweenLeft.chain(this.drone.tweenRight);
 		this.drone.tweenRight.chain(this.drone.tweenLeft);
 		this.drone.tweenRight.start();
+		this.drone.sprite.animations.add('idle');
+		this.drone.sprite.play('idle',8,true);
 		// Animations
 		this.idleLeft = this.sprite.animations.add('idleLeft', this.range(0,8) , 4, true);
 		this.idleRight = this.sprite.animations.add('idleRight', this.range(9,17), 4, true);
@@ -38,7 +40,7 @@ var Player = {
 		this.walkRight = this.sprite.animations.add('walkRight', this.range(27,35), 4, true);
 		this.scanning = this.sprite.animations.add('scanning', this.range(36,48), 4, true);
 		this.scanning.onLoop.add(function(){this.sprite.play('idleLeft');},this);
-		this.sprite.play('idleLeft');
+		this.sprite.play('idleLeft',10,true);
 	},
 	setItem: function(item) {
 		if (this.drone.item != null) this.drone.item.destroy();

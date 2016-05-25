@@ -12,6 +12,7 @@ var Command = {
 		this.sprite.input.enableDrag();
 		this.sprite.events.onDragStart.add(this.onDragStart, this,0);
 		this.sprite.events.onDragStop.add(this.onDragStop, this,0);
+
 	},
 
 	onDragStart: function() {
@@ -64,6 +65,7 @@ var Command = {
 				myTween.onComplete.add(function(){
 					var newLabel = Object.create(Command);
 					newLabel.init(this.game,'label',new Phaser.Point(this.sprite.x,this.sprite.y+25),this.side,String.fromCharCode(65+this.game.nbLoop));
+					newLabel.sprite.mask = this.game.commandsMask;
 					this.game.nbLoop++;
 					for (var i = 0 ; i < this.game.commands.length ; i++) {
 						if (this.game.commands[i] === this) {
@@ -122,6 +124,7 @@ var Command = {
 			this.arrow.beginFill(0xFF0000,0.8);
 			this.arrow.drawShape(myShape);
 			this.arrow.endFill();
+		    this.arrow.mask = this.game.commandsMask;
 		}
 	},
 	

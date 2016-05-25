@@ -69,7 +69,7 @@ var Player = {
 		},this);
 	},
 	moveTo: function(position) {
-		this.tween = this.game.add.tween(this.sprite).to( position, 500, Phaser.Easing.Linear.None, true);
+		this.tween = this.game.add.tween(this.sprite).to( position, 50, Phaser.Easing.Linear.None, true);
 		this.tween.onComplete.add(function(){
 			this.tween = null;
 			this.sprite.animations.stop();
@@ -122,7 +122,7 @@ var Player = {
 		},this);
 	},
 	restart: function() {
-		this.drone.item.destroy();
+		if (this.drone.item != null) this.drone.item.destroy();
 		this.sprite.destroy();
 		this.init();
 	}

@@ -28,5 +28,10 @@ var Outputs = {
     newItem.tween.onComplete.add(Outputs.replace);
     newItem.text.mask = Outputs.outputMask; 
     Outputs.outputs.push(newItem);
+  },
+  restart: function() {
+    this.outputs.forEach(function(elt) {
+      elt.destroy();
+    });
   }
 };

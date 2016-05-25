@@ -44,5 +44,10 @@ var Inputs = {
     item.destroy(true);
     item.tween.onComplete.add(Inputs.replace);
     return item;
+  },
+  restart: function() {
+    this.inputs.forEach(function(elt) {
+      elt.destroy();
+    });
   }
 };

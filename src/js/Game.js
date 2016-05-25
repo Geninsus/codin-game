@@ -119,12 +119,13 @@ g.Game.prototype = {
 		}
 	},
 	manageRun: function() {
-				Interpreter.run();
-				this.manageSpeed(1);
+		Interpreter.run();
+		this.manageSpeed(1);
 	},
 	manageStop: function(){
 		Player.restart(this);
-		// TODO
+		Inputs.restart();
+		Outputs.restart();
 		this.startLevel();
 	},
 	manageHome: function(){

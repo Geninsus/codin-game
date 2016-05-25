@@ -295,7 +295,6 @@ function error(string) {
   Interpreter.game.error.anchor.x = 0.5;
   Interpreter.game.error.anchor.y = 1;
 
-
   Interpreter.i = Interpreter.codes.length;
 }
 

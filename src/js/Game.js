@@ -224,7 +224,13 @@ g.Game.prototype = {
 		} else {
 			if(Outputs.outputs.length == data.outputs.length) {
 				console.log('C\'est bon ! Passons aux simulations.');
-				this.simulate(that);
+				//this.simulate(that);
+				//Pas de simu
+				alert('GAGNE!');
+				that.game.state.start('LevelMenu');
+				PLAYER_DATA[levelNumber-1] = 3;
+				if(PLAYER_DATA[levelNumber] == -1) PLAYER_DATA[levelNumber] = 0;
+				window.localStorage.setItem('mygame_progress', JSON.stringify(PLAYER_DATA));
 			}
 		}
 	},

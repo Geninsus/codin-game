@@ -122,13 +122,12 @@ var Interpreter = {
     }
     Outputs.drop(Player.drone.item);
     Player.scanDrop();
-    
     if(this.visual) {
       g.Game.prototype.checkWin(Outputs.outputs.length - 1, this.game);
     } else {
       g.Game.prototype.checkWinExpress(Outputs.outputs.length - 1, this.game);
     }
-    
+
   },
 
   /**

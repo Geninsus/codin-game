@@ -124,6 +124,7 @@ g.Game.prototype = {
 	},
 	manageStop: function(){
 		Player.restart(this);
+		// TODO
 		this.startLevel();
 	},
 	manageHome: function(){

@@ -1,6 +1,6 @@
 var PLAYER_DATA = null; // just declare as global variable for now
 
-var ICON_BY_LINE = 5;
+var ICON_BY_LINE = 4;
 
 g.LevelMenu = function(game){
 	// define needed variables for mygame.LevelSelect
@@ -63,7 +63,7 @@ g.LevelMenu.prototype = {
 		var i = 0;
 		mask = this.add.graphics(0,0);
 		mask.beginFill(0xffffff);
-		mask.drawRect(178,40,220,95);
+		mask.drawRect(451,24,127,160);
 		for (var y=0; y < Math.ceil(inconNb/ICON_BY_LINE) ; y++) {
 			for (var x=0; x < ICON_BY_LINE; x++) {
 				if(i>=inconNb) break;
@@ -95,8 +95,8 @@ g.LevelMenu.prototype = {
 				}
 
 				// calculate position on screen
-				var xpos = 178 + (x*45);
-				var ypos = 60 + (y*32);
+				var xpos = 453 + (x*31);
+				var ypos = 50 + (y*31);
 
 				// create icon
 				this.holdicons[levelnr-1] = this.createLevelIcon(xpos, ypos, levelnr, isLocked, stars, mask);

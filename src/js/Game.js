@@ -143,7 +143,8 @@ g.Game.prototype = {
 				this.manageSpeed(1);
 	},
 	manageStop: function(){
-
+		Player.restart(this);
+		this.startLevel();
 	},
 	manageHome: function(){
 		this.game.state.start('LevelMenu');

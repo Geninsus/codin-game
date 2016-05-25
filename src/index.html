@@ -12,6 +12,10 @@
 	<script src="js/LevelMenu.js"></script>
 	<script src="js/Game.js"></script>
 	<script src="js/Interpreter.js"></script>
+	<script src="js/Inputs.js"></script>
+	<script src="js/Outputs.js"></script>
+	<script src="js/Command.js"></script>
+	<script src="js/Memory.js"></script>
 	<script src="js/Player.js"></script>
 	<script src="js/Item.js"></script>
 </head>
@@ -20,7 +24,7 @@
 <script type="text/javascript">
 
 window.onload = function() {
-	var game = new Phaser.Game(640, 360, Phaser.CANVAS, 'game');
+	var game = new Phaser.Game(640, 360, Phaser.CANVAS, 'game',this,false,false);
 	game.state.add('Boot', g.Boot);
 	game.state.add('Preloader', g.Preloader);
 	game.state.add('MainMenu', g.MainMenu);

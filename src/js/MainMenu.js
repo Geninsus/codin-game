@@ -1,16 +1,54 @@
 g.MainMenu = function(game) {};
 g.MainMenu.prototype = {
 	create: function() {
-		this.add.sprite(0, 0, 'screen-mainmenu');
-		this.gameTitle = this.add.sprite(g._WIDTH*0.5, 40, 'title');
-		this.gameTitle.anchor.set(0.5,0);
-		this.startButton = this.add.button(g._WIDTH*0.5, 200, 'button-start', this.startGame, this, 2, 0, 1);
-		this.startButton.anchor.set(0.5,0);
-		this.startButton.input.useHandCursor = true;
+		this.time = 0;
+		this.add.sprite(0, 0, 'sky-mainmenu');
+		//this.clouds = this.add.sprite(-360,10,'clouds-mainmenu');
+		this.clouds1 = this.add.sprite(-360,10,'clouds-1');
+		this.clouds2 = this.add.sprite(-360+250,10,'clouds-2');
+		this.clouds3 = this.add.sprite(-360+250*2,10,'clouds-3');
+		this.clouds4 = this.add.sprite(-360+250*3,10,'clouds-4');
 
+		this.add.sprite(0,0,'building-mainmenu');
+		this.plane = this.add.sprite(641,10,'plane');
+		this.gameTitle = this.add.sprite(320,93, 'title');
+		this.gameTitle.anchor.set(0.5,0);
+		this.begin = this.add.text(g._WIDTH*0.5-100, 250, "Click anywhere to start !", this.fontMessage);
 		// button to "read the article"
+	},
+	update:    function(){
+		if(this.plane.x <=-700){
+			this.plane.x = 641;
+		}
+		this.plane.x--;
+		if (this.clouds1.x>=641) {
+			this.clouds1.x=-250;
+		}
+		if (this.clouds2.x>=641) {
+			this.clouds2.x=-250;
+		}
+		if (this.clouds3.x>=641) {
+			this.clouds3.x=-250;
+		}
+		if (this.clouds4.x>=641) {
+			this.clouds4.x=-250;
+		}
+		this.time++;
+		if(this.time%5 == 0){
+			this.clouds1.x++;
+			this.clouds2.x++;
+			this.clouds3.x++;
+			this.clouds4.x++;
+
+		}
+		if(this.time%60 >= 30){
+			this.begin.visible = false;
+		}else{
+			this.begin.visible = true;
+		}
+		this.input.onDown.add(this.startGame,this);
 	},
 	startGame: function() {
 		this.game.state.start('LevelMenu');
-	}
+	},
 };

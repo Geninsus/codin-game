@@ -1,91 +1,3 @@
-var Memory = {
-  memory : [],
-
-  init : function(values) {
-    this.memory = values;
-  },
-
-  get : function(indice) {
-    if(this.memory[indice] === undefined) {
-      error("L'indice " + indice + " n'existe pas en mémoire.");
-    }
-    return this.memory[indice];
-  },
-
-  set : function(indice, value) {
-    if(this.memory[indice] === undefined) {
-      error("L'indice " + indice + " n'existe pas en mémoire.");
-    }
-    this.memory[indice] = value;
-  },
-
-  display: function() {
-    document.querySelector('#memory').innerHTML = "";
-    for(var el in this.memory) {
-      document.querySelector('#memory').innerHTML += el + " ";
-    }
-  },
-
-  position: function(index) {
-    if (index<0 || index>19) {
-      return "Error";
-    }
-    return {x:120 + 28*(index%5),y:154 + 28*(Math.floor(index/5))};
-  }
-};
-
-var Inputs = {
-  inputs : [],
-  init   : function(inputs) {
-    this.inputs = [];
-    this.inputs = inputs;
-    if(Interpreter.visual) {
-      for (var i = 0 ; i < this.inputs.length ; i++) {
-          this.inputs[i].sprite.x = 40;
-          this.inputs[i].sprite.y = 360 + 28 * i;
-          this.inputs[i].sprite.game.add.tween(this.inputs[i].sprite).to( Inputs.position(i), 300, Phaser.Easing.Linear.None, true);
-      }
-    }
-  },
-  push : function(elt) {
-    this.inputs.push(elt);
-  },
-
-  position : function (index) {
-    if (index<0) {
-      return "Error";
-    }
-    return {x:40,y:360 - 10 + 28*index - 28*7};
-  },
-
-  takeItem : function () {
-    for (var i = 0 ; i < this.inputs.length ; i++) {
-        this.inputs[i].sprite.game.add.tween(this.inputs[i].sprite).to( Inputs.position(i), 300, Phaser.Easing.Linear.None, true);
-    }
-  }
-};
-
-var Outputs = {
-  outputs : [],
-  init    : function() {
-    this.outputs = [];
-  },
-  push    : function(elt) {
-    this.outputs.push(elt);
-  },
-  addItem : function() {
-    for (var i = 0 ; i < this.outputs.length ; i++) {
-        this.outputs[i].sprite.game.add.tween(this.outputs[i].sprite).to( {y :"+28"}, 300, Phaser.Easing.Linear.None, true);
-    }
-  },
-  position : function (index) {
-    if (index<0) {
-      return "Error";
-    }
-    return {x:316,y:154 + 28*index};
-  },
-};
-
 
 var Interpreter = {
 
@@ -135,9 +47,6 @@ var Interpreter = {
     }
     if(Interpreter.i >= Interpreter.codes.length) return;
     if(Interpreter.dictionary.indexOf(Interpreter.codes[Interpreter.i]) != -1) {
-      if(this.visual) {
-        this.game.currentCommand.setText("Command : "+Interpreter.codes[Interpreter.i]);
-      }
       Interpreter.call(Interpreter.codes[Interpreter.i]);
     } else {
       error('Commande ' + Interpreter.codes[Interpreter.i] + ' inconnue.');
@@ -161,7 +70,7 @@ var Interpreter = {
         Interpreter.copyto();
         break;
       case 'COPYFROM':
-        Interpreter.copyfrom(true);
+        Interpreter.copyfrom();
         break;
       case 'LABEL':
         Interpreter.label();
@@ -195,31 +104,31 @@ var Interpreter = {
    * INBOX
    */
   inbox : function() {
-    var input = Inputs.inputs.shift();
+
+    var input = Inputs.take(input);
     if(!input) {
       error("Inputs vide.");
     }
-    Player.hand = input;
-    if(this.visual) {
-      Player.moveTo(Player.inboxPosition,"take");
-    }
+    Player.scanTake(input);
   },
 
   /**
    * OUTBOX
    */
   outbox : function() {
-    if(!Player.hand) {
+    if(!Player.drone.item) {
       error("Outbox avec main vide.");
       return;
     }
-    Outputs.push(Player.hand);
+    Outputs.drop(Player.drone.item);
+    Player.scanDrop();
+    
     if(this.visual) {
-      Player.moveTo(Player.outboxPosition,"drop");
       g.Game.prototype.checkWin(Outputs.outputs.length - 1, this.game);
     } else {
       g.Game.prototype.checkWinExpress(Outputs.outputs.length - 1, this.game);
     }
+    
   },
 
   /**
@@ -238,37 +147,21 @@ var Interpreter = {
         return;
       }
     }
-    Memory.set(add, Player.hand);
-    position = Memory.position(add);
-    position.x += -35;
-    position.y += -20;
-    Player.moveTo(position,"copyto",add);
+    Player.copyto(add);
   },
 
   /**
    * COPYFROM
    */
-  copyfrom : function(action = false) {
+  copyfrom : function(action = true) {
     Interpreter.i++;
     var add = Interpreter.codes[Interpreter.i];
-    var regCheck = /^\[([0-9]+)\]$/.exec(add);
-    if(regCheck !== null) {
-      add = Memory.get(regCheck[1]);
-    } else {
-      add = parseInt(add);
-      if(!(Number.isInteger(add) && add >= 0)) {
-        error("Addresse " + add + " non valide.");
-        return;
-      }
+    console.log(add);
+    var item = Memory.get(add);
+    if (action) {
+      Player.copyfrom(item);
     }
-    if (action = true) {
-      var item = Object.create(Item);
-      item.init(this.game, Memory.get(add).value, true,Memory.position(add).x,Memory.position(add).y);
-      Player.hand = item;
-      Player.moveTo({x:item.sprite.x-35,y:item.sprite.y-20},"copyfrom");
-
-    }
-    return Memory.get(add);
+    return item;
   },
 
   /**
@@ -327,8 +220,14 @@ var Interpreter = {
    * ADD
    */
   add : function() {
-    var value = Interpreter.copyfrom();
-    value.visible = false;
+
+    if (Player.drone.item == null) {
+      error('Impossible de faire une addition sans valeur dans le drone');
+    }
+
+    var value = Interpreter.copyfrom(false);
+    Player.add(value)
+    /*value.visible = false;
     var addValue = parseInt(value.children[0].text);
     if(isNaN(addValue)) {
       error('La valeur ' + addValue + ' ne peut pas être additionné avec la main');
@@ -338,6 +237,7 @@ var Interpreter = {
       error('Impossible de faire une addition avec ' + hand);
     }
     Player.hand.children[0].text = parseInt(Player.hand.children[0].text)+addValue;
+    */
   },
 
   /**

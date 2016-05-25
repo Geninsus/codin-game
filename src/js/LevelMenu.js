@@ -1,6 +1,6 @@
 var PLAYER_DATA = null; // just declare as global variable for now
 
-var ICON_BY_LINE = 4;
+var ICON_BY_LINE = 5;
 
 g.LevelMenu = function(game){
 	// define needed variables for mygame.LevelSelect
@@ -16,15 +16,21 @@ g.LevelMenu.prototype = {
 
 	create: function() {
     this.bg = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'starfield');
-
-		this.game.add.bitmapText(100, 20, 'font72', 'Choisissez un niveau!', 30);
-
+    this.timer = 0;
 		this.createLevelIcons();
 		this.animateLevelIcons();
+		this.rect = this.add.graphics(0,0);
+		this.rect.beginFill(0x828282);
+		this.rect.drawRect(359,179,1,1)
 	},
 
 	update: function() {
-		// nothing to do but wait until player selects a level
+		this.timer++;
+		if(this.timer%20 >= 010){
+			this.rect.visible = false;
+		}else{
+			this.rect.visible = true;
+		}
 	},
 
 	render: function() {
@@ -55,6 +61,9 @@ g.LevelMenu.prototype = {
 		var levelnr = 0;
 		var inconNb = data.levels.length;
 		var i = 0;
+		mask = this.add.graphics(0,0);
+		mask.beginFill(0xffffff);
+		mask.drawRect(178,40,220,95);
 		for (var y=0; y < Math.ceil(inconNb/ICON_BY_LINE) ; y++) {
 			for (var x=0; x < ICON_BY_LINE; x++) {
 				if(i>=inconNb) break;
@@ -86,11 +95,11 @@ g.LevelMenu.prototype = {
 				}
 
 				// calculate position on screen
-				var xpos = 160 + (x*128);
-				var ypos = 120 + (y*128);
+				var xpos = 178 + (x*45);
+				var ypos = 60 + (y*32);
 
 				// create icon
-				this.holdicons[levelnr-1] = this.createLevelIcon(xpos, ypos, levelnr, isLocked, stars);
+				this.holdicons[levelnr-1] = this.createLevelIcon(xpos, ypos, levelnr, isLocked, stars, mask);
 				var backicon = this.holdicons[levelnr-1].getAt(0);
 
 				// keep level nr, used in onclick method
@@ -106,7 +115,7 @@ g.LevelMenu.prototype = {
 	// -------------------------------------
 	// Add level icon buttons
 	// -------------------------------------
-	createLevelIcon: function(xpos, ypos, levelnr, isLocked, stars) {
+	createLevelIcon: function(xpos, ypos, levelnr, isLocked, stars, mask) {
 
 		// create new group
 		var IconGroup = this.game.add.group();
@@ -123,15 +132,18 @@ g.LevelMenu.prototype = {
 
 		// add background
 		var icon1 = this.game.add.sprite(0, 0, 'levelSelection', frame);
+		icon1.mask = mask;
 		IconGroup.add(icon1);
+		var style = { font: "21px Arial", fill: "#ffffff", align: "center"};
 
 		// add stars, if needed
 		if (isLocked === false) {
-			var txt = this.game.add.bitmapText(24, 16, 'font72', ''+levelnr, 48);
-			var icon2 = this.game.add.sprite(0, 0, 'levelSelection', (2+stars));
+			var txt = this.game.add.text(9, 4,''+levelnr, style);
+			txt.mask = mask;
+			//var icon2 = this.game.add.sprite(0, 0, 'levelSelection', (2+stars));
 
 			IconGroup.add(txt);
-			IconGroup.add(icon2);
+			//IconGroup.add(icon2);
 		}
 
 		return IconGroup;
@@ -177,11 +189,11 @@ g.LevelMenu.prototype = {
 		for (var i=0; i < this.holdicons.length; i++) {
 			// get variables
 			var IconGroup = this.holdicons[i];
-			IconGroup.y = IconGroup.y + 600;
+			IconGroup.y = IconGroup.y + 400;
 			var y = IconGroup.y;
 
 			// tween animation
-			this.game.add.tween(IconGroup).to( {y: y-600}, 500, Phaser.Easing.Back.Out, true, (i*40));
+			this.game.add.tween(IconGroup).to( {y: y-417}, 500, Phaser.Easing.Linear.None, true, (i*40));
 		}
 	},
 

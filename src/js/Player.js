@@ -18,87 +18,105 @@ var Player = {
 	init: function(game) {
 		this.game = game;
 		this.sprite = this.game.add.sprite(100,100,'player');
-		this.game.playerGroup.add(this.sprite);
+		this.sprite.anchor = {x: 0.5, y :1};
 		this.game.physics.arcade.enable(this.sprite);
-		this.spriteTween = null;
+		this.tween = null;
 		this.action = null;
-		this.hand = null;
-
+		
+		// Drone Initialisation
+		this.drone = {item : null, sprite : this.game.add.sprite(+20,-130,'drone')};
+		this.sprite.addChild(this.drone.sprite);
+		this.drone.tweenRight = this.game.add.tween(this.drone.sprite).to({x : "+5"}, 2000,"Quart.easeOut");
+		this.drone.tweenLeft = this.game.add.tween(this.drone.sprite).to({x : "-5"}, 2000,"Quart.easeOut");
+		this.drone.tweenLeft.chain(this.drone.tweenRight);
+		this.drone.tweenRight.chain(this.drone.tweenLeft);
+		this.drone.tweenRight.start();
 		// Animations
-		this.up = this.sprite.animations.add('up', [0,3], 10, true);
-		this.left = this.sprite.animations.add('left', [4,7], 10, true);
-		this.right = this.sprite.animations.add('right', [8,11], 10, true);
-		this.down = this.sprite.animations.add('down', [12,15], 10, true);
+		this.idleLeft = this.sprite.animations.add('idleLeft', this.range(0,8) , 4, true);
+		this.idleRight = this.sprite.animations.add('idleRight', this.range(9,17), 4, true);
+		this.walkLeft = this.sprite.animations.add('walkLeft', this.range(18,26), 4, true);
+		this.walkRight = this.sprite.animations.add('walkRight', this.range(27,35), 4, true);
+		this.scanning = this.sprite.animations.add('scanning', this.range(36,48), 4, true);
+		this.scanning.onLoop.add(function(){this.sprite.play('idleLeft');},this);
+		this.sprite.play('idleLeft');
 	},
+	setItem: function(item) {
+		if (this.drone.item != null) this.drone.item.destroy();
+		this.drone.item = item;
+		this.drone.sprite.addChild(item.text);
+	},
+	removeItem: function() {
+		if (this.drone.item != null) this.drone.item.destroy();
+	},
+	scanTake: function(item) {
+		this.moveTo({x:item.text.x+32, y:item.text.y});
+		this.tween.onComplete.add(function(){
+			this.sprite.play('scanning');
+			var newItem = Object.create(Item);
+			newItem.init(this.game,item.value,true,15,15);
+			this.setItem(newItem);
+		},this);
 
-	moveTo: function(position, action = null, index = null) {
-		//this.game.physics.arcade.moveToObject(this.sprite,Inputs.inputs[0].sprite);
-		distance = Math.sqrt(Math.pow((position.x-this.sprite.x),2)+Math.pow((position.y-this.sprite.y),2));
-		speed = Interpreter.speed; // Dans le futur, ce sera speed = var où var est le multiplicateur de vitesse (x2,x4,x8...)
-		time = distance / (speed/10);
-		if (time == 0) {
-			time = 1;
+	},
+	scanDrop: function() {
+		this.moveTo(new Phaser.Point(Outputs.position(0).x-32,Outputs.position(0).y));
+		this.tween.onComplete.add(function(){
+			this.sprite.play('scanning');
+			this.removeItem();
+		},this);
+	},
+	moveTo: function(position) {
+		this.tween = this.game.add.tween(this.sprite).to( position, 500, Phaser.Easing.Linear.None, true);
+		this.tween.onComplete.add(function(){
+			this.tween = null;
+			this.sprite.animations.stop();
+			if (position.x > this.sprite.x) {
+				this.sprite.play('idleRight');
+			}
+			else {
+				this.sprite.play('idleLeft');
+			}
+
+		},this,1);
+		if (position.x > this.sprite.x) {
+			this.sprite.play('walkRight');
 		}
-		this.spriteTween = this.game.add.tween(this.sprite).to( position, time, Phaser.Easing.Linear.None, true);
-		this.action = action;
-		this.dropIndex = index;
-		this.spriteTween.onComplete.add(this.moveToCallback, this);
-		if (position.x < this.sprite.x) {
-			this.sprite.play('left');
-		}
-		else if (position.x > this.sprite.x) {
-			this.sprite.play('right');
-		}
-		else if(position.y > this.sprite.y){
-			this.sprite.play('up');
-		}
-		else if(position.y < this.sprite.y){
-			this.sprite.play('down');
+		else {
+			this.sprite.play('walkLeft');
 		}
 	},
-
-	moveToCallback : function() {
-		this.spriteTween = null;
-		this.sprite.animations.stop(null, true);
-		if (this.action == "take") {
-			this.take(this.hand);
-			Inputs.takeItem();
-	    }
-      	else if (this.action == "drop") {
-      		this.drop(Outputs.position(0));
-      		Outputs.addItem();
-      	}
-      	else if (this.action == "copyto") {
-      		var item = Object.create(Item);
-    		item.init(this.game, this.hand.value, true,Memory.position(this.dropIndex).x,Memory.position(this.dropIndex).y);
-      	}
-      	else if (this.action == "copyfrom") {
-      		item = this.drop();
-      		if (item != null) {
-      			item.kill();
-      		}
-      		this.take(this.hand);
-      	}
-	},
-
-	take: function(item) {
-		item.sprite.x = 0;
-		item.sprite.y = 0;
-		this.sprite.addChild(item.sprite);
-	},
-
-	drop: function(position= {x:0,y:0}) {
-		item = this.sprite.removeChild(this.sprite.children[0]);
-		if (item == null) {
-			return null;
-		}
-		item.x = position.x;
-		item.y = position.y;
-		this.game.world.addChild(item);
-		return item;
-	},
-
 	update: function() {
-
+		if(this.tween != null) {
+			this.drone.tweenRight.pause();
+			this.drone.tweenLeft.pause();
+		}
+		else {
+			this.drone.tweenRight.resume();
+			this.drone.tweenLeft.resume();
+		}
+	},
+	range: function(start,end) {
+		return Array(end-start+1).fill().map((i, idx) => start+idx)
+	},
+	copyto: function(index) {
+		this.moveTo( new Phaser.Point(Memory.position(index).x+40,Memory.position(index).y));
+		this.tween.onComplete.add(function(){
+			this.sprite.play('scanning');
+			var newItem = Object.create(Item);
+			newItem.init(this.game,this.drone.item.value,true,Memory.position(index).x,Memory.position(index).y);
+			Memory.set(index,newItem);
+		},this);
+	},
+	copyfrom : function (item) {
+		this.scanTake(item);
+	},
+	add : function(item) {
+		var newItem = Object.create(Item);
+		newItem.init(this.game,item.value+this.drone.item.value,true,15,15);
+		this.moveTo(new Phaser.Point(item.text.x+40,item.text.y));
+		this.tween.onComplete.add(function(){
+			this.setItem(newItem);
+		},this);
 	}
+
 };

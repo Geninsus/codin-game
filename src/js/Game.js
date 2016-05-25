@@ -140,11 +140,7 @@ g.Game.prototype = {
 	},
 	manageRun: function() {
 				Interpreter.run();
-<<<<<<< HEAD
-		}
-=======
 				this.manageSpeed(1);
->>>>>>> b49caab256d218b9c96724e8ae9beb0ac395ac50
 	},
 	manageStop: function(){
 

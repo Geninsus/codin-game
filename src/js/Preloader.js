@@ -20,6 +20,11 @@ g.Preloader.prototype = {
 		this.load.image('building-mainmenu', 'assets/img/building-mainMenu.png');
 		this.load.image('sky-mainmenu', 'assets/img/sky-mainMenu.png');
 		this.load.image('clouds-mainmenu', 'assets/img/clouds-mainMenu.png');
+		this.load.image('clouds-1', 'assets/img/clouds-1.png');
+		this.load.image('clouds-2', 'assets/img/clouds-2.png');
+		this.load.image('clouds-3', 'assets/img/clouds-3.png');
+		this.load.image('clouds-4', 'assets/img/clouds-4.png');
+
 		this.load.image('plane', 'assets/img/plane.png');
 
 		// GAME IMAGE LOAD

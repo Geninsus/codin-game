@@ -55,7 +55,7 @@ g.LevelMenu.prototype = {
 		var i = 0;
 		mask = this.add.graphics(0,0);
 		mask.beginFill(0xffffff);
-		mask.drawRect(178,60,220,95);
+		mask.drawRect(178,40,220,95);
 		for (var y=0; y < Math.ceil(inconNb/ICON_BY_LINE) ; y++) {
 			for (var x=0; x < ICON_BY_LINE; x++) {
 				if(i>=inconNb) break;
@@ -126,7 +126,7 @@ g.LevelMenu.prototype = {
 		var icon1 = this.game.add.sprite(0, 0, 'levelSelection', frame);
 		icon1.mask = mask;
 		IconGroup.add(icon1);
-		var style = { font: "21px Arial", fill: "#000044", align: "center"};
+		var style = { font: "21px Arial", fill: "#ffffff", align: "center"};
 
 		// add stars, if needed
 		if (isLocked === false) {
@@ -181,11 +181,11 @@ g.LevelMenu.prototype = {
 		for (var i=0; i < this.holdicons.length; i++) {
 			// get variables
 			var IconGroup = this.holdicons[i];
-			IconGroup.y = IconGroup.y + 600;
+			IconGroup.y = IconGroup.y + 400;
 			var y = IconGroup.y;
 
 			// tween animation
-			this.game.add.tween(IconGroup).to( {y: y-600}, 1000, Phaser.Easing.Linear.None, true, (i*40));
+			this.game.add.tween(IconGroup).to( {y: y-417}, 500, Phaser.Easing.Linear.None, true, (i*40));
 		}
 	},
 

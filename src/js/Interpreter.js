@@ -297,7 +297,9 @@ function error(string) {
   Interpreter.game.error.anchor.x = 0.5;
   Interpreter.game.error.anchor.y = 1;
   Interpreter.game.manageStop();
+  Interpreter.isRunning = false;
   Interpreter.i = Interpreter.codes.length;
+  Interpreter.game.codeHaveChange = true;
 }
 
 function debug(string) {

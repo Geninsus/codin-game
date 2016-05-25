@@ -32,6 +32,7 @@ var Player = {
 		this.drone.tweenRight.chain(this.drone.tweenLeft);
 		this.drone.tweenRight.start();
 		this.drone.sprite.animations.add('opening',this.range(0,18),true);
+		this.drone.sprite.animations.add('closing',this.range(19,37),true);
 
 		// Animations
 		this.idleLeft = this.sprite.animations.add('idleLeft', this.range(0,8) , 4, true);
@@ -43,14 +44,16 @@ var Player = {
 		this.sprite.play('idleLeft',10,true);
 	},
 	setItem: function(params) {
+		var newItem = Object.create(Item);	
 		if (this.drone.item == null) {
-			var newItem = Object.create(Item);	
 			this.drone.sprite.play('opening',18);
-			this.drone.sprite.animations.currentAnim.onComplete.add(function() {
+			this.drone.sprite.animations.currentAnim.onComplete.addOnce(function() {
 				newItem.init(params[0],params[1],params[2],params[3],params[4],params[5]);
 				this.drone.item = newItem;
 				this.drone.sprite.addChild(newItem.text);
+
 			},this);
+
 		}
 		else{
 			this.drone.item.destroy();	
@@ -60,7 +63,10 @@ var Player = {
 		}		
 	},
 	removeItem: function() {
-		if (this.drone.item != null) this.drone.item.destroy();
+		if (this.drone.item != null) {
+			this.drone.item.destroy();
+			this.drone.sprite.play('closing',18);
+		}
 		this.drone.item = null;
 	},
 	scanTake: function(item) {

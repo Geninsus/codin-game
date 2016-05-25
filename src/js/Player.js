@@ -42,15 +42,22 @@ var Player = {
 		this.scanning.onLoop.add(function(){this.sprite.play('idleLeft');},this);
 		this.sprite.play('idleLeft',10,true);
 	},
-	setItem: function(item) {
+	setItem: function(params) {
 		if (this.drone.item == null) {
+			var newItem = Object.create(Item);	
 			this.drone.sprite.play('opening',18);
+			this.drone.sprite.animations.currentAnim.onComplete.add(function() {
+				newItem.init(params[0],params[1],params[2],params[3],params[4],params[5]);
+				this.drone.item = newItem;
+				this.drone.sprite.addChild(newItem.text);
+			},this);
 		}
 		else{
 			this.drone.item.destroy();	
-		}
-		this.drone.item = item;
-		this.drone.sprite.addChild(item.text);
+			newItem.init(params[0],params[1],params[2],params[3],params[4],params[5]);
+			this.drone.item = newItem;
+			this.drone.sprite.addChild(newItem.text);
+		}		
 	},
 	removeItem: function() {
 		if (this.drone.item != null) this.drone.item.destroy();
@@ -60,9 +67,7 @@ var Player = {
 		this.moveTo({x:item.text.x+32, y:item.text.y});
 		this.tween.onComplete.add(function(){
 			this.sprite.play('scanning');
-			var newItem = Object.create(Item);
-			newItem.init(this.game,item.value,true,15,15);
-			this.setItem(newItem);
+			this.setItem([this.game,item.value,true,15,15]);
 		},this);
 
 	},
@@ -119,11 +124,9 @@ var Player = {
 		this.scanTake(item);
 	},
 	add : function(item) {
-		var newItem = Object.create(Item);
-		newItem.init(this.game,item.value+this.drone.item.value,true,15,15);
 		this.moveTo(new Phaser.Point(item.text.x+40,item.text.y));
 		this.tween.onComplete.add(function(){
-			this.setItem(newItem);
+			this.setItem([this.game,item.value+this.drone.item.value,true,15,15]);
 		},this);
 	},
 	restart: function() {

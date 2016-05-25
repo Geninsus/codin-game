@@ -38,7 +38,7 @@ var Player = {
 		this.idleRight = this.sprite.animations.add('idleRight', this.range(9,17), 4, true);
 		this.walkLeft = this.sprite.animations.add('walkLeft', this.range(18,26), 4, true);
 		this.walkRight = this.sprite.animations.add('walkRight', this.range(27,35), 4, true);
-		this.scanning = this.sprite.animations.add('scanning', this.range(36,48), 4, true);
+		this.scanning = this.sprite.animations.add('scanning', this.range(36,48), 15, true);
 		this.scanning.onLoop.add(function(){this.sprite.play('idleLeft');},this);
 		this.sprite.play('idleLeft',10,true);
 	},

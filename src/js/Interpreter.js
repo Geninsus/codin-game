@@ -290,8 +290,11 @@ var Interpreter = {
 };
 
 function error(string) {
-  var style = { font: "13px Arial", fill: '#ffffff', backgroundColor: 'rgba(255,255,0,100)' }
-  var text = Interpreter.game.add.text(20, 20, string );
+  var style = { font: "13px Arial", fill: '#ffffff', backgroundColor: 'rgba(135,120,110,1)' }
+  Interpreter.game.error = Interpreter.game.add.text(217, 330, string, style );
+  Interpreter.game.error.anchor.x = 0.5;
+  Interpreter.game.error.anchor.y = 1;
+
 
   Interpreter.i = Interpreter.codes.length;
 }

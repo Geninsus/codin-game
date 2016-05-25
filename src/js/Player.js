@@ -17,7 +17,7 @@ var Player = {
 
 	init: function(game) {
 		this.game = game;
-		this.sprite = this.game.add.sprite(100,100,'player');
+		this.sprite = this.game.add.sprite(100,250,'player');
 		this.sprite.anchor = {x: 0.5, y :1};
 		this.game.physics.arcade.enable(this.sprite);
 		this.tween = null;
@@ -120,6 +120,11 @@ var Player = {
 		this.tween.onComplete.add(function(){
 			this.setItem(newItem);
 		},this);
+	},
+	restart: function() {
+		this.drone.item.destroy();
+		this.sprite.destroy();
+		this.init();
 	}
 
 };

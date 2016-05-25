@@ -80,6 +80,15 @@ g.Game.prototype = {
 		levelNumber = this._currentLevel;
 		verfifNumber = 1000;
 		data.levels[levelNumber-1].inputsGenerator();
+
+		/*Initialisation Memory Sprites*/
+		for (var i = 0 ; i < data.levels[levelNumber-1].memory.length; i ++) {
+			var mySprite = this.add.sprite(Memory.position(i).x-16,Memory.position(i).y-16,'item');
+			var style = { font: "8px Arial"};
+			var num = this.add.text(24,1,i.toString(),style);
+			mySprite.addChild(num);
+		}
+
 		var inputs = [];
 		for (var i = 0 ; i < data.inputs.length; i++) {
 			var item = Object.create(Item);
@@ -120,7 +129,6 @@ g.Game.prototype = {
 	},
 	manageRun: function() {
 		Interpreter.run();
-		this.manageSpeed(1);
 	},
 	manageStop: function(){
 		Player.restart(this);
@@ -160,7 +168,7 @@ g.Game.prototype = {
 		Inputs.update();
 		Player.update();
 		this.commands.forEach(function(elt) {elt.update()});
-		if (Interpreter.isRunning === true) {
+		if (Interpreter.isRunning) {
 			this.manageNext();
 		}
 
@@ -239,7 +247,7 @@ g.Game.prototype = {
 			Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 
 			while(Interpreter.i < Interpreter.codes.length) {
-	  		Interpreter.next();
+	  			Interpreter.next();
 			}
 	},
 	checkWinExpress : function(i, game) {

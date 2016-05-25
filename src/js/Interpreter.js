@@ -37,7 +37,6 @@ var Interpreter = {
 
   run : function() {
     this.isRunning = true;
-    Interpreter.i = 0;
   },
 
   next : function() {

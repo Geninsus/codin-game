@@ -163,10 +163,10 @@ g.Game.prototype = {
 	manageStop: function(){
 		this.codeHaveChange = false;
 
-		Player.restart();
 		Inputs.restart();
 		Outputs.restart();
 		this.startLevel();
+		Player.restart();
 	},
 	manageHome: function(){
 		this.game.state.start('LevelMenu');
@@ -211,6 +211,8 @@ g.Game.prototype = {
 			this.commandsWheel(this.input.mouse.wheelDelta);
 		}
 		this.input.mouse.wheelDelta = 0;
+			console.log(Player.sprite.animations.currentAnim.name);
+
 	},
 	rulesWheel:function(direction) {
 		if(direction == -1 && this.rulesText.y > 30 - this.rulesText.height + 50) {

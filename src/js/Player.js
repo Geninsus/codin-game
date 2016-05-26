@@ -36,12 +36,17 @@ var Player = {
 		this.drone.sprite.animations.add('closing',this.range(19,37),true);
 
 		// Animations
-		this.idleLeft = this.sprite.animations.add('idleLeft', this.range(0,8) , 4, true);
-		this.idleRight = this.sprite.animations.add('idleRight', this.range(9,17), 4, true);
-		this.walkLeft = this.sprite.animations.add('walkLeft', this.range(18,26), 4, true);
-		this.walkRight = this.sprite.animations.add('walkRight', this.range(27,35), 4, true);
-		this.scanning = this.sprite.animations.add('scanning', this.range(36,48), 15, true);
-		this.scanning.onLoop.add(function(){this.sprite.play('idleLeft');},this);
+		this.idleLeft = this.sprite.animations.add('idleLeft', this.range(42,42) , 4, true);
+		this.idleRight = this.sprite.animations.add('idleRight', this.range(28,28), 4, true);
+		this.walkLeft = this.sprite.animations.add('walkLeft', this.range(42,50), 8, true);
+		this.walkRight = this.sprite.animations.add('walkRight', this.range(28,36), 8, true);
+		this.scanning = this.sprite.animations.add('scanning', this.range(0,13), 8, true);
+		this.scanningLeft = this.sprite.animations.add('scanningLeft', this.range(14,27), 8, true);
+		this.scanningRight = this.sprite.animations.add('scanningRight', this.range(0,13), 8, true);
+		this.scanningLeft.onLoop.add(function(){this.sprite.play('idleLeft');},this);
+		this.scanningRight.onLoop.add(function(){this.sprite.play('idleRight');},this);
+		this.walkRight.onComplete.add(function(){this.sprite.play('idleRight');},this);
+		this.walkLeft.onComplete.add(function(){this.sprite.play('idleLeft');},this);
 		this.sprite.play('idleLeft',10,true);
 	},
 	setItem: function(params) {
@@ -71,9 +76,14 @@ var Player = {
 		this.drone.item = null;
 	},
 	scanTake: function(item) {
+
 		this.moveTo({x:item.text.x+32, y:item.text.y});
+
 		this.tween.onComplete.add(function(){
-			this.sprite.play('scanning');
+			console.log(this.sprite.animations.currentAnim.name);
+
+			if (this.sprite.animations.currentAnim.name =="idleLeft" || this.sprite.animations.currentAnim.name =="walkLeft") this.sprite.play('scanningLeft');
+			else this.sprite.play('scanningRight');
 			this.setItem([this.game,item.value,true,15,25]);
 		},this);
 
@@ -81,7 +91,9 @@ var Player = {
 	scanDrop: function() {
 		this.moveTo(new Phaser.Point(Outputs.position(0).x-32,Outputs.position(0).y));
 		this.tween.onComplete.add(function(){
-			this.sprite.play('scanning');
+			console.log(this.sprite.animations.currentAnim.name);
+			if (this.sprite.animations.currentAnim.name =="idleLeft" || this.sprite.animations.currentAnim.name =="walkLeft") this.sprite.play('scanningLeft');
+			else this.sprite.play('scanningRight');
 			this.removeItem();
 		},this);
 	},
@@ -90,12 +102,12 @@ var Player = {
 		this.tween.onComplete.add(function(){
 			this.tween = null;
 			this.sprite.animations.stop();
-			if (position.x > this.sprite.x) {
+			/*if (position.x > this.sprite.x) {
 				this.sprite.play('idleRight');
 			}
 			else {
 				this.sprite.play('idleLeft');
-			}
+			}*/
 
 		},this,1);
 		if (position.x > this.sprite.x) {
@@ -121,7 +133,8 @@ var Player = {
 	copyto: function(index) {
 		this.moveTo( new Phaser.Point(Memory.position(index).x+40,Memory.position(index).y));
 		this.tween.onComplete.add(function(){
-			this.sprite.play('scanning');
+			if (this.sprite.animations.currentAnim.name =="idleLeft" || this.sprite.animations.currentAnim.name =="walkLeft") this.sprite.play('scanningLeft');
+			else this.sprite.play('scanningRight');
 			var newItem = Object.create(Item);
 			newItem.init(this.game,this.drone.item.value,true,Memory.position(index).x,Memory.position(index).y);
 			Memory.set(index,newItem);

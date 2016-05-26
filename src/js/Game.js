@@ -34,13 +34,13 @@ g.Game.prototype = {
 		*/
 	},
 	settingUpControl: function() {
-		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-26, 'button-stop',this.manageStop,this,2,1,3);
-		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-26, 'button-pause', this.managePause, this, 1, 0 ,2);
+		this.stopButton = this.add.button(g._WIDTH/2-150,g._HEIGHT-26, 'button-stop',this.manageStop,this,2,1,3);
+		this.pauseButton = this.add.button(g._WIDTH/2-150+48+5, g._HEIGHT-26, 'button-pause', this.managePause, this, 1, 0 ,2);
 		this.homeButton = this.add.button(g._WIDTH/2-200-73,g._HEIGHT-29,'button-home',this.manageHome,this,0,0,1);
-		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-26, 'button-nextStep', this.manageNext, this, 2, 1, 3);
-		this.playButton = this.add.button(g._WIDTH/2-200+3*24+15, g._HEIGHT-26, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
-		this.speedx2 = this.add.button(g._WIDTH/2-200+4*24+20, g._HEIGHT-26, 'button-play-speed', this.manageSpeedx2, this, 4, 3, 5);
-		this.speedx4 = this.add.button(g._WIDTH/2-200+5*24+25, g._HEIGHT-26, 'button-play-speed', this.manageSpeedx4, this, 7, 6, 8);
+		this.nextStepButton = this.add.button(g._WIDTH/2-150+2*24+10, g._HEIGHT-26, 'button-nextStep', this.manageNext, this, 2, 1, 3);
+		this.playButton = this.add.button(g._WIDTH/2-150+3*24+15, g._HEIGHT-26, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
+		//this.speedx2 = this.add.button(g._WIDTH/2-200+4*24+20, g._HEIGHT-26, 'button-play-speed', this.manageSpeedx2, this, 4, 3, 5);
+		//this.speedx4 = this.add.button(g._WIDTH/2-200+5*24+25, g._HEIGHT-26, 'button-play-speed', this.manageSpeedx4, this, 7, 6, 8);
 		this.pauseButton.anchor.set(1,0);
 		this.pauseButton.input.useHandCursor = true;
 	},
@@ -58,6 +58,9 @@ g.Game.prototype = {
 		this.rulesText.wordWrap = true;
 	},
 	settingUpCommands: function() {
+
+		this.codeHaveChange = false;
+
 		this.commandsMask = this.add.graphics(0, 0);
 		this.commandsMask.inputEnabled = true;
 		this.commandsMask.beginFill(0xffffff);
@@ -81,16 +84,38 @@ g.Game.prototype = {
 		levelNumber = this._currentLevel;
 		verfifNumber = 1000;
 		data.levels[levelNumber-1].inputsGenerator();
+
+		/*Initialisation Memory Sprites*/
+		for (var i = 0 ; i < data.levels[levelNumber-1].memory.length; i ++) {
+			var mySprite = this.add.sprite(Memory.position(i).x-16,Memory.position(i).y-16,'item');
+			var style = { font: "8px Arial"};
+			var num = this.add.text(24,1,i.toString(),style);
+			mySprite.addChild(num);
+		}
+
 		var inputs = [];
 		for (var i = 0 ; i < data.inputs.length; i++) {
 			var item = Object.create(Item);
 			item.init(this, data.inputs[i], true);
 			inputs.push(item);
 		}
+
+		/*Interpreter Init*/
 		Interpreter.init(true, this);
+		this.setParser();
+
+		/* Inputs & Outputs & Memort Init*/
 		Inputs.init(inputs,this);
 		Outputs.init(this);
 		Memory.init(data.levels[levelNumber-1].memory);
+
+	},
+	setParser: function() {
+		var codes = ""
+		for (var i = 0 ; i < this.commands.length ; i++) {
+			codes += this.commands[i].key.toUpperCase()+" ";
+		}
+		Interpreter.parser(codes);
 	},
 	managePause: function() {
 		this.game.paused = true;
@@ -105,11 +130,23 @@ g.Game.prototype = {
 
 	},
 	manageNext: function() {
-		if (Player.sprite.animations.currentAnim.name == 'idleLeft') {
+		if ((Player.sprite.animations.currentAnim.name == 'idleLeft' || Player.sprite.animations.currentAnim.name == 'idleRight') &&
+		 	(Player.drone.sprite.animations.frame == 0 || Player.drone.sprite.animations.frame == 18 || Player.drone.sprite.animations.frame == 19 || Player.drone.sprite.animations.frame == 37) &&
+		 	(Player.drone.item == null || Player.drone.item.game != undefined)) {
+			if (this.codeHaveChange) {
+				this.manageStop();
+				this.setParser();
+				this.codeHaveChange = false;
+			}
+			Interpreter.next();
+
+			/*
 			var codes = ""
 			for (var i = 0 ; i < this.commands.length ; i++) {
 				codes += this.commands[i].key.toUpperCase()+" ";
 			}
+			Interpreter.parser(codes);
+
 			if (this.previousCommands != codes) {
 				Interpreter.init(true, this);
 				Interpreter.parser(codes);
@@ -117,14 +154,16 @@ g.Game.prototype = {
 			Interpreter.next();
 			this.previousCommands = codes;
 			console.log(Interpreter.codes);
+			*/
 		}
 	},
 	manageRun: function() {
 		Interpreter.run();
-		this.manageSpeed(1);
 	},
 	manageStop: function(){
-		Player.restart(this);
+		this.codeHaveChange = false;
+
+		Player.restart();
 		Inputs.restart();
 		Outputs.restart();
 		this.startLevel();
@@ -161,7 +200,7 @@ g.Game.prototype = {
 		Inputs.update();
 		Player.update();
 		this.commands.forEach(function(elt) {elt.update()});
-		if (Interpreter.isRunning === true) {
+		if (Interpreter.isRunning) {
 			this.manageNext();
 		}
 
@@ -171,7 +210,6 @@ g.Game.prototype = {
 		if (this.input.mouse.wheelDelta != 0 && this.commandsMask.input.checkPointerOver(this.input.mousePointer) == true) {
 			this.commandsWheel(this.input.mouse.wheelDelta);
 		}
-
 		this.input.mouse.wheelDelta = 0;
 	},
 	rulesWheel:function(direction) {
@@ -202,19 +240,22 @@ g.Game.prototype = {
 	},
 	render: function() {
 	},
+	winWindow: function(game) {
+		game.add.text(g._WIDTH*0.5-100, 250, "Win !");
+		game.input.onDown.add(game.manageHome,game);
+		PLAYER_DATA[levelNumber-1] = 3;
+		if(PLAYER_DATA[levelNumber] == -1) PLAYER_DATA[levelNumber] = 0;
+		window.localStorage.setItem('mygame_progress', JSON.stringify(PLAYER_DATA));
+	},
 	checkWin : function(i, that) {
 		if(Outputs.outputs[i].value != data.outputs[i]) {
-			alert('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
+			error('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
 		} else {
 			if(Outputs.outputs.length == data.outputs.length) {
-				console.log('C\'est bon ! Passons aux simulations.');
+				//console.log('C\'est bon ! Passons aux simulations.');
 				//this.simulate(that);
 				//Pas de simu
-				alert('GAGNE!');
-				that.game.state.start('LevelMenu');
-				PLAYER_DATA[levelNumber-1] = 3;
-				if(PLAYER_DATA[levelNumber] == -1) PLAYER_DATA[levelNumber] = 0;
-				window.localStorage.setItem('mygame_progress', JSON.stringify(PLAYER_DATA));
+				this.winWindow(that);
 			}
 		}
 	},
@@ -240,7 +281,7 @@ g.Game.prototype = {
 			Interpreter.parser("LABEL A INBOX OUTBOX JUMP A");
 
 			while(Interpreter.i < Interpreter.codes.length) {
-	  		Interpreter.next();
+	  			Interpreter.next();
 			}
 	},
 	checkWinExpress : function(i, game) {

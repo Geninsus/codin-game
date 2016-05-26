@@ -30,14 +30,12 @@ var Interpreter = {
     Interpreter.iteration = 0;
     Interpreter.labels = {};
     Interpreter.i = 0;
-    Interpreter.isRunning = false;
     this.visual = visual;
     this.game = game;
   },
 
   run : function() {
     this.isRunning = true;
-    Interpreter.i = 0;
   },
 
   next : function() {
@@ -109,14 +107,16 @@ var Interpreter = {
     if(!input) {
       error("Inputs vide.");
     }
-    Player.scanTake(input);
+    else {
+      Player.scanTake(input);
+    }
   },
 
   /**
    * OUTBOX
    */
   outbox : function() {
-    if(!Player.drone.item) {
+    if(Player.drone.item == null) {
       error("Outbox avec main vide.");
       return;
     }
@@ -226,17 +226,6 @@ var Interpreter = {
 
     var value = Interpreter.copyfrom(false);
     Player.add(value)
-    /*value.visible = false;
-    var addValue = parseInt(value.children[0].text);
-    if(isNaN(addValue)) {
-      error('La valeur ' + addValue + ' ne peut pas être additionné avec la main');
-    }
-    var hand = parseInt(Player.hand.children[0].text);
-    if(isNaN(hand)) {
-      error('Impossible de faire une addition avec ' + hand);
-    }
-    Player.hand.children[0].text = parseInt(Player.hand.children[0].text)+addValue;
-    */
   },
 
   /**
@@ -258,28 +247,19 @@ var Interpreter = {
    * INC
    */
   inc : function() {
-    var value = parseInt(Interpreter.copyfrom());
-    if(isNaN(value)) {
-      error('La valeur ' + value + ' ne peut pas être incrémenté');
-    }
-    value++;
-    Player.hand = value;
-    Interpreter.i --;
-    Interpreter.copyto(value);
+    var item = Interpreter.copyfrom();
+    item.setValue(item.value+1);
+    Player.drone.item.setValue(Player.drone.item.value+1);
+
   },
 
   /**
    * DEC
    */
   dec : function() {
-    var value = parseInt(Interpreter.copyfrom());
-    if(isNaN(value)) {
-      error('La valeur ' + value + ' ne peut pas être décrémenté');
-    }
-    value--;
-    Player.hand = value;
-    Interpreter.i --;
-    Interpreter.copyto(value);
+    var item = Interpreter.copyfrom();
+    item.setValue(item.value-1);
+    Player.drone.item.setValue(Player.drone.item.value-1);
   },
 
   reset : function() {
@@ -290,12 +270,16 @@ var Interpreter = {
 };
 
 function error(string) {
+  console.log(string);
+
   var style = { font: "13px Arial", fill: '#ffffff', backgroundColor: 'rgba(135,120,110,1)' }
   Interpreter.game.error = Interpreter.game.add.text(217, 330, string, style );
   Interpreter.game.error.anchor.x = 0.5;
   Interpreter.game.error.anchor.y = 1;
-
+  Interpreter.game.manageStop();
+  Interpreter.isRunning = false;
   Interpreter.i = Interpreter.codes.length;
+  Interpreter.game.codeHaveChange = true;
 }
 
 function debug(string) {

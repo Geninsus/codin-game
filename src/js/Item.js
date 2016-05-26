@@ -22,7 +22,8 @@ var Item = {
 
 	setValue: function(n) {
 		this.value = n;
-		this.text.text = n.toString();
+		console.log(n);
+		this.text.setText(n.toString());
 	},
     setPosition(position){
     	this.text.x = position.x;

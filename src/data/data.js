@@ -22,8 +22,8 @@ var data = {
     },
     {
       wording : 'Le but de cet exercice est de sortir les entrés incrémentés de 1.',
-      commands : ['inbox', 'outbox', 'jump', 'inc', 'dec'],
-      memory : [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+      commands : ['inbox', 'outbox', 'jump', 'inc', 'dec', 'copyto', 'copyfrom'],
+      memory : [null,null,null,null],
       inputsGenerator : function () {
         data.inputs = [];
         data.outputs = [];

@@ -35,10 +35,11 @@ var Command = {
 		}
 	},
 	onDragStop: function() {
+		this.game.codeHaveChange = true;
+		Interpreter.isRunning = false;
 		if(this.game.input.x > g._WIDTH-113-7 && this.game.input.y > 95) {
 
-
-			if ( this.key == "copyfrom" || this.key == "copyto" || this.key == "add" ) {
+			if ( this.key == "copyfrom" || this.key == "copyto" || this.key == "add" || this.key == 'inc' || this.key == 'dec' ) {
 				var style = { font: "15px Arial", fill: "#ffffff", align: "center" };
 				var indexCommand = this.game.add.text(this.sprite.width-17,3,(this.game.input.keyboard.lastKey.keyCode.toString())-96,style);
 				this.sprite.addChild(indexCommand);
@@ -57,7 +58,7 @@ var Command = {
 			}
 
 			var myTween = this.game.add.tween(this.sprite).to({x:g._WIDTH-113,y:(this.game.commands.length>1)?this.game.commands[index-1].sprite.y+25:100}, 500, "Back.easeOut", true);
-			if (this.key == 'copyto' || this.key == 'copyfrom' || this.key == 'add') {
+			if (this.key == 'copyto' || this.key == 'copyfrom' || this.key == 'add' || this.key == 'inc' || this.key == 'dec') {
 				this.key += " " + this.sprite.getChildAt(0).text;
 			}
 			if(this.key == 'jump') {

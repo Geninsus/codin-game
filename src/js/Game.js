@@ -240,19 +240,22 @@ g.Game.prototype = {
 	},
 	render: function() {
 	},
+	winWindow: function(game) {
+		game.add.text(g._WIDTH*0.5-100, 250, "Win !");
+		game.input.onDown.add(game.manageHome,game);
+		PLAYER_DATA[levelNumber-1] = 3;
+		if(PLAYER_DATA[levelNumber] == -1) PLAYER_DATA[levelNumber] = 0;
+		window.localStorage.setItem('mygame_progress', JSON.stringify(PLAYER_DATA));
+	},
 	checkWin : function(i, that) {
 		if(Outputs.outputs[i].value != data.outputs[i]) {
 			error('La sortie vaut ' + Outputs.outputs[i].value + ' alors qu\'elle devrait valoir ' + data.outputs[i]);
 		} else {
 			if(Outputs.outputs.length == data.outputs.length) {
-				console.log('C\'est bon ! Passons aux simulations.');
+				//console.log('C\'est bon ! Passons aux simulations.');
 				//this.simulate(that);
 				//Pas de simu
-				alert('GAGNE!');
-				that.game.state.start('LevelMenu');
-				PLAYER_DATA[levelNumber-1] = 3;
-				if(PLAYER_DATA[levelNumber] == -1) PLAYER_DATA[levelNumber] = 0;
-				window.localStorage.setItem('mygame_progress', JSON.stringify(PLAYER_DATA));
+				this.winWindow(that);
 			}
 		}
 	},

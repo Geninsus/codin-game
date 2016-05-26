@@ -60,7 +60,7 @@ g.Game.prototype = {
 	settingUpCommands: function() {
 
 		this.codeHaveChange = false;
-
+		this.input.onDown.add(function(){if (this.error) this.error.destroy();},this);
 		this.commandsMask = this.add.graphics(0, 0);
 		this.commandsMask.inputEnabled = true;
 		this.commandsMask.beginFill(0xffffff);

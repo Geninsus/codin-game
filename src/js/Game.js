@@ -52,7 +52,7 @@ g.Game.prototype = {
 		this.rulesMask.beginFill(0xffffff);
 		this.rulesMask.drawRect(g._WIDTH-116, 28, 104, 56);
 		this.rulesText = this.add.text(g._WIDTH-116,30,data.levels[this._currentLevel-1].wording,style);
-		this.rulesText.lineSpacing = - 10; 
+		this.rulesText.lineSpacing = - 8; 
 		this.rulesText.mask = this.rulesMask;
 		this.rulesText.wordWrapWidth = 105;
 		this.rulesText.wordWrap = true;

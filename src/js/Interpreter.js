@@ -226,17 +226,6 @@ var Interpreter = {
 
     var value = Interpreter.copyfrom(false);
     Player.add(value)
-    /*value.visible = false;
-    var addValue = parseInt(value.children[0].text);
-    if(isNaN(addValue)) {
-      error('La valeur ' + addValue + ' ne peut pas être additionné avec la main');
-    }
-    var hand = parseInt(Player.hand.children[0].text);
-    if(isNaN(hand)) {
-      error('Impossible de faire une addition avec ' + hand);
-    }
-    Player.hand.children[0].text = parseInt(Player.hand.children[0].text)+addValue;
-    */
   },
 
   /**
@@ -258,14 +247,10 @@ var Interpreter = {
    * INC
    */
   inc : function() {
-    var value = parseInt(Interpreter.copyfrom());
-    if(isNaN(value)) {
-      error('La valeur ' + value + ' ne peut pas être incrémenté');
-    }
-    value++;
-    Player.hand = value;
-    Interpreter.i --;
-    Interpreter.copyto(value);
+    var item = Interpreter.copyfrom();
+    item.setValue(item.value+1);
+    Player.drone.item.setValue(Player.drone.item.value+1);
+
   },
 
   /**

@@ -140,6 +140,9 @@ var Player = {
 		if (this.drone.item != null) this.drone.item.destroy();
 		this.sprite.destroy();
 		this.init(this.game);
+	},
+	inc : function() {
+		
 	}
 
 };

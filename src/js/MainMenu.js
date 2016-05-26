@@ -5,9 +5,9 @@ g.MainMenu.prototype = {
 		this.add.sprite(0, 0, 'sky-mainmenu');
 		//this.clouds = this.add.sprite(-360,10,'clouds-mainmenu');
 		this.clouds1 = this.add.sprite(-360,10,'clouds-1');
-		this.clouds2 = this.add.sprite(-360+250,10,'clouds-2');
-		this.clouds3 = this.add.sprite(-360+250*2,10,'clouds-3');
-		this.clouds4 = this.add.sprite(-360+250*3,10,'clouds-4');
+		this.clouds2 = this.add.sprite(-360+300,10,'clouds-2');
+		this.clouds3 = this.add.sprite(-360+300*2,10,'clouds-3');
+		this.clouds4 = this.add.sprite(-360+300*3,10,'clouds-4');
 
 		this.add.sprite(0,0,'building-mainmenu');
 		this.plane = this.add.sprite(641,10,'plane');

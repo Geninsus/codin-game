@@ -34,13 +34,13 @@ g.Game.prototype = {
 		*/
 	},
 	settingUpControl: function() {
-		this.stopButton = this.add.button(g._WIDTH/2-200,g._HEIGHT-26, 'button-stop',this.manageStop,this,2,1,3);
-		this.pauseButton = this.add.button(g._WIDTH/2-200+48+5, g._HEIGHT-26, 'button-pause', this.managePause, this, 1, 0 ,2);
+		this.stopButton = this.add.button(g._WIDTH/2-150,g._HEIGHT-26, 'button-stop',this.manageStop,this,2,1,3);
+		this.pauseButton = this.add.button(g._WIDTH/2-150+48+5, g._HEIGHT-26, 'button-pause', this.managePause, this, 1, 0 ,2);
 		this.homeButton = this.add.button(g._WIDTH/2-200-73,g._HEIGHT-29,'button-home',this.manageHome,this,0,0,1);
-		this.nextStepButton = this.add.button(g._WIDTH/2-200+2*24+10, g._HEIGHT-26, 'button-nextStep', this.manageNext, this, 2, 1, 3);
-		this.playButton = this.add.button(g._WIDTH/2-200+3*24+15, g._HEIGHT-26, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
-		this.speedx2 = this.add.button(g._WIDTH/2-200+4*24+20, g._HEIGHT-26, 'button-play-speed', this.manageSpeedx2, this, 4, 3, 5);
-		this.speedx4 = this.add.button(g._WIDTH/2-200+5*24+25, g._HEIGHT-26, 'button-play-speed', this.manageSpeedx4, this, 7, 6, 8);
+		this.nextStepButton = this.add.button(g._WIDTH/2-150+2*24+10, g._HEIGHT-26, 'button-nextStep', this.manageNext, this, 2, 1, 3);
+		this.playButton = this.add.button(g._WIDTH/2-150+3*24+15, g._HEIGHT-26, 'button-play-speed', this.manageSpeed, this, 1, 0, 2);
+		//this.speedx2 = this.add.button(g._WIDTH/2-200+4*24+20, g._HEIGHT-26, 'button-play-speed', this.manageSpeedx2, this, 4, 3, 5);
+		//this.speedx4 = this.add.button(g._WIDTH/2-200+5*24+25, g._HEIGHT-26, 'button-play-speed', this.manageSpeedx4, this, 7, 6, 8);
 		this.pauseButton.anchor.set(1,0);
 		this.pauseButton.input.useHandCursor = true;
 	},

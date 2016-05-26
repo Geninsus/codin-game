@@ -257,14 +257,9 @@ var Interpreter = {
    * DEC
    */
   dec : function() {
-    var value = parseInt(Interpreter.copyfrom());
-    if(isNaN(value)) {
-      error('La valeur ' + value + ' ne peut pas être décrémenté');
-    }
-    value--;
-    Player.hand = value;
-    Interpreter.i --;
-    Interpreter.copyto(value);
+    var item = Interpreter.copyfrom();
+    item.setValue(item.value-1);
+    Player.drone.item.setValue(Player.drone.item.value-1);
   },
 
   reset : function() {

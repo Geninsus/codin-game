@@ -16,7 +16,7 @@ var Item = {
 			this.text.alpha = 0;
 			this.text.anchor.x += 0.5;
 			this.text.anchor.y += 0.5;
-			this.tween = this.game.add.tween(this.text).to({alpha:1},30,Phaser.Easing.Linear.None,true);
+			this.tween = this.game.add.tween(this.text).to({alpha:1},300,Phaser.Easing.Linear.None,true);
 		}
 	},
 
@@ -32,7 +32,7 @@ var Item = {
 	update: function() {
 	},
 	destroy: function() {
-		this.tween = this.game.add.tween(this.text).to({alpha:0},30,Phaser.Easing.Linear.None,true);
+		this.tween = this.game.add.tween(this.text).to({alpha:0},300,Phaser.Easing.Linear.None,true);
 		this.tween.onComplete.add(function() {this.text.destroy();this.tween = null;},this);
 	}
 };

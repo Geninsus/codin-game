@@ -74,7 +74,7 @@ var Player = {
 		this.moveTo({x:item.text.x+32, y:item.text.y});
 		this.tween.onComplete.add(function(){
 			this.sprite.play('scanning');
-			this.setItem([this.game,item.value,true,15,15]);
+			this.setItem([this.game,item.value,true,15,25]);
 		},this);
 
 	},
@@ -86,7 +86,7 @@ var Player = {
 		},this);
 	},
 	moveTo: function(position) {
-		this.tween = this.game.add.tween(this.sprite).to( position, 50, Phaser.Easing.Linear.None, true);
+		this.tween = this.game.add.tween(this.sprite).to( position, 1000, Phaser.Easing.Linear.None, true);
 		this.tween.onComplete.add(function(){
 			this.tween = null;
 			this.sprite.animations.stop();
@@ -133,7 +133,7 @@ var Player = {
 	add : function(item) {
 		this.moveTo(new Phaser.Point(item.text.x+40,item.text.y));
 		this.tween.onComplete.add(function(){
-			this.setItem([this.game,item.value+this.drone.item.value,true,15,15]);
+			this.setItem([this.game,item.value+this.drone.item.value,true,15,25]);
 		},this);
 	},
 	restart: function() {

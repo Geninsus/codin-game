@@ -149,11 +149,12 @@ var Interpreter = {
    * INBOX
    */
   inbox : function() {
-    var input = Inputs.inputs.shift();
+    var input = Inputs.inputs.shift ();
     if(!input) {
       error("Inputs vide.");
     }
     Interpreter.hand = parseInt(input) || input;
+    if(Interpreter.hand == "0") Interpreter.hand = 0;
   },
 
   /**

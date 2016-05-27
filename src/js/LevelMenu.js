@@ -21,11 +21,14 @@ g.LevelMenu.prototype = {
 		this.animateLevelIcons();
 		this.rect = this.add.graphics(0,0);
 		this.rect.beginFill(0x828282);
-		this.rect.drawRect(359,179,1,1)
+		this.rect.drawRect(240,169,1,1)
 	},
 
 	update: function() {
 		this.timer++;
+		if(this.timer >1000){
+			this.timer=0;
+		}
 		if(this.timer%20 >= 010){
 			this.rect.visible = false;
 		}else{

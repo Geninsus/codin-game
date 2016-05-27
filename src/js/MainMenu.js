@@ -34,6 +34,9 @@ g.MainMenu.prototype = {
 			this.clouds4.x=-250;
 		}
 		this.time++;
+		if(this.time>1000){
+			this.time = 0;
+		}
 		if(this.time%5 == 0){
 			this.clouds1.x++;
 			this.clouds2.x++;

@@ -70,6 +70,7 @@ g.Game.prototype = {
 		this.commandsMark = this.add.sprite(g._WIDTH-115,0,'mark');
 		this.commandsMark.mask = this.commandsMask;
 
+		this.lastKey = this.add.text(20,20,'0');
 		/*Blocks*/
 		this.scroolBar = 0;
 		this.previousCommands = "";
@@ -211,7 +212,8 @@ g.Game.prototype = {
 			this.commandsWheel(this.input.mouse.wheelDelta);
 		}
 		this.input.mouse.wheelDelta = 0;
-			console.log(Player.sprite.animations.currentAnim.name);
+
+		if (this.game.input.keyboard.lastKey &&  this.game.input.keyboard.lastKey.keyCode-96 >= 0 && this.game.input.keyboard.lastKey.keyCode-96 <= 9) this.lastKey.setText(this.game.input.keyboard.lastKey.keyCode.toString()-96);
 
 	},
 	rulesWheel:function(direction) {

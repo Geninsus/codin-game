@@ -26,6 +26,7 @@ g.Preloader.prototype = {
 		this.load.image('clouds-4', 'assets/img/clouds-4.png');
 
 		this.load.image('plane', 'assets/img/plane.png');
+		this.load.image('sucess', 'assets/img/sucess.png');
 
 		// GAME IMAGE LOAD
 		//		BOX BUTTON

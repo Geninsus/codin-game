@@ -132,9 +132,12 @@ g.Game.prototype = {
 
 	},
 	manageNext: function() {
+		console.log(Player.sprite.animations.currentAnim.name);
+		console.log(Player.drone.sprite.animations.frame);
 		if ((Player.sprite.animations.currentAnim.name == 'idleLeft' || Player.sprite.animations.currentAnim.name == 'idleRight') &&
 		 	(Player.drone.sprite.animations.frame == 0 || Player.drone.sprite.animations.frame == 18 || Player.drone.sprite.animations.frame == 19 || Player.drone.sprite.animations.frame == 37) &&
 		 	(Player.drone.item == null || Player.drone.item.game != undefined)) {
+
 			if (this.codeHaveChange) {
 				this.manageStop();
 				this.setParser();

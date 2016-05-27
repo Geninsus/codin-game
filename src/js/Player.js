@@ -54,7 +54,7 @@ var Player = {
 		if (this.drone.item == null) {
 			this.drone.sprite.play('opening',18);
 			this.drone.sprite.animations.currentAnim.onComplete.addOnce(function() {
-				newItem.init(params[0],params[1],params[2],params[3],params[4],params[5]);
+				newItem.init(params[0],params[1],params[2],params[3],params[4]);
 				this.drone.sprite.addChild(newItem.text);
 
 
@@ -63,7 +63,7 @@ var Player = {
 		}
 		else{
 			this.drone.item.destroy();	
-			newItem.init(params[0],params[1],params[2],params[3],params[4],params[5]);
+			newItem.init(params[0],params[1],params[2],params[3],params[4]);
 			this.drone.sprite.addChild(newItem.text);
 		}		
 		this.drone.item = newItem;
@@ -154,6 +154,7 @@ var Player = {
 		this.moveTo(new Phaser.Point(item.text.x+40,item.text.y));
 		this.tween.onComplete.add(function(){
 			this.setItem([this.game,item.value+this.drone.item.value,true,15,25]);
+			this.sprite.play('idleLeft');
 		},this);
 	},
 	restart: function() {

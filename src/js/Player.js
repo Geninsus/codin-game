@@ -93,7 +93,7 @@ var Player = {
 
 	},
 	scanDrop: function() {
-		this.moveTo(new Phaser.Point(Outputs.position(0).x-32,Outputs.position(0).y));
+		this.moveTo(new Phaser.Point(Outputs.position(0).x-32,Outputs.position(0).y+35));
 		this.tween.onComplete.add(function(){
 			console.log(this.sprite.animations.currentAnim.name);
 			if (this.sprite.animations.currentAnim.name =="idleLeft" || this.sprite.animations.currentAnim.name =="walkLeft") this.sprite.play('scanningLeft');

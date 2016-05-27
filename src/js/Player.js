@@ -75,9 +75,9 @@ var Player = {
 		}
 		this.drone.item = null;
 	},
-	scanTake: function(item) {
+	scanTake: function(item, action = null) {
 
-		this.moveTo({x:item.text.x+32, y:item.text.y});
+		this.moveTo({x:item.text.x+32, y:item.text.y+35});
 
 		this.tween.onComplete.add(function(){
 			console.log(this.sprite.animations.currentAnim.name);
@@ -85,6 +85,10 @@ var Player = {
 			if (this.sprite.animations.currentAnim.name =="idleLeft" || this.sprite.animations.currentAnim.name =="walkLeft") this.sprite.play('scanningLeft');
 			else this.sprite.play('scanningRight');
 			this.setItem([this.game,item.value,true,15,25]);
+			if (action == 'inbox') {
+			    item.destroy(true);
+				item.tween.onComplete.add(Inputs.replace);
+			}
 		},this);
 
 	},
@@ -94,7 +98,10 @@ var Player = {
 			console.log(this.sprite.animations.currentAnim.name);
 			if (this.sprite.animations.currentAnim.name =="idleLeft" || this.sprite.animations.currentAnim.name =="walkLeft") this.sprite.play('scanningLeft');
 			else this.sprite.play('scanningRight');
+    		Outputs.drop(Player.drone.item);
 			this.removeItem();
+    		this.game.checkWin(Outputs.outputs.length - 1, this.game);
+
 		},this);
 	},
 	moveTo: function(position) {

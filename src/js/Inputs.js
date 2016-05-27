@@ -42,8 +42,7 @@ var Inputs = {
   take: function() {
     var item = Inputs.inputs.shift();
     if (item) {
-    item.destroy(true);
-    item.tween.onComplete.add(Inputs.replace);
+
     }
     return item;
   },

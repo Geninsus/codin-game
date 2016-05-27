@@ -41,7 +41,7 @@ var Command = {
 
 			if ( this.key == "copyfrom" || this.key == "copyto" || this.key == "add" || this.key == 'inc' || this.key == 'dec' ) {
 				var style = { font: "15px Arial", fill: "#ffffff", align: "center" };
-				var indexCommand = this.game.add.text(this.sprite.width-17,3,this.game.lastKey.text,style);
+				var indexCommand = this.game.add.text(this.sprite.width-17,1,this.game.lastKey.text,style);
 				this.sprite.addChild(indexCommand);
 			}
 			this.sprite.mask = this.game.commandsMask;

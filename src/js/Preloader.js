@@ -52,6 +52,7 @@ g.Preloader.prototype = {
 		this.load.spritesheet('button-stop', 'assets/buttons/button-stop.png',24,25);
 		this.load.spritesheet('button-nextStep','assets/buttons/button-nextStep.png',24,25);
 		this.load.spritesheet('button-nextStep','assets/buttons/button-nextStep.png',24,25);
+		this.load.image('lastKey','assets/buttons/lastKey.png');
 
 		//		PLAYER SHEET
 		this.load.spritesheet('player', 'assets/img/player.png', 100, 90);

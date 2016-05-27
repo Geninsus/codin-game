@@ -70,7 +70,8 @@ g.Game.prototype = {
 		this.commandsMark = this.add.sprite(g._WIDTH-115,0,'mark');
 		this.commandsMark.mask = this.commandsMask;
 
-		this.lastKey = this.add.text(20,20,'0');
+		this.add.sprite(g._WIDTH/2-150+5*24+35, g._HEIGHT-26,'lastKey')
+		this.lastKey = this.add.text(g._WIDTH/2-150+5*24+35+6, g._HEIGHT-26,'0',{font: "20px Arial", fill: '#bababa'});
 		/*Blocks*/
 		this.scroolBar = 0;
 		this.previousCommands = "";

@@ -136,7 +136,7 @@ var data = {
         data.inputs = [];
         data.outputs = [];
         //Le nombre d'input est 6
-        var nb = 6;
+        var nb = 4;
         for(var i = 0; i < nb; i++) {
           // Les nombres sont entre 0 et 13
           data.inputs.push(Math.floor(Math.random() * (47 - 0) + 3));

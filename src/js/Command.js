@@ -117,12 +117,12 @@ var Command = {
 		if (this.arrow) {
 			this.arrow.clear();
 			this.arrow = this.game.add.graphics(this.sprite.x+this.sprite.width,this.sprite.y+this.sprite.height/2);
-		    this.arrow.lineStyle(2, 0xFF0000, 0.8);
+		    this.arrow.lineStyle(2,0x2b63d5 , 0.8);
 		    this.arrow.lineTo(20+5*(this.loop-1), 0);
 		    this.arrow.lineTo(20+5*(this.loop-1), (this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
 		    this.arrow.lineTo(0,(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
 			var myShape = new PIXI.Polygon(5,-5+(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2),5,5+(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2),0,(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2),5,-5+(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
-			this.arrow.beginFill(0xFF0000,0.8);
+			this.arrow.beginFill(0x2b63d5,0.8);
 			this.arrow.drawShape(myShape);
 			this.arrow.endFill();
 		    this.arrow.mask = this.game.commandsMask;

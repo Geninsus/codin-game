@@ -70,6 +70,8 @@ g.Game.prototype = {
 		this.commandsMark = this.add.sprite(g._WIDTH-115,0,'mark');
 		this.commandsMark.mask = this.commandsMask;
 
+		this.add.sprite(g._WIDTH/2-150+5*24+35, g._HEIGHT-26,'lastKey')
+		this.lastKey = this.add.text(g._WIDTH/2-150+5*24+35+6, g._HEIGHT-26,'0',{font: "20px Arial", fill: '#bababa'});
 		/*Blocks*/
 		this.scroolBar = 0;
 		this.previousCommands = "";
@@ -130,9 +132,12 @@ g.Game.prototype = {
 
 	},
 	manageNext: function() {
+		console.log(Player.sprite.animations.currentAnim.name);
+		console.log(Player.drone.sprite.animations.frame);
 		if ((Player.sprite.animations.currentAnim.name == 'idleLeft' || Player.sprite.animations.currentAnim.name == 'idleRight') &&
 		 	(Player.drone.sprite.animations.frame == 0 || Player.drone.sprite.animations.frame == 18 || Player.drone.sprite.animations.frame == 19 || Player.drone.sprite.animations.frame == 37) &&
 		 	(Player.drone.item == null || Player.drone.item.game != undefined)) {
+
 			if (this.codeHaveChange) {
 				this.manageStop();
 				this.setParser();
@@ -211,7 +216,8 @@ g.Game.prototype = {
 			this.commandsWheel(this.input.mouse.wheelDelta);
 		}
 		this.input.mouse.wheelDelta = 0;
-			console.log(Player.sprite.animations.currentAnim.name);
+
+		if (this.game.input.keyboard.lastKey &&  this.game.input.keyboard.lastKey.keyCode-96 >= 0 && this.game.input.keyboard.lastKey.keyCode-96 <= 9) this.lastKey.setText(this.game.input.keyboard.lastKey.keyCode.toString()-96);
 
 	},
 	rulesWheel:function(direction) {

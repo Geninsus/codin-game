@@ -26,6 +26,7 @@ g.Preloader.prototype = {
 		this.load.image('clouds-4', 'assets/img/clouds-4.png');
 
 		this.load.image('plane', 'assets/img/plane.png');
+		this.load.image('sucess', 'assets/img/sucess.png');
 
 		// GAME IMAGE LOAD
 		//		BOX BUTTON
@@ -52,6 +53,7 @@ g.Preloader.prototype = {
 		this.load.spritesheet('button-stop', 'assets/buttons/button-stop.png',24,25);
 		this.load.spritesheet('button-nextStep','assets/buttons/button-nextStep.png',24,25);
 		this.load.spritesheet('button-nextStep','assets/buttons/button-nextStep.png',24,25);
+		this.load.image('lastKey','assets/buttons/lastKey.png');
 
 		//		PLAYER SHEET
 		this.load.spritesheet('player', 'assets/img/player.png', 100, 90);

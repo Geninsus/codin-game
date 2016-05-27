@@ -41,7 +41,7 @@ var Command = {
 
 			if ( this.key == "copyfrom" || this.key == "copyto" || this.key == "add" || this.key == 'inc' || this.key == 'dec' ) {
 				var style = { font: "15px Arial", fill: "#ffffff", align: "center" };
-				var indexCommand = this.game.add.text(this.sprite.width-17,3,(this.game.input.keyboard.lastKey.keyCode.toString())-96,style);
+				var indexCommand = this.game.add.text(this.sprite.width-17,1,this.game.lastKey.text,style);
 				this.sprite.addChild(indexCommand);
 			}
 			this.sprite.mask = this.game.commandsMask;
@@ -57,7 +57,7 @@ var Command = {
 				this.game.add.tween(this.game.commands[i].sprite).to({y:(this.key == 'jump')?'+50':'+25'}, 500, "Back.easeOut", true);
 			}
 
-			var myTween = this.game.add.tween(this.sprite).to({x:g._WIDTH-113,y:(this.game.commands.length>1)?this.game.commands[index-1].sprite.y+25:100}, 500, "Back.easeOut", true);
+			var myTween = this.game.add.tween(this.sprite).to({x:g._WIDTH-119,y:(this.game.commands.length>1)?this.game.commands[index-1].sprite.y+25:100}, 500, "Back.easeOut", true);
 			if (this.key == 'copyto' || this.key == 'copyfrom' || this.key == 'add' || this.key == 'inc' || this.key == 'dec') {
 				this.key += " " + this.sprite.getChildAt(0).text;
 			}
@@ -117,12 +117,12 @@ var Command = {
 		if (this.arrow) {
 			this.arrow.clear();
 			this.arrow = this.game.add.graphics(this.sprite.x+this.sprite.width,this.sprite.y+this.sprite.height/2);
-		    this.arrow.lineStyle(2, 0xFF0000, 0.8);
+		    this.arrow.lineStyle(2,0x2b63d5 , 0.8);
 		    this.arrow.lineTo(20+5*(this.loop-1), 0);
 		    this.arrow.lineTo(20+5*(this.loop-1), (this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
 		    this.arrow.lineTo(0,(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
 			var myShape = new PIXI.Polygon(5,-5+(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2),5,5+(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2),0,(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2),5,-5+(this.linkedLabel.sprite.y+this.linkedLabel.sprite.height/2)-(this.sprite.y+this.sprite.height/2));
-			this.arrow.beginFill(0xFF0000,0.8);
+			this.arrow.beginFill(0x2b63d5,0.8);
 			this.arrow.drawShape(myShape);
 			this.arrow.endFill();
 		    this.arrow.mask = this.game.commandsMask;

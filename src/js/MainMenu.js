@@ -13,7 +13,7 @@ g.MainMenu.prototype = {
 		this.plane = this.add.sprite(641,10,'plane');
 		this.gameTitle = this.add.sprite(320,93, 'title');
 		this.gameTitle.anchor.set(0.5,0);
-		this.begin = this.add.text(g._WIDTH*0.5-100, 250, "Click anywhere to start !", this.fontMessage);
+		this.begin = this.add.text(g._WIDTH*0.5-140, 250, "Click anywhere to start !", {font: "30px Arial", fill: "#ffffff"});
 		// button to "read the article"
 	},
 	update:    function(){
@@ -34,6 +34,9 @@ g.MainMenu.prototype = {
 			this.clouds4.x=-250;
 		}
 		this.time++;
+		if(this.time>1000){
+			this.time = 0;
+		}
 		if(this.time%5 == 0){
 			this.clouds1.x++;
 			this.clouds2.x++;

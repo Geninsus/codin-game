@@ -12,6 +12,6 @@ Rendez-vous en ligne de commande à la racine du dépôt et tapez `gulp dist`. A
 
 Rendez-vous en ligne de commande à la racine du dépôt et tapez `gulp` ou `gulp lint`. Cela vérifiera tout le code javascript placé à la racine du dossier js. Assurez-vous d'avoir auparavant tapé `npm install`.  
 
-## Site du jeu ## 
+### Site du jeu ###
 
 http://www.codinblock.xyz/
